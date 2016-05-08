@@ -40,6 +40,10 @@ int main(int argc, char const *argv[]) {
       case 2:
         break;
       case 0:
+<<<<<<< HEAD
+=======
+        g_list_free(lista_utenti);
+>>>>>>> 8a1bc59a4216be727978adc6db9a5abfed9a1c2c
         return 0;
       }
 
