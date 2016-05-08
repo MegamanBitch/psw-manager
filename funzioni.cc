@@ -50,10 +50,7 @@ bool aggiungi_utente(){
 }
 
 void leggi_password(istream &is, password_t &riga){
-<<<<<<< HEAD
   std::cout << "Inserisci password: " << std::endl;
-=======
->>>>>>> 8a1bc59a4216be727978adc6db9a5abfed9a1c2c
   while (is.peek() == '\n') {
     is.get();
   }

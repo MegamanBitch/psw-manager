@@ -65,12 +65,6 @@ struct utente_t {
   chiave_t chiave;
 };
 
-
-
-<<<<<<< HEAD
-=======
-
->>>>>>> 8a1bc59a4216be727978adc6db9a5abfed9a1c2c
 #endif
 
 /* Fine header modulo Struttura Dati */

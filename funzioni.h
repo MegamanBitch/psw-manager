@@ -11,10 +11,6 @@
 #include <iostream>
 #include <cstring>
 #include <gtk/gtk.h>
-<<<<<<< HEAD
-=======
-#include <glib.h>
->>>>>>> 8a1bc59a4216be727978adc6db9a5abfed9a1c2c
 #include "struttura_dati.h"
 
 using namespace std;
