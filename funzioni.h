@@ -7,6 +7,7 @@
 #ifndef FUNZIONI_H
 #define FUNZIONI_H
 
+using namespace std;
 
 #include <iostream>
 #include <cstring>
