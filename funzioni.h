@@ -14,6 +14,8 @@ using namespace std;
 #include <gtk/gtk.h>
 #include "struttura_dati.h"
 
+using namespace std;
+
 static GList *lista_utenti;
 
 void inizializza();
