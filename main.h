@@ -12,7 +12,8 @@ static GtkBuilder* builder;
 
 void initGUI(int argc, char* argv[]);
 extern "C" void freezeAll_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void add_user_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void setup_masterPassword_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 
 
 

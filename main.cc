@@ -8,12 +8,6 @@ using namespace std;
 #include <glib.h>
 
 extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
-    /*
-     * mediante compilazione condizionale facciamo compilare prima la
-     * versione con la stampa, poi quella con l'uscita dal main loop
-     * (per far compilare la seconda versione basta scrivere false al posto
-     * di true nella seguente direttiva)
-     */
     gtk_main_quit();
     return TRUE;
 }
@@ -39,23 +33,34 @@ void initGUI(int argc, char* argv[]){
 }
 
 extern "C" void freezeAll_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data){
-	GtkWidget *mainWindow = GTK_WIDGET(gtk_builder_get_object(builder,"box4"));
-	if (gtk_widget_is_sensitive(mainWindow)) {
+	GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder,"box4"));
+	if (gtk_widget_is_sensitive(main_window)) {
 		//gtk_lock_button_get_permission(GTK_LOCK_BUTTON(widget))->allowed = FALSE;
-		gtk_widget_set_sensitive(mainWindow, FALSE);
+		gtk_widget_set_sensitive(main_window, FALSE);
 	}
 	else{
 		//gtk_lock_button_set_permission(GTK_LOCK_BUTTON(widget), TRUE);
-		gtk_widget_set_sensitive(mainWindow, TRUE);
+		gtk_widget_set_sensitive(main_window, TRUE);
 	}
 }
 
-extern "C" void add_user_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data){
-	GtkWidget *window1 = GTK_WIDGET(gtk_builder_get_object(builder, "window1"));
-	GtkWidget *window2 = GTK_WIDGET(gtk_builder_get_object(builder, "window2"));
+extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+	GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+	GtkWidget *welcome_window = GTK_WIDGET(gtk_builder_get_object(builder, "welcome_window"));
+  GtkWidget *initialize_configuration_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_configuration_window"));
 
-	aggiungi_utente();
+  if (lista_utenti == NULL) {
+    gtk_widget_show_all(initialize_configuration_window);
+    gtk_widget_hide(welcome_window);
+  }
+	else {
+    aggiungi_utente();
 
-	gtk_widget_show_all(window1);
-	gtk_widget_hide(window2);
+  	gtk_widget_show_all(main_window);
+  	gtk_widget_hide(welcome_window);
+  }
+}
+
+extern "C" void setup_masterPassword_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+
 }
