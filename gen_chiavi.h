@@ -9,6 +9,7 @@
 #include <iostream>
 #include "struttura_dati.h"
 
+
 void genera_chiave(utente_t *utente);
 size_t genera_primo();
 bool is_prime(size_t n);
