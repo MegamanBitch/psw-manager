@@ -1,5 +1,5 @@
 OBJS = main.o funzioni.o gen_chiavi.o
-EXNAME = PswManager
+EXNAME = pswManager
 CXXFLAGS =-Wall `pkg-config --cflags gtk+-3.0`
 LDFLAGS=-export-dynamic `pkg-config --libs gtk+-3.0`
 

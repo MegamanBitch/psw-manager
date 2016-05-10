@@ -70,14 +70,9 @@ size_t genera_d(size_t &a, size_t &b){
 }
 
 int cripta(utente_t *utente, unsigned short ascii){
-
-
   int cifratura = 1;
-
   for (size_t i = 1; i <= utente->chiave.e; i++){
-
     cifratura = (ascii * cifratura) % utente->chiave.r;
   }
-
   return cifratura;
 }

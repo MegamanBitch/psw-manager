@@ -4,48 +4,63 @@ using namespace std;
 
 #include "struttura_dati.h"
 #include "funzioni.h"
+#include "main.h"
 #include <glib.h>
 
-int main(int argc, char const *argv[]) {
+extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+    gtk_main_quit();
+    return TRUE;
+}
 
+
+int main(int argc, char *argv[]) {
 
   inizializza();
-
-  char menu[]=
-  "\nOpzioni disponibili\n\n"
-	"\t1) Inserisci nuovo utente\n"
-	"\t2) Cifra un messaggio\n"
-	"\t3) Decifra un mesasggio\n"
-	"\t4) Salva chiavi\n"
-	"\t5) Carica chiavi\n"
-	"\t6) Stampa lista utenti\n"
-	"\t0) Esci\n"
-	"Scelta: " ;
-
-  while(true) {
-    std::cout << menu << std::endl;
-
-    int scelta;
-    std::cin >> scelta;
-    if (!cin) {
-      cin.clear();
-      cin.ignore();
-      continue;
-    }
-
-    switch (scelta) {
-      case 1:
-        aggiungi_utente();
-        break;
-      case 2:
-        break;
-      case 0:
-        return 0;
-      }
-
-
-  }
-
+  initGUI(argc, argv);
 
   return 0;
+}
+
+void initGUI(int argc, char* argv[]){
+		gtk_init(&argc, &argv);
+
+		//Load gui
+		builder = gtk_builder_new();
+		gtk_builder_add_from_file(builder,"GUI.glade", NULL);
+		gtk_builder_connect_signals(builder, NULL);
+
+		gtk_main();
+}
+
+extern "C" void freezeAll_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+	GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder,"box4"));
+	if (gtk_widget_is_sensitive(main_window)) {
+		//gtk_lock_button_get_permission(GTK_LOCK_BUTTON(widget))->allowed = FALSE;
+		gtk_widget_set_sensitive(main_window, FALSE);
+	}
+	else{
+		//gtk_lock_button_set_permission(GTK_LOCK_BUTTON(widget), TRUE);
+		gtk_widget_set_sensitive(main_window, TRUE);
+	}
+}
+
+extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+	GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+	GtkWidget *welcome_window = GTK_WIDGET(gtk_builder_get_object(builder, "welcome_window"));
+  GtkWidget *initialize_configuration_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_configuration_window"));
+
+  if (lista_utenti == NULL) {
+    gtk_widget_show_all(initialize_configuration_window);
+    gtk_widget_hide(welcome_window);
+  }
+	else {
+    aggiungi_utente();
+
+  	gtk_widget_show_all(main_window);
+  	gtk_widget_hide(welcome_window);
+  }
+}
+
+extern "C" void setup_masterPassword_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+
 }

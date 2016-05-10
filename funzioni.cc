@@ -49,7 +49,7 @@ bool aggiungi_utente(){
 
 }
 
-void leggi_password(istream &is, password_t &riga){
+void leggi_password(std::istream &is, password_t &riga){
   std::cout << "Inserisci password: " << std::endl;
   while (is.peek() == '\n') {
     is.get();
