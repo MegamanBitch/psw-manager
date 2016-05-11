@@ -8,6 +8,7 @@
 #ifndef STRUTTURA_DATI_H
 #define STRUTTURA_DATI_H
 
+#include <string>
 
 const int MAXLUNNOME = 32; /* Lunghezza massima nome */
 
@@ -19,7 +20,7 @@ const int MAXLUNNOME = 32; /* Lunghezza massima nome */
 * della password viene salvata in num_caratteri
 */
 struct password_t {
-  char *stringa;
+  std::string stringa_psw;
   unsigned short num_caratteri;
 };
 
@@ -33,7 +34,7 @@ struct password_t {
 */
 struct entry_t {
   char nome_entry[MAXLUNNOME];
-  password_t password;
+  std::string password;
 };
 
 /* Chiave:
@@ -61,7 +62,7 @@ struct chiave_t {
 */
 struct utente_t {
   char nome[MAXLUNNOME];
-  password_t master_password;
+  std::string master_password;
   chiave_t chiave;
 };
 
