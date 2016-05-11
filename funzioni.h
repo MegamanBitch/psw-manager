@@ -12,7 +12,10 @@ using namespace std;
 #include <iostream>
 #include <cstring>
 #include <gtk/gtk.h>
+#include "entropy.h"
 #include "struttura_dati.h"
+#include "gen_chiavi.h"
+
 
 using namespace std;
 
@@ -20,7 +23,8 @@ static GList *lista_utenti;
 
 void inizializza();
 bool aggiungi_utente();
-void leggi_password(istream &is, password_t &riga);
 unsigned short genera_password(utente_t *utente);
+void leggi_password(istream &is, string s);
+bool leggi_master_password(istream &is, string s);
 
 #endif

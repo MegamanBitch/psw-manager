@@ -1,5 +1,4 @@
 #include "funzioni.h"
-#include "gen_chiavi.h"
 #include <locale>
 #include <cstdlib>
 
@@ -25,6 +24,7 @@ bool aggiungi_utente(){
   switch (tolower(carattere)) {
     case 'p':
       leggi_password(cin, utente->master_password);
+      utente->lun_psw = utente->master_password.length();
       break;
     case 'g':
     {
@@ -49,14 +49,13 @@ bool aggiungi_utente(){
 
 }
 
-void leggi_password(std::istream &is, password_t &riga){
-  std::cout << "Inserisci password: " << std::endl;
-  while (is.peek() == '\n') {
-    is.get();
-  }
-  is.get(riga.stringa, MAXLUNNOME);
-  is.get();
-  riga.num_caratteri = strlen(riga.stringa);
+void leggi_password(istream &is, string s){
+  getline(is, s);
+}
+
+bool leggi_master_password(istream &is, string s){
+  getline(is, s);
+  get_entropy(s);
 }
 
 unsigned short genera_password(utente_t *utente){

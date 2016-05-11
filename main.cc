@@ -1,11 +1,8 @@
 #include <iostream>
-
-using namespace std;
-
-#include "struttura_dati.h"
-#include "funzioni.h"
 #include "main.h"
 #include <glib.h>
+
+using namespace std;
 
 extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
     gtk_main_quit();
@@ -61,6 +58,14 @@ extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer us
   }
 }
 
-extern "C" void setup_masterPassword_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+extern "C" void handler_setup_masterPassword(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
+  GtkEntryBuffer * password_buffer = gtk_entry_get_buffer(GTK_ENTRY(insert_master_password));
 
-}
+  const gchar *password = gtk_entry_buffer_get_text(password_buffer);
+
+  std::cout << password << std::endl;
+
+
+
+  }

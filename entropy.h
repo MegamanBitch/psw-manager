@@ -11,10 +11,11 @@ enum type_of_character{
   LOWERCASE,
   UPPERCASE,
   ALPHANUMERIC,
-  
-}
+  ASCII,
+};
 
-int get_entropy(password_t &p);
+
+int get_entropy(string &s);
 int pool_of_character(char c);
 
 

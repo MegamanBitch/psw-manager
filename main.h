@@ -1,5 +1,7 @@
 #include <iostream>
 #include <gtk/gtk.h>
+#include "struttura_dati.h"
+#include "funzioni.h"
 
 #ifndef MAIN_H
 #define MAIN_H
