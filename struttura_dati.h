@@ -63,6 +63,7 @@ struct chiave_t {
 struct utente_t {
   char nome[MAXLUNNOME];
   std::string master_password;
+  unsigned short lun_psw;
   chiave_t chiave;
 };
 
