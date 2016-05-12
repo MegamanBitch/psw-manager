@@ -7,41 +7,11 @@ void inizializza(){
   lista_utenti = NULL;
 }
 
-bool aggiungi_utente(){
+bool aggiungi_utente(std::string nome, std::string password){
   utente_t * utente = new utente_t;
-  char carattere;
-  unsigned short lun_psw;
-  std::cout << "Inserisci nome utente: " << std::endl;
-  std::cin >> utente->nome;
 
-  std::cout << "Inserisci password: " << std::endl;
-  std::cout << "Inserire (p)assword o (g)enerare casualmente? " << std::endl;
-  std::cin >> carattere;
-  if (!cin) {
-    cin.clear();
-    cin.ignore();
-  }
-  switch (tolower(carattere)) {
-    case 'p':
-      leggi_password(cin, utente->master_password);
-      utente->lun_psw = utente->master_password.length();
-      break;
-    case 'g':
-    {
-      std::cout << "Inserisci lunghezza password" << std::endl;
-      std::cin >> lun_psw;
-      unsigned short ascii[lun_psw - 1];
-      for (size_t i = 0; i < lun_psw; i++) {
-        ascii[i] = genera_password(utente);
-      }
-
-      std::cout << "La tua password: " << std::endl;
-      for (size_t i = 1; i < lun_psw; i++) {
-        std::cout << ascii[i] << std::endl;
-      }
-    }
-
-  }
+  utente->nome = nome;
+  utente->master_password = password;
 
   lista_utenti = g_list_append(lista_utenti, utente);
 
@@ -56,6 +26,7 @@ void leggi_password(istream &is, string s){
 bool leggi_master_password(istream &is, string s){
   getline(is, s);
   get_entropy(s);
+  return true;
 }
 
 unsigned short genera_password(utente_t *utente){

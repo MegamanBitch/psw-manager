@@ -1,7 +1,9 @@
 #include <iostream>
 #include <gtk/gtk.h>
+#include <cryptopp/integer.h>
 #include "struttura_dati.h"
 #include "funzioni.h"
+#include "debug.h"
 
 #ifndef MAIN_H
 #define MAIN_H
@@ -15,10 +17,10 @@ static GtkBuilder* builder;
 void initGUI(int argc, char* argv[]);
 extern "C" void freezeAll_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void setup_masterPassword_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-
-
-
+extern "C" void handler_get_masterPassword(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_show_welcome_window(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_show_main_window(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 
 
 

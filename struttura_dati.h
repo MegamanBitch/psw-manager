@@ -10,7 +10,6 @@
 
 #include <string>
 
-const int MAXLUNNOME = 32; /* Lunghezza massima nome */
 
 /* Password:
 * Struttura dati per gestire le password.
@@ -33,7 +32,7 @@ struct password_t {
 * e un campo password_t.
 */
 struct entry_t {
-  char nome_entry[MAXLUNNOME];
+  std::string nome_entry;
   std::string password;
 };
 
@@ -61,7 +60,7 @@ struct chiave_t {
 * utente ha una master_password personale
 */
 struct utente_t {
-  char nome[MAXLUNNOME];
+  std::string nome;
   std::string master_password;
   unsigned short lun_psw;
   chiave_t chiave;

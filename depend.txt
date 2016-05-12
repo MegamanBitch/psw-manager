@@ -2,4 +2,5 @@ entropy.o: entropy.cc entropy.h struttura_dati.h funzioni.h gen_chiavi.h
 funzioni.o: funzioni.cc funzioni.h entropy.h struttura_dati.h \
  gen_chiavi.h
 gen_chiavi.o: gen_chiavi.cc gen_chiavi.h struttura_dati.h
-main.o: main.cc main.h struttura_dati.h funzioni.h entropy.h gen_chiavi.h
+main.o: main.cc main.h struttura_dati.h funzioni.h entropy.h gen_chiavi.h \
+ debug.h

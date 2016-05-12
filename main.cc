@@ -2,13 +2,13 @@
 #include "main.h"
 #include <glib.h>
 
-using namespace std;
 
 extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
     gtk_main_quit();
     return TRUE;
 }
 
+static std::string master_password;
 
 int main(int argc, char *argv[]) {
 
@@ -44,28 +44,98 @@ extern "C" void freezeAll_handler(GtkWidget *widget, GdkEvent *event, gpointer u
 extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer user_data){
 	GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
 	GtkWidget *welcome_window = GTK_WIDGET(gtk_builder_get_object(builder, "welcome_window"));
-  GtkWidget *initialize_configuration_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_configuration_window"));
+  GtkWidget *initialize_master_password_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_master_password_window"));
+  GtkWidget *error_match_password = GTK_WIDGET(gtk_builder_get_object(builder, "error_match_password_window"));
+
+  gtk_widget_hide(error_match_password);
+  GtkWidget *delete_insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
+  GtkWidget *delete_repeat_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "repeat_master_password"));
+
+
+  gtk_editable_delete_text(GTK_EDITABLE(delete_insert_master_password), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(delete_repeat_master_password), 0, -1);
+
 
   if (lista_utenti == NULL) {
-    gtk_widget_show_all(initialize_configuration_window);
+    gtk_widget_show_all(initialize_master_password_window);
     gtk_widget_hide(welcome_window);
   }
 	else {
-    aggiungi_utente();
-
   	gtk_widget_show_all(main_window);
   	gtk_widget_hide(welcome_window);
   }
 }
 
-extern "C" void handler_setup_masterPassword(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+extern "C" void handler_get_masterPassword(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+
+  GtkWidget *initialize_master_password_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_master_password_window"));
+  GtkWidget *error_match_password = GTK_WIDGET(gtk_builder_get_object(builder, "error_match_password_window"));
+  GtkWidget *initialize_first_user_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_first_user_window"));
+
   GtkWidget *insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
-  GtkEntryBuffer * password_buffer = gtk_entry_get_buffer(GTK_ENTRY(insert_master_password));
-
-  const gchar *password = gtk_entry_buffer_get_text(password_buffer);
-
-  std::cout << password << std::endl;
+  GtkWidget *repeat_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "repeat_master_password"));
+  GtkEntryBuffer *password_buffer_insert = gtk_entry_get_buffer(GTK_ENTRY(insert_master_password));
+  GtkEntryBuffer *password_buffer_repeat = gtk_entry_get_buffer(GTK_ENTRY(repeat_master_password));
 
 
+  const gchar *var_password_buffer_insert = gtk_entry_buffer_get_text(password_buffer_insert);
+  master_password = var_password_buffer_insert;
+  DBG(std::cout << "Insert: " << var_password_buffer_insert << std::endl);
 
+  const gchar *var_password_buffer_repeat = gtk_entry_buffer_get_text(password_buffer_repeat);
+  DBG(std::cout << "Repeat: " <<var_password_buffer_repeat << std::endl);
+
+  if (!strcmp(var_password_buffer_repeat, var_password_buffer_insert) && strlen(var_password_buffer_insert) != 0) {
+    DBG(std::cout << "same passwords, access granted" << std::endl;)
+
+    gtk_widget_show_all(initialize_first_user_window);
+    gtk_widget_hide(initialize_master_password_window);
   }
+  else{
+    DBG(std::cout << "passwords does not match, access failed" << std::endl;)
+    gtk_widget_show_all(error_match_password);
+    gtk_widget_hide(initialize_master_password_window);
+  }
+}
+
+extern "C" void handler_show_welcome_window(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *welcome_window = GTK_WIDGET(gtk_builder_get_object(builder, "welcome_window"));
+  GtkWidget *initialize_master_password_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_master_password_window"));
+
+  GtkWidget *delete_insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
+  GtkWidget *delete_repeat_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "repeat_master_password"));
+
+
+  gtk_editable_delete_text(GTK_EDITABLE(delete_insert_master_password), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(delete_repeat_master_password), 0, -1);
+
+  gtk_widget_show_all(welcome_window);
+  gtk_widget_hide(initialize_master_password_window);
+}
+
+extern "C" void handler_show_main_window(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *initialize_first_user_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_first_user_window"));
+  GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+
+  gtk_widget_show_all(main_window);
+  gtk_widget_hide(initialize_first_user_window);
+}
+
+extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *initialize_first_user_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_first_user_window"));
+  GtkWidget *insert_user = GTK_WIDGET(gtk_builder_get_object(builder, "insert_user"));
+
+
+  GtkEntryBuffer *user_buffer_insert = gtk_entry_get_buffer(GTK_ENTRY(insert_user));
+
+  gtk_widget_show_all(initialize_first_user_window);
+
+  const gchar *var_user_buffer_insert = gtk_entry_buffer_get_text(user_buffer_insert);
+  DBG(std::cout << "Username: " << var_user_buffer_insert << std::endl);
+
+  std::string nome_utente = var_user_buffer_insert;
+  std::string password = master_password;
+
+  aggiungi_utente(nome_utente, password);
+
+}
