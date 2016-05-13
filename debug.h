@@ -3,8 +3,11 @@
 
 #include <cassert>
 
-#define DBG(a) {a;}
-
+#ifndef NDEBUG
+  #define DBG(a) {a;}
+#else
+  #define DBG(a)
+#endif
 
 
 
