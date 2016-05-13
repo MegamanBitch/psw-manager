@@ -19,12 +19,13 @@ using namespace std;
 
 using namespace std;
 
-static GList *lista_utenti;
+static GSList *lista_utenti;
 
 void inizializza();
 bool aggiungi_utente(std::string nome, std::string password);
 unsigned short genera_password(utente_t *utente);
 void leggi_password(istream &is, string s);
 bool leggi_master_password(istream &is, string s);
+void stampa_lista();
 
 #endif

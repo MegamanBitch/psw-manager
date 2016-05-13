@@ -3,11 +3,6 @@
 #include <glib.h>
 
 
-extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
-    gtk_main_quit();
-    return TRUE;
-}
-
 static std::string master_password;
 
 int main(int argc, char *argv[]) {
@@ -18,6 +13,7 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
+
 void initGUI(int argc, char* argv[]){
 		gtk_init(&argc, &argv);
 
@@ -27,6 +23,12 @@ void initGUI(int argc, char* argv[]){
 		gtk_builder_connect_signals(builder, NULL);
 
 		gtk_main();
+}
+
+extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
+    gtk_main_quit();
+    g_slist_free(lista_utenti);
+    return TRUE;
 }
 
 extern "C" void freezeAll_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data){
@@ -56,7 +58,7 @@ extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer us
   gtk_editable_delete_text(GTK_EDITABLE(delete_repeat_master_password), 0, -1);
 
 
-  if (lista_utenti == NULL) {
+  if (g_slist_length(lista_utenti) == 0) {
     gtk_widget_show_all(initialize_master_password_window);
     gtk_widget_hide(welcome_window);
   }
@@ -124,18 +126,20 @@ extern "C" void handler_show_main_window(GtkWidget *widget, GdkEvent *event, gpo
 extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *initialize_first_user_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_first_user_window"));
   GtkWidget *insert_user = GTK_WIDGET(gtk_builder_get_object(builder, "insert_user"));
+  GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
 
 
   GtkEntryBuffer *user_buffer_insert = gtk_entry_get_buffer(GTK_ENTRY(insert_user));
 
-  gtk_widget_show_all(initialize_first_user_window);
-
   const gchar *var_user_buffer_insert = gtk_entry_buffer_get_text(user_buffer_insert);
-  DBG(std::cout << "Username: " << var_user_buffer_insert << std::endl);
+  DBG(std::cout << "Username: " << var_user_buffer_insert << std::endl;);
 
   std::string nome_utente = var_user_buffer_insert;
   std::string password = master_password;
 
   aggiungi_utente(nome_utente, password);
+
+  gtk_widget_show_all(main_window);
+  gtk_widget_hide(initialize_first_user_window);
 
 }

@@ -1,7 +1,7 @@
 OBJS = main.o funzioni.o gen_chiavi.o entropy.o
 EXNAME = pswManager
-CXXFLAGS =-Wall `pkg-config --cflags gtk+-3.0` -lcryptopp
-LDFLAGS=-export-dynamic `pkg-config --libs gtk+-3.0`
+CXXFLAGS =-Wall `pkg-config --cflags gtk+-3.0`
+LDFLAGS=-export-dynamic `pkg-config --libs gtk+-3.0` -lcryptopp
 
 .PHONY: dependencies clean cleanAll
 

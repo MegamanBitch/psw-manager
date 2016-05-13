@@ -15,6 +15,7 @@
 static GtkBuilder* builder;
 
 void initGUI(int argc, char* argv[]);
+extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void freezeAll_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_get_masterPassword(GtkWidget *widget, GdkEvent *event, gpointer user_data);

@@ -115,7 +115,7 @@ When you're done hit OK to get started.
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="entry1">
+              <object class="GtkEntry" id="insert_user">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
               </object>
@@ -162,7 +162,7 @@ When you're done hit OK to get started.
                 <property name="use_stock">True</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
-                <signal name="clicked" handler="handler_show_main_window" swapped="no"/>
+                <signal name="clicked" handler="handler_get_username" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -366,6 +366,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
   <object class="GtkWindow" id="main_window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Password Manager</property>
+    <property name="window_position">center-always</property>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
