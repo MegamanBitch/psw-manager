@@ -4,6 +4,7 @@
 #include "struttura_dati.h"
 #include "funzioni.h"
 #include "debug.h"
+#include "crittografia.h"
 
 #ifndef MAIN_H
 #define MAIN_H

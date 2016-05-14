@@ -15,6 +15,9 @@ using namespace std;
 #include "entropy.h"
 #include "struttura_dati.h"
 #include "gen_chiavi.h"
+#include "crittografia.h"
+#include "debug.h"
+
 
 
 using namespace std;

@@ -1,28 +1,32 @@
+#include <iostream>
 #include "crittografia.h"
 
-void cripta_file(std::string nome_file, const std::string password){
-  byte pass[AES::BLOCKSIZE];
-  byte iv[16];
-  byte true_iv[16];
+void openssl_inizializza(){
+  /* Load the human readable error strings for libcrypto */
+  ERR_load_crypto_strings();
 
-  AutoSeededRandomPool rng;
+  /* Load all digest and cipher algorithms */
+  OpenSSL_add_all_algorithms();
 
-  //Digest password
-  StringSource(password, true, new HashFilter(*(new SHA256), new ArraySink(pass, AES::BLOCKSIZE)));
+  /* Load config file, and other important initialisation */
+  OPENSSL_config(NULL);
 
-  //random Initial Vector
-  rng.GenerateBlock(iv, 16);
-  memset(true_iv, 0, 16);
+  /* ... Do some crypto stuff here ... */
 
-  //Create object for encrypting
-  AES::Encryption aesEncryption(pass, AES::MAX_KEYLENGTH);
-  CBC_Mode_ExternalCipher::Encryption cbcEncryption(aesEncryption, true_iv);
+  /* Clean up */
 
-  StreamTransformationFilter *encryptor;
-  encryptor = new StreamTransformationFilter(cbcEncryption, new FileSink("criptato.dat"));
+  /* Removes all digests and ciphers */
+  EVP_cleanup();
 
-  encryptor->Put(iv, 16);
+  /* if you omit the next, a small leak may be left when you make use of the BIO (low level API) for e.g. base64 transformations */
+  CRYPTO_cleanup_all_ex_data();
 
-  FileSource(((nome_file + ".dat").c_str()), true, encryptor);
+  /* Remove error strings */
+  ERR_free_strings();
+}
 
+int get_ascii_code(const char carattere){
+  unsigned short ascii;
+  ascii = int(carattere);
+  return ascii;
 }

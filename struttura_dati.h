@@ -64,6 +64,7 @@ struct utente_t {
   std::string master_password;
   unsigned short lun_psw;
   chiave_t chiave;
+  int *ascii_code;
 };
 
 #endif

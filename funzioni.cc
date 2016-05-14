@@ -10,7 +10,7 @@ void inizializza(){
 void stampa_lista(){
   while (lista_utenti != NULL) {
     std::cout << "Numero di utenti: " << g_slist_length(lista_utenti) << std::endl;
-    std::cout << g_slist_last(lista_utenti)->utente << std::endl;
+    std::cout << lista_utenti->data << std::endl;
     lista_utenti = lista_utenti->next;
   }
 }
@@ -20,6 +20,16 @@ bool aggiungi_utente(std::string nome, std::string password){
 
   utente->nome = nome;
   utente->master_password = password;
+
+  utente->ascii_code = new int [password.length()];
+
+  for (size_t i = 0; i < password.length(); i++) {
+    utente->ascii_code[i] = get_ascii_code(password.at(i));
+  }
+
+  DBG(for (size_t i = 0; i < password.length(); i++) {
+    std::cout << utente->ascii_code[i] << std::endl;
+  });
 
   lista_utenti = g_slist_append(lista_utenti, utente);
   stampa_lista();

@@ -1,6 +1,7 @@
 #include <iostream>
-#include "main.h"
 #include <glib.h>
+#include "main.h"
+
 
 
 static std::string master_password;
@@ -8,6 +9,9 @@ static std::string master_password;
 int main(int argc, char *argv[]) {
 
   inizializza();
+  openssl_inizializza();
+
+
   initGUI(argc, argv);
 
   return 0;

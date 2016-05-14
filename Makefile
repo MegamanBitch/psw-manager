@@ -1,12 +1,13 @@
-OBJS = main.o funzioni.o gen_chiavi.o entropy.o
+OBJS = main.o funzioni.o gen_chiavi.o entropy.o crittografia.o file.o
 EXNAME = pswManager
-CXXFLAGS =-Wall `pkg-config --cflags gtk+-3.0`
-LDFLAGS=-export-dynamic `pkg-config --libs gtk+-3.0` -lcryptopp
+CXXFLAGS = -Wall `pkg-config --cflags gtk+-3.0`
+LDFLAGS = -export-dynamic `pkg-config --libs gtk+-3.0` -lcrypto
+LIBS = -ldl
 
 .PHONY: dependencies clean cleanAll
 
 compile: dependencies $(OBJS)
-	g++ -o $(EXNAME) $(OBJS) $(LDFLAGS)
+	g++ -o $(EXNAME) $(OBJS) $(LDFLAGS) $(LIBS)
 
 -include depend.txt
 
