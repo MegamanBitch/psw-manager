@@ -11,8 +11,10 @@ int main(int argc, char *argv[]) {
   inizializza();
   openssl_inizializza();
 
-
   initGUI(argc, argv);
+
+  openssl_quit();
+
 
   return 0;
 }
@@ -142,6 +144,8 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
   std::string password = master_password;
 
   aggiungi_utente(nome_utente, password);
+  openssl_encrypt(nome_utente, password);
+  openssl_decrypt(nome_utente);
 
   gtk_widget_show_all(main_window);
   gtk_widget_hide(initialize_first_user_window);

@@ -1,9 +1,10 @@
-crittografia.o: crittografia.cc crittografia.h
+crittografia.o: crittografia.cc crittografia.h struttura_dati.h debug.h \
+ file.h
 entropy.o: entropy.cc entropy.h struttura_dati.h funzioni.h gen_chiavi.h \
- crittografia.h debug.h
+ crittografia.h debug.h file.h
 file.o: file.cc file.h debug.h struttura_dati.h
 funzioni.o: funzioni.cc funzioni.h entropy.h struttura_dati.h \
- gen_chiavi.h crittografia.h debug.h
+ gen_chiavi.h crittografia.h debug.h file.h
 gen_chiavi.o: gen_chiavi.cc gen_chiavi.h struttura_dati.h
 main.o: main.cc main.h struttura_dati.h funzioni.h entropy.h gen_chiavi.h \
- crittografia.h debug.h
+ crittografia.h debug.h file.h

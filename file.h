@@ -7,7 +7,8 @@
 #include "debug.h"
 #include "struttura_dati.h"
 
-static void crea_file(std::string nome, std::string password);
+bool crea_file(std::string nome, std::string password, size_t salt);
+size_t get_salt(std::string nome);
 
 
 

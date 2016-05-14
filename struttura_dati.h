@@ -9,7 +9,9 @@
 #define STRUTTURA_DATI_H
 
 #include <string>
+#include <gtk/gtk.h>
 
+static GSList *lista_utenti;
 
 /* Password:
 * Struttura dati per gestire le password.
@@ -66,6 +68,8 @@ struct utente_t {
   chiave_t chiave;
   int *ascii_code;
 };
+
+
 
 #endif
 
