@@ -17,20 +17,10 @@ void stampa_lista(){
 }
 
 bool aggiungi_utente(std::string nome, std::string password){
-  utente_t * utente = new utente_t;
+  utente_t *utente = new utente_t;
 
   utente->nome = nome;
   utente->master_password = password;
-
-  utente->ascii_code = new int [nome.length()];
-
-  for (size_t i = 0; i < nome.length(); i++) {
-    utente->ascii_code[i] = get_ascii_code(nome.at(i));
-  }
-
-  DBG(for (size_t i = 0; i < nome.length(); i++) {
-    std::cout << utente->ascii_code[i] << std::endl;
-  });
 
   lista_utenti = g_slist_append(lista_utenti, utente);
   DBG(stampa_lista(););
@@ -39,10 +29,25 @@ bool aggiungi_utente(std::string nome, std::string password){
 
 }
 
-unsigned short genera_password(utente_t *utente){
+bool aggiungi_entry(std::string nome_utente, std::string entry, std::string password, std::string url, std::string note){
 
-  srand(time(0));
-  genera_chiave(utente);
+/*
+  if(g_slist_find(lista_utenti, nome_utente) == NULL){
+    DBG(std::cout << "Utente non esiste" << std::endl;);
+    return false;
+  }
 
-  return cripta(utente, 33 + rand() % 126 - 33); // generate numbers
+*/
+
+  utente_t *utente = new utente_t;
+
+  utente->entry.nome_entry = entry;
+  utente->entry.password = password;
+  utente->entry.url = url;
+  utente->entry.note = note;
+
+  lista_utenti = g_slist_append(lista_utenti, utente);
+  DBG(stampa_lista(););
+
+  return true;
 }

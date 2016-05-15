@@ -16,14 +16,16 @@
 static GtkBuilder* builder;
 
 void initGUI(int argc, char* argv[]);
-extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void freezeAll_handler(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void handler_get_masterPassword(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void handler_show_welcome_window(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void handler_show_main_window(GtkWidget *widget, GdkEvent *event, gpointer user_data);
-
+extern "C" gboolean handler_delete_event (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_freezeAll (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_add_user (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_get_masterPassword (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_show_welcome_window (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_get_username (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_show_main_window (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_show_website (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 
 
 

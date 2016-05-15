@@ -13,14 +13,13 @@ using namespace std;
 #include <cstring>
 #include "entropy.h"
 #include "struttura_dati.h"
-#include "gen_chiavi.h"
 #include "crittografia.h"
 #include "debug.h"
 
 
 void inizializza();
 bool aggiungi_utente(std::string nome, std::string password);
-unsigned short genera_password(utente_t *utente);
+bool aggiungi_entry(std::string nome_utente, std::string entry, std::string password, std::string url, std::string note);
 void stampa_lista();
 
 #endif

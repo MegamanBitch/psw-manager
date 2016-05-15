@@ -36,22 +36,11 @@ struct password_t {
 struct entry_t {
   std::string nome_entry;
   std::string password;
+  std::string url;
+  std::string note;
 };
 
-/* Chiave:
-* Struttura dati per la gestione delle chiavi.
-* La chiave si riferisce all'algoritmo di
-* crittografia RSA.
-*/
 
-struct chiave_t {
-  size_t p;
-  size_t q;
-  size_t r;
-  size_t fr;
-  size_t d;
-  size_t e;
-};
 
 /* Utente:
 * Struttura dati per gestire gli utenti.
@@ -62,11 +51,9 @@ struct chiave_t {
 * utente ha una master_password personale
 */
 struct utente_t {
+  entry_t entry;
   std::string nome;
   std::string master_password;
-  unsigned short lun_psw;
-  chiave_t chiave;
-  int *ascii_code;
 };
 
 
