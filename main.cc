@@ -113,7 +113,12 @@ extern "C" void handler_show_main_window(GtkWidget *widget, GdkEvent *event, gpo
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
   GtkWidget *welcome_window = GTK_WIDGET(gtk_builder_get_object(builder, "welcome_window"));
   GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
+  GtkWidget *login_window = GTK_WIDGET(gtk_builder_get_object(builder,"login_window"));
+  GtkWidget *box = GTK_WIDGET(gtk_builder_get_object(builder,"box4"));
 
+  gtk_widget_set_sensitive(box, FALSE);
+
+  gtk_widget_hide(login_window);
   gtk_widget_hide(website_window);
   gtk_widget_hide(welcome_window);
   gtk_widget_show_all(main_window);
@@ -179,12 +184,6 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
   GtkWidget *switch_generate = GTK_WIDGET(gtk_builder_get_object(builder,"switch_generate"));
   GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
   GtkWidget *website_length = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
-  GtkWidget *uppercase = GTK_WIDGET(gtk_builder_get_object(builder, "uppercase"));
-  GtkWidget *lowercase = GTK_WIDGET(gtk_builder_get_object(builder, "lowercase"));
-  GtkWidget *space = GTK_WIDGET(gtk_builder_get_object(builder, "space"));
-  GtkWidget *special = GTK_WIDGET(gtk_builder_get_object(builder, "special"));
-  GtkWidget *digits = GTK_WIDGET(gtk_builder_get_object(builder, "digits"));
-  GtkWidget *brackets = GTK_WIDGET(gtk_builder_get_object(builder, "brackets"));
 
   if (gtk_switch_get_active(GTK_SWITCH(switch_generate)) == TRUE) {
     gtk_editable_set_editable(GTK_EDITABLE(website_insert_password), FALSE);
@@ -195,5 +194,25 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
   else{
     gtk_editable_set_editable(GTK_EDITABLE(website_insert_password), TRUE);
     gtk_editable_set_editable(GTK_EDITABLE(website_length), TRUE);
+
   }
+}
+
+extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *login_window = GTK_WIDGET(gtk_builder_get_object(builder,"login_window"));
+
+  gtk_widget_show_all(login_window);
+}
+
+extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *login_insert_user = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_user"));
+  GtkWidget *login_insert_password = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_password"));
+
+  GtkEntryBuffer *login_buffer_insert_user = gtk_entry_get_buffer(GTK_ENTRY(login_insert_user));
+  GtkEntryBuffer *login_buffer_insert_password = gtk_entry_get_buffer(GTK_ENTRY(login_insert_password));
+
+  const gchar *var_login_buffer_insert_user = gtk_entry_buffer_get_text(login_buffer_insert_user);
+  DBG(std::cout << "User:  " << var_login_buffer_insert_user << std::endl;);
+  const gchar *var_login_buffer_insert_password = gtk_entry_buffer_get_text(login_buffer_insert_password);
+  DBG(std::cout << "Password:  " << var_login_buffer_insert_password << std::endl;);
 }

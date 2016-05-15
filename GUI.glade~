@@ -328,7 +328,6 @@ When you're done hit OK to get started.
                 <property name="image">login_cance</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
-                <signal name="clicked" handler="handler_show_main_window" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
