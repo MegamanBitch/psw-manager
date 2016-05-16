@@ -40,6 +40,7 @@ extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpo
 
 extern "C" void handler_freezeAll(GtkWidget *widget, GdkEvent *event, gpointer user_data){
 	GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder,"box4"));
+
 	if (gtk_widget_is_sensitive(main_window)) {
 		//gtk_lock_button_get_permission(GTK_LOCK_BUTTON(widget))->allowed = FALSE;
 		gtk_widget_set_sensitive(main_window, FALSE);
@@ -58,6 +59,7 @@ extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer us
   gtk_widget_hide(error_match_password);
   gtk_widget_hide(main_window);
   gtk_widget_show_all(initialize_master_password_window);
+
 
   GtkWidget *delete_insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
   GtkWidget *delete_repeat_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "repeat_master_password"));
@@ -184,16 +186,25 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
   GtkWidget *switch_generate = GTK_WIDGET(gtk_builder_get_object(builder,"switch_generate"));
   GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
   GtkWidget *website_length = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
+  GtkWidget *generate_password = GTK_WIDGET(gtk_builder_get_object(builder, "generate_password"));
+  GtkWidget *box = GTK_WIDGET(gtk_builder_get_object(builder, "box25"));
 
   if (gtk_switch_get_active(GTK_SWITCH(switch_generate)) == TRUE) {
     gtk_editable_set_editable(GTK_EDITABLE(website_insert_password), FALSE);
-    gtk_editable_set_editable(GTK_EDITABLE(website_length), FALSE);
+    gtk_editable_set_editable(GTK_EDITABLE(generate_password), TRUE);
+    gtk_editable_set_editable(GTK_EDITABLE(website_length), TRUE);
+
+    gtk_widget_set_sensitive(box, TRUE);
+
     GtkWidget *delete_website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
     gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_password), 0, -1);
   }
   else{
     gtk_editable_set_editable(GTK_EDITABLE(website_insert_password), TRUE);
-    gtk_editable_set_editable(GTK_EDITABLE(website_length), TRUE);
+    gtk_editable_set_editable(GTK_EDITABLE(website_length), FALSE);
+    gtk_editable_set_editable(GTK_EDITABLE(generate_password), FALSE);
+
+    gtk_widget_set_sensitive(box, FALSE);
 
   }
 }
@@ -215,4 +226,17 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
   DBG(std::cout << "User:  " << var_login_buffer_insert_user << std::endl;);
   const gchar *var_login_buffer_insert_password = gtk_entry_buffer_get_text(login_buffer_insert_password);
   DBG(std::cout << "Password:  " << var_login_buffer_insert_password << std::endl;);
+}
+
+extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
+
+  const gchar *character = gtk_editable_get_chars (GTK_EDITABLE(insert_master_password),
+                            (gtk_entry_get_text_length (GTK_ENTRY(insert_master_password)) - 1), -1);
+
+
+  //ris += get_entropy(character);
+  DBG(std::cout << "Carattere: " << character;);
+  //DBG(std::cout << " Entropia: " << ris << std::endl;);
+  //DBG(std::cout << "Numero lowercase: " << has_lowercase << std::endl;);
 }

@@ -10,13 +10,12 @@
 enum type_of_character{
   LOWERCASE,
   UPPERCASE,
-  ALPHANUMERIC,
-  ASCII,
+  DIGIT,
+  SPECIAL_CHARACTER,
 };
 
-
-int get_entropy(string &s);
-int pool_of_character(char c);
+int get_entropy(const gchar *c);
+int pool_of_character(const gchar *car);
 
 
 

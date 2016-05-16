@@ -1,13 +1,14 @@
+#ifndef MAIN_H
+#define MAIN_H
+
 #include <iostream>
 #include <gtk/gtk.h>
-#include <cryptopp/integer.h>
 #include "struttura_dati.h"
 #include "funzioni.h"
 #include "debug.h"
 #include "crittografia.h"
+#include "entropy.h"
 
-#ifndef MAIN_H
-#define MAIN_H
 
 /*
 * builder:
@@ -28,6 +29,7 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
 extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 
 
 
