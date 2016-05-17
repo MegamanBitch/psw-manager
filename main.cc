@@ -6,6 +6,7 @@
 
 static std::string master_password;
 static std::string nome_utente;
+static double ris = 0;
 
 int main(int argc, char *argv[]) {
 
@@ -235,8 +236,9 @@ extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer us
                             (gtk_entry_get_text_length (GTK_ENTRY(insert_master_password)) - 1), -1);
 
 
-  //ris += get_entropy(character);
+
+  ris = get_entropy(character);
   DBG(std::cout << "Carattere: " << character;);
-  //DBG(std::cout << " Entropia: " << ris << std::endl;);
+  DBG(std::cout << " Entropia: " << ris << std::endl;);
   //DBG(std::cout << "Numero lowercase: " << has_lowercase << std::endl;);
 }

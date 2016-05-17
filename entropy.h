@@ -14,7 +14,13 @@ enum type_of_character{
   SPECIAL_CHARACTER,
 };
 
-int get_entropy(const gchar *c);
+struct entropy_t {
+  unsigned short has_lowercase, has_uppercase, has_digit, has_specialCaracter;
+  unsigned short ris;
+};
+
+void entropy_inizializza(entropy_t &e);
+double get_entropy(const gchar *c);
 int pool_of_character(const gchar *car);
 
 
