@@ -2,7 +2,7 @@
 
 
 bool crea_file(std::string nome, std::string password, size_t salt){
-  std::ofstream f(nome.c_str());
+  std::ofstream f((nome + ".dat").c_str());
 
   f << "Username: " << nome << " Password: " <<password << " Salt: " <<salt << std::endl;
 

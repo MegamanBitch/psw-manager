@@ -4,7 +4,17 @@ unsigned short has_lowercase = 0;
 unsigned short has_uppercase = 0;
 unsigned short has_digit = 0;
 unsigned short has_specialCaracter = 0;
-double ris = 1;
+double ris = 0;
+
+
+void entropy_azzera(){
+  has_lowercase = 0;
+  has_uppercase = 0;
+  has_digit = 0;
+  has_specialCaracter = 0;
+  ris = 0;
+}
+
 
 double get_entropy(const gchar *c) {
 
@@ -19,14 +29,14 @@ double get_entropy(const gchar *c) {
         ris += log(59) / log(2);
       }
       else if (has_uppercase == 0 && has_digit > 0 && has_specialCaracter > 0) {
-        ris += log(99) / log(2);
+        ris += log(66) / log(2);
       }
 
       else if (has_uppercase > 0 && has_digit == 0 && has_specialCaracter == 0) {
         ris += log(52) / log(2);
       }
       else if (has_uppercase > 0 && has_digit > 0 && has_specialCaracter == 0) {
-        ris += log(72) / log(2);
+        ris += log(62) / log(2);
       }
       else if (has_uppercase > 0 && has_digit == 0 && has_specialCaracter > 0) {
         ris += log(85) / log (2);
@@ -48,14 +58,14 @@ double get_entropy(const gchar *c) {
         ris += log(59) / log(2);
       }
       else if (has_lowercase == 0 && has_digit > 0 && has_specialCaracter > 0) {
-        ris += log(99) / log(2);
+        ris += log(69) / log(2);
       }
 
       else if (has_lowercase > 0 && has_digit == 0 && has_specialCaracter == 0) {
         ris += log(52) / log(2);
       }
       else if (has_lowercase > 0 && has_digit > 0 && has_specialCaracter == 0) {
-        ris += log(72) / log(2);
+        ris += log(62) / log(2);
       }
       else if (has_lowercase > 0 && has_digit == 0 && has_specialCaracter > 0) {
         ris += log(85) / log (2);
@@ -77,14 +87,14 @@ double get_entropy(const gchar *c) {
         ris += log(59) / log(2);
       }
       else if (has_uppercase == 0 && has_lowercase > 0 && has_specialCaracter > 0) {
-        ris += log(99) / log(2);
+        ris += log(69) / log(2);
       }
 
       else if (has_uppercase > 0 && has_lowercase == 0 && has_specialCaracter == 0) {
         ris += log(52) / log(2);
       }
       else if (has_uppercase > 0 && has_lowercase > 0 && has_specialCaracter == 0) {
-        ris += log(72) / log(2);
+        ris += log(62) / log(2);
       }
       else if (has_uppercase > 0 && has_lowercase == 0 && has_specialCaracter > 0) {
         ris += log(85) / log (2);
@@ -106,14 +116,14 @@ double get_entropy(const gchar *c) {
         ris += log(59) / log(2);
       }
       else if (has_uppercase == 0 && has_digit > 0 && has_lowercase > 0) {
-        ris += log(99) / log(2);
+        ris += log(69) / log(2);
       }
 
       else if (has_uppercase > 0 && has_digit == 0 && has_lowercase == 0) {
         ris += log(52) / log(2);
       }
       else if (has_uppercase > 0 && has_digit > 0 && has_lowercase == 0) {
-        ris += log(72) / log(2);
+        ris += log(62) / log(2);
       }
       else if (has_uppercase > 0 && has_digit == 0 && has_lowercase > 0) {
         ris += log(85) / log (2);

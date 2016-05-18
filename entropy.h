@@ -22,6 +22,7 @@ struct entropy_t {
 void entropy_inizializza(entropy_t &e);
 double get_entropy(const gchar *c);
 int pool_of_character(const gchar *car);
+void entropy_azzera();
 
 
 
