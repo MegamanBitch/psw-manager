@@ -8,6 +8,8 @@ static std::string master_password;
 static std::string nome_utente;
 static double ris = 0;
 
+
+
 int main(int argc, char *argv[]) {
 
   inizializza();
@@ -159,6 +161,10 @@ extern "C" void handler_show_website (GtkWidget *widget, GdkEvent *event, gpoint
 }
 
 extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+
+  GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+  GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
+
   GtkWidget *website_insert_entry= GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_entry"));
   GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
   GtkWidget *website_insert_url = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_url"));
@@ -182,32 +188,27 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
 
   aggiungi_entry(nome_utente, var_buffer_insert_entry, var_buffer_insert_password, var_buffer_insert_url, var_buffer_insert_note);
 
+  gtk_widget_show_all(main_window);
+  gtk_widget_hide(website_window);
+
 }
 
 
 extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *switch_generate = GTK_WIDGET(gtk_builder_get_object(builder,"switch_generate"));
-  GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
-  GtkWidget *website_length = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
-  GtkWidget *generate_password = GTK_WIDGET(gtk_builder_get_object(builder, "generate_password"));
+  GtkWidget *box_password = GTK_WIDGET(gtk_builder_get_object(builder, "box16"));
   GtkWidget *tutto = GTK_WIDGET(gtk_builder_get_object(builder, "box_generate_password"));
 
   if (gtk_switch_get_active(GTK_SWITCH(switch_generate)) == TRUE) {
-    gtk_editable_set_editable(GTK_EDITABLE(website_insert_password), FALSE);
-    gtk_editable_set_editable(GTK_EDITABLE(generate_password), TRUE);
-    gtk_editable_set_editable(GTK_EDITABLE(website_length), TRUE);
-
     gtk_widget_set_sensitive(tutto, TRUE);
+    gtk_widget_set_sensitive(box_password, FALSE);
 
     GtkWidget *delete_website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
     gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_password), 0, -1);
   }
   else{
-    gtk_editable_set_editable(GTK_EDITABLE(website_insert_password), TRUE);
-    gtk_editable_set_editable(GTK_EDITABLE(website_length), FALSE);
-    gtk_editable_set_editable(GTK_EDITABLE(generate_password), FALSE);
-
     gtk_widget_set_sensitive(tutto, FALSE);
+    gtk_widget_set_sensitive(box_password, TRUE);
 
   }
 }
@@ -234,7 +235,7 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
 extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
   GtkWidget *entropy_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "entropy_master_password"));
-  GtkWidget *entropy_bits = GTK_WIDGET(gtk_builder_get_object(builder, "entropy_bits"));
+  //GtkWidget *entropy_bits_label = GTK_WIDGET(gtk_builder_get_object(builder, "entropy_bits_label"));
 
 
   gtk_level_bar_set_min_value (GTK_LEVEL_BAR(entropy_master_password), 0.);
@@ -249,10 +250,64 @@ extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer us
   ris = get_entropy(character);
 
   gtk_level_bar_set_value (GTK_LEVEL_BAR(entropy_master_password), ris);
-  gtk_label_set_text (GTK_LABEL(entropy_bits), "ris");
+  //gtk_label_set_text (GTK_LABEL(entropy_bits_label), (gchar)ris);
   //gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(entropy_master_password), "my-offset", 30.);
 
   DBG(std::cout << "Carattere: " << character;);
   DBG(std::cout << " Entropia: " << ris << std::endl;);
   //DBG(std::cout << "Numero lowercase: " << has_lowercase << std::endl;);
+}
+
+
+extern "C" void handler_chooseFile (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *pick_file = gtk_file_chooser_widget_new (GTK_FILE_CHOOSER_ACTION_OPEN);
+  GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+
+  gtk_widget_show_all(pick_file);
+  gtk_widget_hide(main_window);
+}
+
+extern "C" void handler_spinButton (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *spin_button = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
+
+  gtk_spin_button_spin (GTK_SPIN_BUTTON(spin_button), GTK_SPIN_STEP_FORWARD, 1.);
+  gtk_spin_button_update (GTK_SPIN_BUTTON(spin_button));
+}
+
+
+extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+
+  flag_parameters_t PARAMETERS;
+
+  GtkWidget *spin_button = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
+  GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+  GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
+
+  GtkWidget *uppercase = GTK_WIDGET(gtk_builder_get_object(builder, "uppercase"));
+  GtkWidget *space = GTK_WIDGET(gtk_builder_get_object(builder, "space"));
+  GtkWidget *lowercase = GTK_WIDGET(gtk_builder_get_object(builder, "lowercase"));
+  GtkWidget *special = GTK_WIDGET(gtk_builder_get_object(builder, "special"));
+  GtkWidget *digits = GTK_WIDGET(gtk_builder_get_object(builder, "digits"));
+  GtkWidget *brackets = GTK_WIDGET(gtk_builder_get_object(builder, "brackets"));
+  GtkWidget *minus = GTK_WIDGET(gtk_builder_get_object(builder, "minus"));
+  GtkWidget *underscore = GTK_WIDGET(gtk_builder_get_object(builder, "underscore"));
+
+  PARAMETERS.uppercase = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(uppercase));
+  PARAMETERS.lowercase = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(lowercase));
+  PARAMETERS.space = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(space));
+  PARAMETERS.special = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(special));
+  PARAMETERS.digits = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(digits));
+  PARAMETERS.brackets = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(brackets));
+  PARAMETERS.minus = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(minus));
+  PARAMETERS.underscore = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(underscore));
+
+  unsigned short lun_psw;
+
+  lun_psw = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(spin_button));
+  DBG(std::cout << "Spin button value: " << lun_psw << std::endl;)
+
+  for (size_t i = 0; i < lun_psw; i++) {
+    getRandom_char(PARAMETERS);
+  }
+
 }

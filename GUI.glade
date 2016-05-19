@@ -297,133 +297,6 @@ When you're done hit OK to get started.
       </object>
     </child>
   </object>
-  <object class="GtkWindow" id="main_window">
-    <property name="can_focus">False</property>
-    <property name="title" translatable="yes">Password Manager</property>
-    <property name="window_position">center-always</property>
-    <property name="default_width">600</property>
-    <property name="default_height">600</property>
-    <child>
-      <object class="GtkBox" id="box1">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkBox" id="box2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <child>
-              <object class="GtkToolbar" id="toolbar1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="toolbar_style">both</property>
-                <signal name="destroy" handler="handler_delete_event" swapped="no"/>
-                <child>
-                  <object class="GtkToolButton" id="add_user">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="tooltip_text" translatable="yes">Nuovo utente</property>
-                    <property name="label" translatable="yes">Add User</property>
-                    <property name="use_underline">True</property>
-                    <property name="icon_name">list-add</property>
-                    <signal name="clicked" handler="handler_add_user" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="homogeneous">True</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkToolButton" id="add_website">
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Add Website</property>
-                    <property name="use_underline">True</property>
-                    <property name="icon_name">applications-internet</property>
-                    <signal name="clicked" handler="handler_show_website" swapped="no"/>
-                  </object>
-                  <packing>
-                    <property name="expand">True</property>
-                    <property name="homogeneous">True</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="GtkLockButton" id="lockbutton1">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <signal name="clicked" handler="handler_freezeAll" swapped="no"/>
-                <signal name="clicked" handler="handler_show_login" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box4">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="orientation">vertical</property>
-            <child>
-              <object class="GtkGrid" id="grid1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkRadioButton" id="radiobutton1">
-                    <property name="label" translatable="yes">radiobutton</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="active">True</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkImage" id="master_cancel">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -564,10 +437,33 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="entropy_bits">
+          <object class="GtkBox" id="box31">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">label</property>
+            <child>
+              <object class="GtkLabel" id="entropy_bits_label">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">bits: </property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="entropy_bits">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="editable">False</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">False</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -767,6 +663,142 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
             <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkImage" id="website_add">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-select-color</property>
+  </object>
+  <object class="GtkWindow" id="main_window">
+    <property name="can_focus">False</property>
+    <property name="title" translatable="yes">Password Manager</property>
+    <property name="window_position">center-always</property>
+    <property name="default_width">600</property>
+    <property name="default_height">600</property>
+    <child>
+      <object class="GtkBox" id="box1">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkBox" id="box2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkToolbar" id="toolbar1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="toolbar_style">both</property>
+                <signal name="destroy" handler="handler_delete_event" swapped="no"/>
+                <child>
+                  <object class="GtkToolButton" id="add_user">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Nuovo utente</property>
+                    <property name="label" translatable="yes">Add User</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_name">list-add</property>
+                    <signal name="clicked" handler="handler_add_user" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box32">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <object class="GtkToolButton" id="add_website">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Add Website</property>
+                    <property name="use_underline">True</property>
+                    <property name="icon_widget">website_add</property>
+                    <signal name="clicked" handler="handler_show_website" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLockButton" id="lockbutton1">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <signal name="clicked" handler="handler_chooseFile" swapped="no"/>
+                <signal name="clicked" handler="handler_freezeAll" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box4">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="orientation">vertical</property>
+            <child>
+              <object class="GtkGrid" id="grid1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <child>
+                  <object class="GtkRadioButton" id="radiobutton1">
+                    <property name="label" translatable="yes">radiobutton</property>
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="receives_default">False</property>
+                    <property name="xalign">0</property>
+                    <property name="active">True</property>
+                    <property name="draw_indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="left_attach">0</property>
+                    <property name="top_attach">0</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
           </packing>
         </child>
       </object>
@@ -1019,6 +1051,9 @@ There's also an optional URL and Note field that you can add.
                   <object class="GtkSpinButton" id="website_length">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="max_length">128</property>
+                    <property name="progress_pulse_step">1</property>
+                    <property name="input_purpose">digits</property>
                     <property name="climb_rate">1</property>
                   </object>
                   <packing>

@@ -58,6 +58,18 @@ struct utente_t {
 
 
 
+struct flag_parameters_t {
+  bool uppercase;
+  bool lowercase;
+  bool space;
+  bool special;
+  bool digits;
+  bool minus;
+  bool underscore;
+  bool brackets;
+};
+
+
 #endif
 
 /* Fine header modulo Struttura Dati */

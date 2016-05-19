@@ -1,10 +1,10 @@
 #include "entropy.h"
 
-unsigned short has_lowercase = 0;
-unsigned short has_uppercase = 0;
-unsigned short has_digit = 0;
-unsigned short has_specialCaracter = 0;
-double ris = 0;
+static unsigned short has_lowercase = 0;
+static unsigned short has_uppercase = 0;
+static unsigned short has_digit = 0;
+static unsigned short has_specialCaracter = 0;
+static double ris = 0;
 
 
 void entropy_azzera(){
