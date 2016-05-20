@@ -278,8 +278,8 @@ extern "C" void handler_spinButton (GtkWidget *widget, GdkEvent *event, gpointer
 extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data){
 
   flag_parameters_t PARAMETERS;
-  unsigned short lun_psw;
-  unsigned short char_psw;
+  unsigned short lun_psw = 10;
+  unsigned short char_psw[lun_psw];
 
   GtkWidget *spin_button = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
@@ -294,22 +294,25 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   GtkWidget *minus = GTK_WIDGET(gtk_builder_get_object(builder, "minus"));
   GtkWidget *underscore = GTK_WIDGET(gtk_builder_get_object(builder, "underscore"));
 
-  PARAMETERS.uppercase = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(uppercase));
-  PARAMETERS.lowercase = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(lowercase));
-  PARAMETERS.space = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(space));
-  PARAMETERS.special = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(special));
-  PARAMETERS.digits = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(digits));
-  PARAMETERS.brackets = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(brackets));
-  PARAMETERS.minus = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(minus));
-  PARAMETERS.underscore = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(underscore));
+  PARAMETERS.uppercase = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(uppercase));
+  PARAMETERS.lowercase = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(lowercase));
+  PARAMETERS.space = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(space));
+  PARAMETERS.special = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(special));
+  PARAMETERS.digits = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(digits));
+  PARAMETERS.brackets = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(brackets));
+  PARAMETERS.minus = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(minus));
+  PARAMETERS.underscore = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(underscore));
 
 
-  lun_psw = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(spin_button));
+  //lun_psw = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(spin_button));
   DBG(std::cout << "Spin button value: " << lun_psw << std::endl;)
 
   for (size_t i = 0; i < lun_psw; i++) {
-    char_psw = getRandom_char(PARAMETERS);
-    DBG(std::cout << (char)char_psw << std::endl;)
+    char_psw[i] = getRandom_char(PARAMETERS);
+  }
+
+  for (size_t i = 0; i < lun_psw; i++) {
+    DBG(std::cout << (char)char_psw[i] << std::endl;)
   }
 
 }

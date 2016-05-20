@@ -3,11 +3,11 @@
 
 int getRandom_char(flag_parameters_t &PARAMETERS){
   srand(time(0));
-
   int random_char;
 
   if (PARAMETERS.uppercase) {
     random_char = 65 + rand() % RANGE_UPPERCASE;
+    DBG(std::cout << random_char << std::endl;)
     return random_char;
   }
 
