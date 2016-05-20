@@ -34,6 +34,13 @@ int getRandom_char(flag_parameters_t &PARAMETERS){
   }
 
   if (PARAMETERS.special) {
-    /* code */
+    random_char = rand() % RANGE_SPECIAL_CHARACTERS;
+    return SPECIAL_CHARACTERS[random_char];
   }
+
+  if (PARAMETERS.brackets) {
+    random_char = rand() % RANGE_BRACKETS;
+    return BRACKETS[random_char];
+  }
+  return -1;
 }

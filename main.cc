@@ -278,6 +278,8 @@ extern "C" void handler_spinButton (GtkWidget *widget, GdkEvent *event, gpointer
 extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data){
 
   flag_parameters_t PARAMETERS;
+  unsigned short lun_psw;
+  unsigned short char_psw;
 
   GtkWidget *spin_button = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
@@ -301,13 +303,13 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   PARAMETERS.minus = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(minus));
   PARAMETERS.underscore = gtk_toggle_button_get_mode (GTK_TOGGLE_BUTTON(underscore));
 
-  unsigned short lun_psw;
 
   lun_psw = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(spin_button));
   DBG(std::cout << "Spin button value: " << lun_psw << std::endl;)
 
   for (size_t i = 0; i < lun_psw; i++) {
-    getRandom_char(PARAMETERS);
+    char_psw = getRandom_char(PARAMETERS);
+    DBG(std::cout << (char)char_psw << std::endl;)
   }
 
 }

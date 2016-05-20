@@ -1261,6 +1261,7 @@ There's also an optional URL and Note field that you can add.
                     <property name="image">generate_password</property>
                     <property name="relief">half</property>
                     <property name="always_show_image">True</property>
+                    <signal name="clicked" handler="handler_generatePassword" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
