@@ -2,11 +2,6 @@
 #include <locale>
 #include <cstdlib>
 
-
-void inizializza(){
-  lista_utenti = NULL;
-}
-
 void stampa_lista(){
   GSList *tmp = lista_utenti;
   while (tmp != NULL) {

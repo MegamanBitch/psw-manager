@@ -11,7 +11,9 @@
 #include <string>
 #include <gtk/gtk.h>
 
-static GSList *lista_utenti;
+extern GSList *lista_utenti;
+
+void inizializza();
 
 /* Password:
 * Struttura dati per gestire le password.

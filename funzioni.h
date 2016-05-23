@@ -17,7 +17,7 @@ using namespace std;
 #include "debug.h"
 
 
-void inizializza();
+
 bool aggiungi_utente(std::string nome, std::string password);
 bool aggiungi_entry(std::string nome_utente, std::string entry, std::string password, std::string url, std::string note);
 void stampa_lista();
