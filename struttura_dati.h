@@ -67,6 +67,7 @@ struct flag_parameters_t {
   bool minus;
   bool underscore;
   bool brackets;
+
 };
 
 

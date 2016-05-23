@@ -10,6 +10,7 @@
 #include "entropy.h"
 #include "gen_psw.h"
 
+using namespace std;
 
 /*
 * builder:

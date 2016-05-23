@@ -282,8 +282,7 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   unsigned short char_psw[lun_psw];
 
   GtkWidget *spin_button = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
-  GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
-  GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
+  GtkWidget *website_generated_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_generated_password"));
 
   GtkWidget *uppercase = GTK_WIDGET(gtk_builder_get_object(builder, "uppercase"));
   GtkWidget *space = GTK_WIDGET(gtk_builder_get_object(builder, "space"));
@@ -307,12 +306,23 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   //lun_psw = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(spin_button));
   DBG(std::cout << "Spin button value: " << lun_psw << std::endl;)
 
-  for (size_t i = 0; i < lun_psw; i++) {
-    char_psw[i] = getRandom_char(PARAMETERS);
-  }
+  srand(time(NULL));
+
+  unsigned short temp;
+  unsigned short contatore = 0;
+
+  do {
+    temp = 32 + (rand() % (126 - 32));
+    DBG(std::cout << "Numero random: " << temp << std::endl;)
+    if (getRandom_char(PARAMETERS, temp) != -1) {
+      char_psw[contatore] = getRandom_char(PARAMETERS, temp);
+      contatore++;
+    }
+  } while(contatore < lun_psw);
 
   for (size_t i = 0; i < lun_psw; i++) {
     DBG(std::cout << (char)char_psw[i] << std::endl;)
   }
+
 
 }
