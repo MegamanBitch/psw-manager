@@ -323,6 +323,4 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   for (size_t i = 0; i < lun_psw; i++) {
     DBG(std::cout << (char)char_psw[i] << std::endl;)
   }
-
-
 }

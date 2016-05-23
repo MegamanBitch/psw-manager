@@ -747,8 +747,8 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
               <object class="GtkLockButton" id="lockbutton1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <signal name="clicked" handler="handler_chooseFile" swapped="no"/>
                 <signal name="clicked" handler="handler_freezeAll" swapped="no"/>
+                <signal name="clicked" handler="handler_show_login" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>

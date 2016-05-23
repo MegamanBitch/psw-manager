@@ -8,11 +8,13 @@ void inizializza(){
 }
 
 void stampa_lista(){
-  while (lista_utenti != NULL) {
+  GSList *tmp = lista_utenti;
+  while (tmp != NULL) {
     std::cout << "Numero di utenti: " << g_slist_length(lista_utenti) << std::endl;
-    char *nome = (char*) lista_utenti->data;
-    std::cout << nome << std::endl;
-    lista_utenti = lista_utenti->next;
+    utente_t *my_data = (utente_t *)tmp->data;
+    std::cout << "Nome utente: " << my_data->nome << std::endl;
+    std::cout << "Password: " << my_data->master_password << std::endl;
+    tmp = g_slist_next(tmp);
   }
 }
 
@@ -23,7 +25,7 @@ bool aggiungi_utente(std::string nome, std::string password){
   utente->master_password = password;
 
   lista_utenti = g_slist_append(lista_utenti, utente);
-  DBG(stampa_lista(););
+  DBG(stampa_lista();)
 
   return true;
 
