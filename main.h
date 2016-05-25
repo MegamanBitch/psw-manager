@@ -2,6 +2,7 @@
 #define MAIN_H
 
 #include <iostream>
+#include <stdio.h>
 #include <gtk/gtk.h>
 #include "struttura_dati.h"
 #include "funzioni.h"

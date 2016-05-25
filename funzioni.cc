@@ -27,14 +27,13 @@ bool aggiungi_utente(std::string nome, std::string password){
 }
 
 bool aggiungi_entry(std::string nome_utente, std::string entry, std::string password, std::string url, std::string note){
-
-/*
+  /*
   if(g_slist_find(lista_utenti, nome_utente) == NULL){
     DBG(std::cout << "Utente non esiste" << std::endl;);
     return false;
   }
-
 */
+
 
   utente_t *utente = new utente_t;
 

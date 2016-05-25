@@ -13,6 +13,7 @@
 
 extern GSList *lista_utenti;
 
+
 void inizializza();
 
 /* Password:

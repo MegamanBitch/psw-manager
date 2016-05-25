@@ -144,7 +144,7 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
 
   aggiungi_utente(nome_utente, master_password);
   openssl_encrypt(nome_utente, master_password);
-  openssl_decrypt(nome_utente);
+  //openssl_decrypt(nome_utente);
 
   gtk_widget_show_all(main_window);
   gtk_widget_hide(initialize_first_user_window);
@@ -235,13 +235,10 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
 extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
   GtkWidget *entropy_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "entropy_master_password"));
-  //GtkWidget *entropy_bits_label = GTK_WIDGET(gtk_builder_get_object(builder, "entropy_bits_label"));
-
+  GtkWidget *entropy_bits = GTK_WIDGET(gtk_builder_get_object(builder, "entropy_bits"));
 
   gtk_level_bar_set_min_value (GTK_LEVEL_BAR(entropy_master_password), 0.);
   gtk_level_bar_set_max_value (GTK_LEVEL_BAR(entropy_master_password), 210.);
-
-  //gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(entropy_master_password), GTK_LEVEL_BAR_OFFSET_LOW, 0.);
 
   const gchar *character = gtk_editable_get_chars (GTK_EDITABLE(insert_master_password),
                             (gtk_entry_get_text_length (GTK_ENTRY(insert_master_password)) - 1), -1);
@@ -250,8 +247,10 @@ extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer us
   ris = get_entropy(character);
 
   gtk_level_bar_set_value (GTK_LEVEL_BAR(entropy_master_password), ris);
-  //gtk_label_set_text (GTK_LABEL(entropy_bits_label), (gchar)ris);
-  //gtk_level_bar_add_offset_value (GTK_LEVEL_BAR(entropy_master_password), "my-offset", 30.);
+
+  char buffer[210];
+  sprintf(buffer, "%.3lf", ris);
+  gtk_label_set_text (GTK_LABEL(entropy_bits), buffer);
 
   DBG(std::cout << "Carattere: " << character;);
   DBG(std::cout << " Entropia: " << ris << std::endl;);
@@ -281,8 +280,7 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   unsigned short lun_psw = 10;
   unsigned short char_psw[lun_psw];
 
-  GtkWidget *spin_button = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
-  GtkWidget *website_generated_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_generated_password"));
+  //GtkWidget *spin_button = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
 
   GtkWidget *uppercase = GTK_WIDGET(gtk_builder_get_object(builder, "uppercase"));
   GtkWidget *space = GTK_WIDGET(gtk_builder_get_object(builder, "space"));

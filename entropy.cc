@@ -137,8 +137,6 @@ double get_entropy(const gchar *c) {
       }
       break;
   }
-
-  DBG(std::cout << "Ris funzione entropy: " << ris << std::endl;);
   return ris;
 
 }

@@ -38,8 +38,9 @@ bool openssl_encrypt(std::string nome, std::string password){
   }
   */
 
-  srand(time(0));
+  srand(time(NULL));
   size_t salt = rand();
+  DBG(std::cout << "Salt: " << salt << std::endl;)
 
   std::ostringstream stringa_concatenata;
   stringa_concatenata << password << salt;
@@ -47,7 +48,7 @@ bool openssl_encrypt(std::string nome, std::string password){
 
   std::string stringa_concatenata_hash = stringa_concatenata.str();
 
-  stringa_concatenata_hash = sha256(stringa_concatenata_hash);
+  stringa_concatenata_hash = sha512(stringa_concatenata_hash);
   DBG(std::cout << "Hash stringa: " << stringa_concatenata_hash << std::endl;);
 
   if (!crea_file(nome, stringa_concatenata_hash, salt)) {
@@ -57,25 +58,25 @@ bool openssl_encrypt(std::string nome, std::string password){
   return true;
 }
 
-std::string sha256(const std::string stringa){
-  unsigned char hash[SHA256_DIGEST_LENGTH];
-  SHA256_CTX sha256;
+std::string sha512(const std::string stringa){
+  unsigned char hash[SHA512_DIGEST_LENGTH];
+  SHA512_CTX sha512;
 
-  //SHA256_Init() initializes a SHA_CTX structure.
-  SHA256_Init(&sha256);
+  //SHA512_Init() initializes a SHA_CTX structure.
+  SHA512_Init(&sha512);
 
-  /*SHA256_Update() can be called repeatedly with chunks of the message to
+  /*SHA512_Update() can be called repeatedly with chunks of the message to
   * be hashed (len bytes at data).
   */
-  SHA256_Update(&sha256, stringa.c_str(), stringa.size());
+  SHA512_Update(&sha512, stringa.c_str(), stringa.size());
 
   /* SHA1_Final() places the message digest in md, which must have
   * space for SHA_DIGEST_LENGTH == 20 bytes of output, and erases the SHA_CTX.
   */
-  SHA256_Final(hash, &sha256);
+  SHA512_Final(hash, &sha512);
 
   std::stringstream string_hash;
-  for (size_t i = 0; i < SHA256_DIGEST_LENGTH; i++){
+  for (size_t i = 0; i < SHA512_DIGEST_LENGTH; i++){
     string_hash << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
   }
   return string_hash.str();
@@ -85,5 +86,5 @@ std::string sha256(const std::string stringa){
 
 void openssl_decrypt(std::string nome){
   size_t salt = get_salt(nome);
-  DBG(std::cout << "Salt: " << salt << std::endl;);
+  DBG(std::cout << "Salt: " << salt << std::endl;)
 }
