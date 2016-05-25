@@ -43,6 +43,4 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
 
 
 
-
-
 #endif

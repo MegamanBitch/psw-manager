@@ -41,6 +41,27 @@ extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpo
     return TRUE;
 }
 
+GtkWidget* createFileChooser(GtkWindow* parent, GtkFileChooserAction action, const gchar* title){
+  //Prepare file open dialog
+  GtkWidget* dialog = gtk_file_chooser_dialog_new (
+                                      title,
+                                      parent,
+                                      action,
+                                      "Cancel",
+                                      GTK_RESPONSE_CANCEL,
+                                      "OK",
+                                      GTK_RESPONSE_ACCEPT,
+                                      NULL);
+  GdkGeometry geom;
+  geom.min_width = 800;
+  geom.min_height = 600;
+
+  //Resize the window
+  gtk_window_set_geometry_hints(GTK_WINDOW(dialog), NULL, &geom, GDK_HINT_MIN_SIZE);
+
+  return dialog;
+}
+
 extern "C" void handler_freezeAll(GtkWidget *widget, GdkEvent *event, gpointer user_data){
 	GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder,"box4"));
 
@@ -135,6 +156,7 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
   GtkWidget *initialize_first_user_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_first_user_window"));
   GtkWidget *insert_user = GTK_WIDGET(gtk_builder_get_object(builder, "insert_user"));
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+  GtkWidget *current_user_name = GTK_WIDGET(gtk_builder_get_object(builder, "current_user_name"));
 
   GtkEntryBuffer *user_buffer_insert = gtk_entry_get_buffer(GTK_ENTRY(insert_user));
   const gchar *var_user_buffer_insert = gtk_entry_buffer_get_text(user_buffer_insert);
@@ -142,7 +164,11 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
 
   nome_utente = var_user_buffer_insert;
 
-  aggiungi_utente(nome_utente, master_password);
+  aggiungi_utente (nome_utente, master_password);
+
+  utente_t *my_data = (utente_t *)lista_utenti->data;
+  gtk_label_set_text (GTK_LABEL(current_user_name), my_data->nome.c_str());
+
   openssl_encrypt(nome_utente, master_password);
   //openssl_decrypt(nome_utente);
 
@@ -186,7 +212,10 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
   const gchar *var_buffer_insert_note = gtk_entry_buffer_get_text(website_buffer_insert_note);
   DBG(std::cout << "Note:  " << var_buffer_insert_note << std::endl);
 
-  aggiungi_entry(nome_utente, var_buffer_insert_entry, var_buffer_insert_password, var_buffer_insert_url, var_buffer_insert_note);
+  if (!aggiungi_entry(nome_utente, var_buffer_insert_entry, var_buffer_insert_password,
+        var_buffer_insert_url, var_buffer_insert_note)) {
+    DBG(std::cout << "Non esiste questo utente" << std::endl;)
+  }
 
   gtk_widget_show_all(main_window);
   gtk_widget_hide(website_window);
@@ -215,8 +244,24 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
 
 extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *login_window = GTK_WIDGET(gtk_builder_get_object(builder,"login_window"));
+  GtkWidget* mainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "mainWindow"));
+  //Create file chooser dialog
+  GtkWidget* dialog = createFileChooser(GTK_WINDOW(mainWindow), GTK_FILE_CHOOSER_ACTION_OPEN, "Open file");
 
-  gtk_widget_show_all(login_window);
+  //Set file chooser filter
+  GtkFileFilter* filter = gtk_file_filter_new();
+  gtk_file_filter_add_pattern(filter, "*.gsx");
+  gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
+
+  //Exec the dialog
+	gint res = gtk_dialog_run(GTK_DIALOG(dialog));
+
+  //If ok button is pressed
+	if (res == GTK_RESPONSE_ACCEPT){
+    //file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+    gtk_widget_show_all(login_window);
+    gtk_widget_destroy(dialog);
+  }
 }
 
 extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer user_data){
