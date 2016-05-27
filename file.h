@@ -8,6 +8,7 @@
 #include "struttura_dati.h"
 
 bool crea_file(std::string nome, std::string password, size_t salt);
+bool apri_file(std::string nome_file);
 size_t get_salt(std::string nome);
 
 

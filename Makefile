@@ -15,7 +15,10 @@ dependencies:
 	g++ -MM *.cc > depend.txt
 
 clean:
-	rm -f *.o *~ *.gsx
+	rm -f *.o *~
 
-cleanAll: clean
+removeFile:
+	rm -rf *.gsx
+
+cleanAll: clean removeFile
 	rm -f $(EXNAME)

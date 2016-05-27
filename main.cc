@@ -80,6 +80,40 @@ extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer us
   GtkWidget *initialize_master_password_window = GTK_WIDGET(gtk_builder_get_object(builder, "initialize_master_password_window"));
   GtkWidget *error_match_password = GTK_WIDGET(gtk_builder_get_object(builder, "error_match_password_window"));
 
+  GtkWidget *dialog;
+  GtkFileChooser *chooser;
+  GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SAVE;
+  gint res;
+
+  dialog = gtk_file_chooser_dialog_new ("Save File",
+                                        GTK_WINDOW(main_window),
+                                        action,
+                                        ("_Cancel"),
+                                        GTK_RESPONSE_CANCEL,
+                                        ("_Save"),
+                                        GTK_RESPONSE_ACCEPT,
+                                        NULL);
+  chooser = GTK_FILE_CHOOSER (dialog);
+
+  gtk_file_chooser_set_do_overwrite_confirmation (chooser, TRUE);
+
+  gtk_file_chooser_set_current_name (chooser, ("*.gsx"));
+
+  res = gtk_dialog_run (GTK_DIALOG (dialog));
+  if (res == GTK_RESPONSE_ACCEPT)
+    {
+      char *filename;
+
+      filename = gtk_file_chooser_get_filename (chooser);
+      crea_file (filename, "", 0);
+      g_free (filename);
+    }
+
+  gtk_widget_destroy (dialog);
+
+
+
+
   gtk_widget_hide(error_match_password);
   gtk_widget_hide(main_window);
   gtk_widget_show_all(initialize_master_password_window);
@@ -91,6 +125,7 @@ extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer us
 
   gtk_editable_delete_text(GTK_EDITABLE(delete_insert_master_password), 0, -1);
   gtk_editable_delete_text(GTK_EDITABLE(delete_repeat_master_password), 0, -1);
+
 }
 
 extern "C" void handler_get_masterPassword(GtkWidget *widget, GdkEvent *event, gpointer user_data){
