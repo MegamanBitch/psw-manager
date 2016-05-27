@@ -42,16 +42,23 @@ bool openssl_encrypt(std::string nome, std::string password){
   size_t salt = rand();
   DBG(std::cout << "Salt: " << salt << std::endl;)
 
-  std::ostringstream stringa_concatenata;
-  stringa_concatenata << password << salt;
-  DBG(std::cout << stringa_concatenata.str() << std::endl;)
+  std::ostringstream concat_password;
+  std::ostringstream concat_user;
 
-  std::string stringa_concatenata_hash = stringa_concatenata.str();
+  concat_password << password << salt;
+  concat_user << nome << salt;
+  DBG(std::cout << concat_password.str() << std::endl;)
+  DBG(std::cout << concat_user.str() << std::endl;)
 
-  stringa_concatenata_hash = sha512(stringa_concatenata_hash);
-  DBG(std::cout << "Hash stringa: " << stringa_concatenata_hash << std::endl;);
+  std::string concat_password_hash = concat_password.str();
+  std::string concat_user_hash = concat_user.str();
 
-  if (!crea_file(nome, stringa_concatenata_hash, salt)) {
+  concat_password_hash = sha512(concat_password_hash);
+  concat_user_hash = sha512(concat_user_hash);
+  DBG(std::cout << "Hash password: " << concat_password_hash << std::endl;)
+  DBG(std::cout << "Hash user: " << concat_user_hash << std::endl;)
+
+  if (!crea_file(nome, concat_password_hash, salt)) {
     DBG(std::cout << "Errore apertura file" << std::endl;)
   }
 
