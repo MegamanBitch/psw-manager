@@ -2,7 +2,6 @@
 
 
 bool crea_file(std::string nome, std::string password, size_t salt){
-  if (password == "") {
     std::ofstream f((nome).c_str());
     if (f.is_open()) {
       if (g_slist_length(lista_utenti) != 0) {
@@ -10,22 +9,9 @@ bool crea_file(std::string nome, std::string password, size_t salt){
       }
       f.close();
     }
-  }
-  else {
-    std::ofstream f((nome + ".gsx").c_str());
-
-    if (f.is_open()) {
-      if (g_slist_length(lista_utenti) != 0) {
-        f.write(reinterpret_cast<const char *>(&lista_utenti), sizeof(lista_utenti));
-      }
-      f.close();
-      return f;
+    return f;
   }
 
-  }
-  //f << "Username: " << nome << " Password: " <<password << " Salt: " <<salt << std::endl;
-  return false;
-}
 
 
 size_t get_salt(std::string nome){
