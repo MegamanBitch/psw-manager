@@ -23,8 +23,16 @@ struct entropy_t {
 };
 
 void entropy_inizializza(entropy_t &e);
+/*
+* Funzione che ritorna il valore dell'entropia aggiunta da un singolo carattere
+*/
 double get_entropy(const gchar *c);
+
+/*
+* Funzione che, dato un carattere, ritorna il tipo come descritto nell'enumeratore
+*/
 int pool_of_character(const gchar *car);
+
 /*
 * Funzione che azzera tutte le variabili
 */

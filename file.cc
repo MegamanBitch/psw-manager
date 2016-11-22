@@ -5,6 +5,7 @@ bool crea_file(std::string nome, std::string password, size_t salt){
     std::ofstream f((nome).c_str());
     if (f.is_open()) {
       if (g_slist_length(lista_utenti) != 0) {
+        // qui salvo tutta la lista, devo salvare solo i dati che mi passa in input
         f.write(reinterpret_cast<const char *>(&lista_utenti), sizeof(lista_utenti));
       }
       f.close();
