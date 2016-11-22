@@ -16,10 +16,16 @@
 
 void openssl_inizializza();
 void openssl_quit();
+
+
+/*
+* Funzione che dato un carattere restituisce il codice ASCII
+*/
 int get_ascii_code(const char carattere);
 std::string sha512(std::string stringa);
 
-/* Funzione che cripta username e password
+/*
+* Funzione che cripta username e password
 * 1) Genera un sale https://it.wikipedia.org/wiki/Sale_(crittografia)
 * 2) Concatena il sale alla password dell'utente
 * 3) Fa un Hash alla combinazione password-sale usando SHA512
@@ -28,7 +34,8 @@ std::string sha512(std::string stringa);
 bool openssl_encrypt(const std::string nome, std::string password);
 
 
-/* Funzione che decripta username e password
+/*
+* Funzione che decripta username e password
 * 1) Carica il sale associato all'username
 * 2) Concatena il sale alla password inserita
 * 3) Fa un Hash alla combinazione e la confronta al valore hash salvato

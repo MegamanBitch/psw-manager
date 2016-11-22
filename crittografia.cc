@@ -23,6 +23,7 @@ void openssl_quit(){
   ERR_free_strings();
 }
 
+
 int get_ascii_code(const char carattere){
   unsigned short ascii;
   ascii = int(carattere);
