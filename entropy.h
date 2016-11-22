@@ -7,6 +7,9 @@
 #include "struttura_dati.h"
 #include "funzioni.h"
 
+/*
+* enumerato per la classificazione dei tipi di caratteri
+*/
 enum type_of_character{
   LOWERCASE,
   UPPERCASE,
