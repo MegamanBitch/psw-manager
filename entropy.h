@@ -25,6 +25,9 @@ struct entropy_t {
 void entropy_inizializza(entropy_t &e);
 double get_entropy(const gchar *c);
 int pool_of_character(const gchar *car);
+/*
+* Funzione che azzera tutte le variabili
+*/
 void entropy_azzera();
 
 
