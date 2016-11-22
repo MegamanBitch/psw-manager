@@ -43,6 +43,11 @@ static const int SPECIAL_CHARACTERS[22] = {33, 34, 35, 36, 37, 38, 39, 42, 43, 4
                                             92, 94, 96, 124, 126};
 
 void flag_inizializza(flag_parameters_t &PARAMETERS);
+
+/**
+* Funzione che dati in input i tipi di caratteri descritti nella struttura dati
+* @flag_parameters_t restituisce @lun_psw caratteri casuali
+*/
 int getRandom_char(flag_parameters_t &PARAMETERS, unsigned short lun_psw);
 
 
