@@ -39,7 +39,7 @@ extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer us
 extern "C" void handler_chooseFile (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_spinButton (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data);
-
+extern "C" void handler_show_credits_window (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 
 
 

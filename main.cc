@@ -177,14 +177,25 @@ extern "C" void handler_show_main_window(GtkWidget *widget, GdkEvent *event, gpo
   GtkWidget *welcome_window = GTK_WIDGET(gtk_builder_get_object(builder, "welcome_window"));
   GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
   GtkWidget *login_window = GTK_WIDGET(gtk_builder_get_object(builder,"login_window"));
+  GtkWidget *credits_window = GTK_WIDGET(gtk_builder_get_object(builder, "credits_window"));
   GtkWidget *box = GTK_WIDGET(gtk_builder_get_object(builder,"box4"));
 
   gtk_widget_set_sensitive(box, FALSE);
 
+  gtk_widget_hide(credits_window);
   gtk_widget_hide(login_window);
   gtk_widget_hide(website_window);
   gtk_widget_hide(welcome_window);
   gtk_widget_show_all(main_window);
+}
+
+extern "C" void handler_show_credits_window (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *credits_window = GTK_WIDGET(gtk_builder_get_object(builder, "credits_window"));
+  GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+
+  gtk_widget_hide(main_window);
+  gtk_widget_show_all(credits_window);
+
 }
 
 extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointer user_data){

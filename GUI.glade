@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.19.0 -->
+<!-- Generated with glade 3.18.3 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkImage" id="accept">
@@ -7,6 +7,8 @@
     <property name="can_focus">False</property>
     <property name="stock">gtk-apply</property>
   </object>
+  <object class="GtkAction" id="action1"/>
+  <object class="GtkAction" id="action2"/>
   <object class="GtkImage" id="add">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -31,9 +33,9 @@
           <object class="GtkLabel" id="first_user_label">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">You now need to make a new user name since i don't have anyone stored yet. 
+            <property name="label" translatable="yes">You now need to make a new user name since i don't have anyone stored yet.
 
-You can use either alphanumeric characters and special characters. 
+You can use either alphanumeric characters and special characters.
 When you're done hit OK to get started.
 </property>
             <property name="wrap">True</property>
@@ -76,6 +78,7 @@ When you're done hit OK to get started.
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
+            <property name="padding">5</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -97,6 +100,7 @@ When you're done hit OK to get started.
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -114,6 +118,7 @@ When you're done hit OK to get started.
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -121,6 +126,7 @@ When you're done hit OK to get started.
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
+            <property name="padding">5</property>
             <property name="position">2</property>
           </packing>
         </child>
@@ -129,19 +135,21 @@ When you're done hit OK to get started.
   </object>
   <object class="GtkWindow" id="credits_window">
     <property name="can_focus">False</property>
+    <property name="window_position">center-always</property>
+    <property name="default_width">500</property>
+    <property name="default_height">300</property>
     <child>
       <object class="GtkBox" id="box32">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkLabel" id="credits_label">
+          <object class="GtkImage" id="credits_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">&lt;b&gt;Password Manager&lt;/b&gt;
-This programs allows you to store and manage your passwords in a secure way. Every user has his own unique database, which is locked with one master password,</property>
-            <property name="use_markup">True</property>
-            <property name="wrap">True</property>
+            <property name="pixel_size">100</property>
+            <property name="icon_name">emblem-readonly</property>
+            <property name="icon_size">3</property>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -150,7 +158,141 @@ This programs allows you to store and manage your passwords in a secure way. Eve
           </packing>
         </child>
         <child>
+          <object class="GtkLabel" id="credits_title">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;b&gt;Password Manager&lt;/b&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="credits_version">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">&lt;i&gt;Version&lt;/i&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="credits_label">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">
+This programs allows you to store and manage your passwords in a secure way.
+Every user has his own unique database, which is locked with one master password.</property>
+            <property name="use_markup">True</property>
+            <property name="wrap">True</property>
+            <property name="angle">0.029999999999999999</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLinkButton" id="credits_link">
+            <property name="label" translatable="yes">Github</property>
+            <property name="related_action"/>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="relief">none</property>
+            <property name="uri">https://github.com/MegamanBitch/psw-manager</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
           <placeholder/>
+        </child>
+        <child>
+          <object class="GtkBox" id="box36">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkButton" id="credits_credits">
+                <property name="label" translatable="yes">Credits</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="credits_license">
+                <property name="label" translatable="yes">License</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox" id="box37">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="orientation">vertical</property>
+                <child>
+                  <placeholder/>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="credits_close">
+                <property name="label" translatable="yes">Close</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="handler_show_main_window" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="padding">5</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="padding">5</property>
+            <property name="position">6</property>
+          </packing>
         </child>
       </object>
     </child>
@@ -260,6 +402,7 @@ This programs allows you to store and manage your passwords in a secure way. Eve
                     <property name="label" translatable="yes">Info</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">info</property>
+                    <signal name="clicked" handler="handler_show_credits_window" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -274,17 +417,7 @@ This programs allows you to store and manage your passwords in a secure way. Eve
               </packing>
             </child>
             <child>
-              <object class="GtkLockButton" id="lockbutton1">
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <signal name="clicked" handler="handler_freezeAll" swapped="no"/>
-                <signal name="clicked" handler="handler_show_login" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
-              </packing>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -563,6 +696,7 @@ This programs allows you to store and manage your passwords in a secure way. Eve
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -580,6 +714,7 @@ This programs allows you to store and manage your passwords in a secure way. Eve
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -587,6 +722,7 @@ This programs allows you to store and manage your passwords in a secure way. Eve
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="padding">5</property>
             <property name="position">4</property>
           </packing>
         </child>
@@ -622,6 +758,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
             <property name="use_markup">True</property>
             <property name="wrap">True</property>
             <property name="wrap_mode">word-char</property>
+            <property name="ellipsize">end</property>
           </object>
           <packing>
             <property name="expand">True</property>
@@ -786,6 +923,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="pack_type">end</property>
                 <property name="position">0</property>
               </packing>
@@ -805,6 +943,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="pack_type">end</property>
                 <property name="position">1</property>
               </packing>
@@ -813,6 +952,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="padding">5</property>
             <property name="position">6</property>
           </packing>
         </child>
@@ -1240,8 +1380,8 @@ There's also an optional URL and Note field that you can add.
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkCheckButton" id="uppercase">
-                    <property name="label" translatable="yes">Upper-case (A, B, C, ...)</property>
+                  <object class="GtkCheckButton" id="space">
+                    <property name="label" translatable="yes">Space ( )</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1255,8 +1395,8 @@ There's also an optional URL and Note field that you can add.
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkCheckButton" id="space">
-                    <property name="label" translatable="yes">Space ( )                      </property>
+                  <object class="GtkCheckButton" id="uppercase">
+                    <property name="label" translatable="yes">Upper-case (A, B, C, ...)</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1271,7 +1411,7 @@ There's also an optional URL and Note field that you can add.
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
@@ -1312,7 +1452,7 @@ There's also an optional URL and Note field that you can add.
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">2</property>
               </packing>
@@ -1354,7 +1494,7 @@ There's also an optional URL and Note field that you can add.
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">3</property>
               </packing>
@@ -1381,7 +1521,7 @@ There's also an optional URL and Note field that you can add.
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="underscore">
-                    <property name="label" translatable="yes">Underscore ( _ )                     </property>
+                    <property name="label" translatable="yes">Underscore ( _ )</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">False</property>
@@ -1478,6 +1618,7 @@ There's also an optional URL and Note field that you can add.
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -1495,6 +1636,7 @@ There's also an optional URL and Note field that you can add.
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -1502,6 +1644,7 @@ There's also an optional URL and Note field that you can add.
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="padding">5</property>
             <property name="position">4</property>
           </packing>
         </child>
@@ -1533,7 +1676,7 @@ There's also an optional URL and Note field that you can add.
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <property name="label" translatable="yes">&lt;b&gt;Password Manager&lt;/b&gt;
-Per iniziare aggiungere un utente
+To get started add a user
 
 &lt;i&gt;Fatto con amore per l'esame di programmazione II 2015/2016&lt;/i&gt;
 Realizzato da &lt;b&gt;Murgolo Michele&lt;/b&gt;</property>
@@ -1560,17 +1703,18 @@ Realizzato da &lt;b&gt;Murgolo Michele&lt;/b&gt;</property>
                 <property name="image">welcome_cancel_</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
-                <signal name="clicked" handler="handler_show_main_window" swapped="no"/>
+                <signal name="clicked" handler="handler_delete_event" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
               <object class="GtkButton" id="welcome_ok">
-                <property name="label">Let's get started shall we?</property>
+                <property name="label">Get started</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -1582,6 +1726,7 @@ Realizzato da &lt;b&gt;Murgolo Michele&lt;/b&gt;</property>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -1589,6 +1734,7 @@ Realizzato da &lt;b&gt;Murgolo Michele&lt;/b&gt;</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="padding">5</property>
             <property name="position">1</property>
           </packing>
         </child>
