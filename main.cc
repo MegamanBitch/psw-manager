@@ -15,6 +15,7 @@ int main(int argc, char *argv[]) {
   inizializza();
   openssl_inizializza();
 
+
   initGUI(argc, argv);
 
   openssl_quit();
@@ -25,14 +26,16 @@ int main(int argc, char *argv[]) {
 
 
 void initGUI(int argc, char* argv[]){
+
 		gtk_init(&argc, &argv);
 
 		//Load gui
 		builder = gtk_builder_new();
 		gtk_builder_add_from_file(builder,"GUI.glade", NULL);
-		gtk_builder_connect_signals(builder, NULL);
+    gtk_builder_connect_signals(builder, NULL);
 
 		gtk_main();
+
 }
 
 extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
@@ -192,6 +195,8 @@ extern "C" void handler_show_main_window(GtkWidget *widget, GdkEvent *event, gpo
 extern "C" void handler_show_credits_window (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *credits_window = GTK_WIDGET(gtk_builder_get_object(builder, "credits_window"));
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+
+
 
   gtk_widget_hide(main_window);
   gtk_widget_show_all(credits_window);
