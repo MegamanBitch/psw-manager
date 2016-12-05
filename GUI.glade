@@ -204,21 +204,7 @@ Every user has his own unique database, which is locked with one master password
           </packing>
         </child>
         <child>
-          <object class="GtkLinkButton" id="credits_link">
-            <property name="label" translatable="yes">Github</property>
-            <property name="related_action"/>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="relief">none</property>
-            <property name="uri">https://github.com/MegamanBitch/psw-manager</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="padding">5</property>
-            <property name="position">4</property>
-          </packing>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>

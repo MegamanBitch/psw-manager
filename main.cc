@@ -11,7 +11,6 @@ static double ris = 0;
 
 
 int main(int argc, char *argv[]) {
-
   inizializza();
   openssl_inizializza();
 
