@@ -31,7 +31,7 @@ std::string sha512(std::string stringa);
 * 3) Fa un Hash alla combinazione password-sale usando SHA512
 * 4) Salva l'username, il valore hash e il sale nel database
 */
-bool openssl_encrypt(const std::string nome, std::string password);
+bool openssl_encrypt(const std::string filename, const std::string nome, std::string password);
 
 
 /*

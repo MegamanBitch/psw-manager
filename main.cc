@@ -3,7 +3,7 @@
 #include "main.h"
 
 
-
+static std::string nome_file;
 static std::string master_password;
 static std::string nome_utente;
 static double ris = 0;
@@ -55,8 +55,6 @@ GtkWidget* createFileChooser(GtkWindow* parent, GtkFileChooserAction action, con
                                       GTK_RESPONSE_ACCEPT,
                                       NULL);
   GdkGeometry geom;
-  geom.min_width = 800;
-  geom.min_height = 600;
 
   //Resize the window
   gtk_window_set_geometry_hints(GTK_WINDOW(dialog), NULL, &geom, GDK_HINT_MIN_SIZE);
@@ -107,7 +105,8 @@ extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer us
       char *filename;
 
       filename = gtk_file_chooser_get_filename (chooser);
-      crea_file (filename, "", 0);
+      nome_file = gtk_file_chooser_get_filename (chooser);
+      crea_file (filename);
       g_free (filename);
     }
 
@@ -215,11 +214,12 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
   nome_utente = var_user_buffer_insert;
 
   aggiungi_utente (nome_utente, master_password);
+  stampa_lista();
 
   utente_t *my_data = (utente_t *)lista_utenti->data;
   gtk_label_set_text (GTK_LABEL(current_user_name), my_data->nome.c_str());
 
-  openssl_encrypt(nome_utente, master_password);
+  openssl_encrypt(nome_file, nome_utente, master_password);
   //openssl_decrypt(nome_utente);
 
   gtk_widget_show_all(main_window);
@@ -294,9 +294,23 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
 
 extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *login_window = GTK_WIDGET(gtk_builder_get_object(builder,"login_window"));
-  GtkWidget* mainWindow = GTK_WIDGET(gtk_builder_get_object(builder, "mainWindow"));
+  GtkWidget* main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+
+  GtkWidget *dialog;
+  GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
+  gint res;
+
   //Create file chooser dialog
-  GtkWidget* dialog = createFileChooser(GTK_WINDOW(mainWindow), GTK_FILE_CHOOSER_ACTION_OPEN, "Open file");
+  //dialog = createFileChooser(GTK_WINDOW(mainWindow), GTK_FILE_CHOOSER_ACTION_OPEN, "Open file");
+
+  dialog = gtk_file_chooser_dialog_new ("Open File",
+                                        GTK_WINDOW(main_window),
+                                        action,
+                                        ("_Cancel"),
+                                        GTK_RESPONSE_CANCEL,
+                                        ("_Open"),
+                                        GTK_RESPONSE_ACCEPT,
+                                        NULL);
 
   //Set file chooser filter
   GtkFileFilter* filter = gtk_file_filter_new();
@@ -304,7 +318,7 @@ extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer
   gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
 
   //Exec the dialog
-	gint res = gtk_dialog_run(GTK_DIALOG(dialog));
+	res = gtk_dialog_run(GTK_DIALOG(dialog));
 
   //If ok button is pressed
 	if (res == GTK_RESPONSE_ACCEPT){
@@ -312,11 +326,20 @@ extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer
     gtk_widget_show_all(login_window);
     gtk_widget_destroy(dialog);
   }
+
+  GtkWidget *delete_insert_user = GTK_WIDGET(gtk_builder_get_object(builder, "login_insert_user"));
+  GtkWidget *delete_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "login_insert_password"));
+
+
+  gtk_editable_delete_text(GTK_EDITABLE(delete_insert_user), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(delete_insert_password), 0, -1);
+
 }
 
 extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *login_insert_user = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_user"));
   GtkWidget *login_insert_password = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_password"));
+  GtkWidget *error_login = GTK_WIDGET(gtk_builder_get_object(builder,"error_login"));
 
   GtkEntryBuffer *login_buffer_insert_user = gtk_entry_get_buffer(GTK_ENTRY(login_insert_user));
   GtkEntryBuffer *login_buffer_insert_password = gtk_entry_get_buffer(GTK_ENTRY(login_insert_password));
@@ -325,6 +348,12 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
   DBG(std::cout << "User:  " << var_login_buffer_insert_user << std::endl;);
   const gchar *var_login_buffer_insert_password = gtk_entry_buffer_get_text(login_buffer_insert_password);
   DBG(std::cout << "Password:  " << var_login_buffer_insert_password << std::endl;);
+
+  if(!apri_file(nome_file)){
+    std::cout << "Errore" << std::endl;
+  }
+
+  //Creare funzione che apre il file binario e controlla le credenziali
 }
 
 extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer user_data){

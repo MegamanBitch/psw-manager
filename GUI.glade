@@ -23,6 +23,8 @@
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Add User</property>
     <property name="window_position">center-always</property>
+    <property name="default_width">500</property>
+    <property name="default_height">50</property>
     <signal name="delete-event" handler="handler_delete_event" swapped="no"/>
     <child>
       <object class="GtkBox" id="box10">
@@ -71,6 +73,7 @@ When you're done hit OK to get started.
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -138,6 +141,7 @@ When you're done hit OK to get started.
     <property name="window_position">center-always</property>
     <property name="default_width">500</property>
     <property name="default_height">300</property>
+    <signal name="delete-event" handler="handler_show_main_window" swapped="no"/>
     <child>
       <object class="GtkBox" id="box32">
         <property name="visible">True</property>
@@ -204,7 +208,19 @@ Every user has his own unique database, which is locked with one master password
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkLinkButton" id="credits_link">
+            <property name="label" translatable="yes">Github</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="relief">none</property>
+            <property name="uri">https://www.github.com/MegamanBitch/psw-manager</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">4</property>
+          </packing>
         </child>
         <child>
           <placeholder/>
@@ -290,6 +306,9 @@ Every user has his own unique database, which is locked with one master password
   </object>
   <object class="GtkFileChooserDialog" id="filechooserdialog1">
     <property name="can_focus">False</property>
+    <property name="resizable">False</property>
+    <property name="default_width">1000</property>
+    <property name="default_height">600</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="filechooserdialog-vbox1">
@@ -381,7 +400,22 @@ Every user has his own unique database, which is locked with one master password
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkToolButton" id="Info">
+                  <object class="GtkToolButton" id="login">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="tooltip_text" translatable="yes">Login</property>
+                    <property name="label" translatable="yes">Login</property>
+                    <property name="use_underline">True</property>
+                    <property name="stock_id">gtk-yes</property>
+                    <signal name="clicked" handler="handler_show_login" swapped="no"/>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="homogeneous">True</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkToolButton" id="info1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="tooltip_text" translatable="yes">Info</property>
@@ -401,9 +435,6 @@ Every user has his own unique database, which is locked with one master password
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
-            </child>
-            <child>
-              <placeholder/>
             </child>
           </object>
           <packing>
@@ -560,6 +591,8 @@ Every user has his own unique database, which is locked with one master password
     <property name="can_focus">False</property>
     <property name="modal">True</property>
     <property name="window_position">center-always</property>
+    <property name="default_width">500</property>
+    <property name="default_height">50</property>
     <signal name="delete-event" handler="handler_show_main_window" swapped="no"/>
     <child>
       <object class="GtkBox" id="box27">
@@ -602,10 +635,12 @@ Every user has his own unique database, which is locked with one master password
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Insert Username: </property>
+                <property name="justify">center</property>
               </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -617,6 +652,7 @@ Every user has his own unique database, which is locked with one master password
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -636,17 +672,20 @@ Every user has his own unique database, which is locked with one master password
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Insert Password: </property>
+                <property name="justify">center</property>
               </object>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>
             </child>
             <child>
-              <object class="GtkEntry" id="login_insert_password_labell">
+              <object class="GtkEntry" id="login_insert_password">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="margin_left">8</property>
                 <property name="visibility">False</property>
                 <property name="invisible_char">●</property>
                 <property name="input_purpose">password</property>
@@ -654,6 +693,7 @@ Every user has his own unique database, which is locked with one master password
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -921,7 +961,6 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image">master_cancel</property>
-                <property name="relief">none</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
                 <signal name="clicked" handler="handler_show_welcome_window" swapped="no"/>
@@ -991,10 +1030,11 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
           </packing>
         </child>
         <child>
-          <object class="GtkImage" id="error_march_image">
+          <object class="GtkImage" id="error_match_image">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="stock">gtk-dialog-error</property>
+            <property name="pixel_size">100</property>
+            <property name="icon_name">dialog-error</property>
             <property name="icon_size">3</property>
           </object>
           <packing>
@@ -1026,6 +1066,8 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
   <object class="GtkDialog" id="error_login">
     <property name="can_focus">False</property>
     <property name="window_position">center-always</property>
+    <property name="default_width">300</property>
+    <property name="default_height">300</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox3">
@@ -1063,10 +1105,11 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
           </packing>
         </child>
         <child>
-          <object class="GtkImage" id="error_march_image1">
+          <object class="GtkImage" id="error_match_image1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="stock">gtk-dialog-error</property>
+            <property name="pixel_size">100</property>
+            <property name="icon_name">dialog-error</property>
             <property name="icon_size">3</property>
           </object>
           <packing>

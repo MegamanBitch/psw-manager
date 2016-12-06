@@ -8,10 +8,16 @@
 #include "struttura_dati.h"
 
 /*
-* Funzione che dati in input il nome utente, la password e il sale li salva in
-* un file binario
+* Funzione che dato in input il nome del file lo crea
 */
-bool crea_file(std::string nome, std::string password, size_t salt);
+bool crea_file(const std::string nome);
+
+/*
+* Funzione che dati in input il nome utente, la password e il sale li salva
+* in un file binario
+*/
+bool salva_file(const std::string filename, const std::string nome, const std::string password, const size_t salt);
+
 
 /*
 * Funzione che dato in input un file controlla se il nome utente all'interno

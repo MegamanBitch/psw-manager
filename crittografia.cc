@@ -31,7 +31,7 @@ int get_ascii_code(const char carattere){
 }
 
 
-bool openssl_encrypt(std::string nome, std::string password){
+bool openssl_encrypt(std::string filename, std::string nome, std::string password){
   /*
   if(g_slist_find(lista_utenti, nome) == NULL){
     DBG(std::cout << "Utente non esiste" << std::endl;);
@@ -59,7 +59,7 @@ bool openssl_encrypt(std::string nome, std::string password){
   DBG(std::cout << "Hash password: " << concat_password_hash << std::endl;)
   DBG(std::cout << "Hash user: " << concat_user_hash << std::endl;)
 
-  if (!crea_file(nome, concat_password_hash, salt)) {
+  if (!salva_file(filename, concat_user_hash, concat_password_hash, salt)) {
     DBG(std::cout << "Errore apertura file" << std::endl;)
   }
 
