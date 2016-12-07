@@ -28,22 +28,27 @@ bool aggiungi_utente(std::string nome, std::string password){
 
 bool aggiungi_entry(std::string nome_utente, std::string entry, std::string password, std::string url, std::string note){
 
-  if(g_slist_find(lista_utenti, "michele") == NULL){
-    return false;
+  /**
+  * Cerco se il nome utente esiste nella lista
+  */
+  DBG(std::cout << "Cerco l'utente " << nome_utente << " all'interno della lista" << std::endl;)
+  utente_t *my_data = (utente_t *)lista_utenti->data;
+  for (size_t i = 0; i < g_slist_length(lista_utenti); i++) {
+    if (strcmp(my_data[i].nome.c_str(), nome_utente.c_str()) == 0) {
+      DBG(std::cout << "utente trovato" << std::endl;)
+    }
   }
 
+  /**
+  * Se l'utente e' stato trovato
+  */
 
-
-
-  utente_t *utente = new utente_t;
-
-  utente->entry.nome_entry = entry;
-  utente->entry.password = password;
-  utente->entry.url = url;
-  utente->entry.note = note;
-
-  lista_utenti = g_slist_append(lista_utenti, utente);
-  DBG(stampa_lista();)
+    /*
+    my_data->entry->nome_entry = entry;
+    my_data->entry->password = password;
+    my_data->entry->url = url;
+    my_data->entry->note = note;
+    */
 
   return true;
 }

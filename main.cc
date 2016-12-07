@@ -300,9 +300,6 @@ extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer
   GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
   gint res;
 
-  //Create file chooser dialog
-  //dialog = createFileChooser(GTK_WINDOW(mainWindow), GTK_FILE_CHOOSER_ACTION_OPEN, "Open file");
-
   dialog = gtk_file_chooser_dialog_new ("Open File",
                                         GTK_WINDOW(main_window),
                                         action,
@@ -317,15 +314,17 @@ extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer
   gtk_file_filter_add_pattern(filter, "*.gsx");
   gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
 
-  //Exec the dialog
-	res = gtk_dialog_run(GTK_DIALOG(dialog));
 
+  res = gtk_dialog_run (GTK_DIALOG (dialog));
   //If ok button is pressed
 	if (res == GTK_RESPONSE_ACCEPT){
     //file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
     gtk_widget_show_all(login_window);
     gtk_widget_destroy(dialog);
   }
+
+    gtk_widget_destroy (dialog);
+
 
   GtkWidget *delete_insert_user = GTK_WIDGET(gtk_builder_get_object(builder, "login_insert_user"));
   GtkWidget *delete_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "login_insert_password"));
@@ -339,7 +338,7 @@ extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer
 extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *login_insert_user = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_user"));
   GtkWidget *login_insert_password = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_password"));
-  GtkWidget *error_login = GTK_WIDGET(gtk_builder_get_object(builder,"error_login"));
+  //GtkWidget *error_login = GTK_WIDGET(gtk_builder_get_object(builder,"error_login"));
 
   GtkEntryBuffer *login_buffer_insert_user = gtk_entry_get_buffer(GTK_ENTRY(login_insert_user));
   GtkEntryBuffer *login_buffer_insert_password = gtk_entry_get_buffer(GTK_ENTRY(login_insert_password));
