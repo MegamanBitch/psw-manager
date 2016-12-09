@@ -179,9 +179,6 @@ extern "C" void handler_show_main_window(GtkWidget *widget, GdkEvent *event, gpo
   GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
   GtkWidget *login_window = GTK_WIDGET(gtk_builder_get_object(builder,"login_window"));
   GtkWidget *credits_window = GTK_WIDGET(gtk_builder_get_object(builder, "credits_window"));
-  GtkWidget *box = GTK_WIDGET(gtk_builder_get_object(builder,"box4"));
-
-  gtk_widget_set_sensitive(box, FALSE);
 
   gtk_widget_hide(credits_window);
   gtk_widget_hide(login_window);
@@ -206,6 +203,7 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
   GtkWidget *insert_user = GTK_WIDGET(gtk_builder_get_object(builder, "insert_user"));
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
   GtkWidget *current_user_name = GTK_WIDGET(gtk_builder_get_object(builder, "current_user_name"));
+  GtkWidget *add_entry = GTK_WIDGET(gtk_builder_get_object(builder,"add_entry"));
 
   GtkEntryBuffer *user_buffer_insert = gtk_entry_get_buffer(GTK_ENTRY(insert_user));
   const gchar *var_user_buffer_insert = gtk_entry_buffer_get_text(user_buffer_insert);
@@ -222,12 +220,22 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
   openssl_encrypt(nome_file, nome_utente, master_password);
   //openssl_decrypt(nome_utente);
 
+  if (g_slist_length(lista_utenti) != 0) {
+    gtk_widget_set_sensitive(add_entry, TRUE);
+  }
+
   gtk_widget_show_all(main_window);
   gtk_widget_hide(initialize_first_user_window);
 
 }
 
 extern "C" void handler_show_website (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+
+  if (g_slist_length(lista_utenti) == 0) {
+    DBG(std::cout << "Non e' presente nessun utente nel database" << std::endl;)
+    return;
+  }
+
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
   GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
 
@@ -348,7 +356,7 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
   const gchar *var_login_buffer_insert_password = gtk_entry_buffer_get_text(login_buffer_insert_password);
   DBG(std::cout << "Password:  " << var_login_buffer_insert_password << std::endl;);
 
-  if(!apri_file(nome_file)){
+  if(!login_check(nome_file, var_login_buffer_insert_user, var_login_buffer_insert_password)){
     std::cout << "Errore" << std::endl;
   }
 
@@ -399,11 +407,12 @@ extern "C" void handler_spinButton (GtkWidget *widget, GdkEvent *event, gpointer
 
 extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data){
 
-  flag_parameters_t PARAMETERS;
-  unsigned short lun_psw = 10;
-  unsigned short char_psw[lun_psw];
+  GtkWidget *website_length = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
 
-  //GtkWidget *spin_button = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
+  flag_parameters_t PARAMETERS;
+  unsigned short lun_psw = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(website_length));
+  DBG(std::cout << "Lunghezza password: " << lun_psw << std::endl;)
+  unsigned short char_psw[lun_psw];
 
   GtkWidget *uppercase = GTK_WIDGET(gtk_builder_get_object(builder, "uppercase"));
   GtkWidget *space = GTK_WIDGET(gtk_builder_get_object(builder, "space"));
@@ -423,9 +432,6 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   PARAMETERS.minus = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(minus));
   PARAMETERS.underscore = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(underscore));
 
-
-  //lun_psw = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON(spin_button));
-  DBG(std::cout << "Spin button value: " << lun_psw << std::endl;)
 
   srand(time(NULL));
 

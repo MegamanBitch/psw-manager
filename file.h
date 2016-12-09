@@ -16,14 +16,14 @@ bool crea_file(const std::string nome);
 * Funzione che dati in input il nome utente, la password e il sale li salva
 * in un file binario
 */
-bool salva_file(const std::string filename, const std::string nome, const std::string password, const size_t salt);
+bool salva_file(const std::string filename, const std::string username, const std::string password, const size_t salt);
 
 
 /*
 * Funzione che dato in input un file controlla se il nome utente all'interno
 * del file e' presente all'interno della lista
 */
-bool apri_file(std::string nome_file);
+bool login_check(std::string nome_file, const std::string username, const std::string password);
 
 /*
 * Funzione che dato in input il nome di un file ritorna il valore
