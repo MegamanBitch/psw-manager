@@ -49,7 +49,7 @@ bool aggiungi_entry(std::string nome_utente, std::string entry, std::string pass
       */
 
       /**
-      * Se il numero delle entry e' 0 alloco l'array aggiorno il numero delle
+      * Se il numero delle entry e' 0 alloco l'array e aggiorno il numero delle
       * variabili @num_entry e @dim
       */
       if (my_data[i].num_entry == 0) {
@@ -65,26 +65,57 @@ bool aggiungi_entry(std::string nome_utente, std::string entry, std::string pass
       * il vecchio array nel nuovo array doppio
       */
       if (my_data[i].num_entry == my_data[i].dim) {
-        utente_t *tmp = new utente_t [my_data[i].dim * 2];
-        for (size_t i = 0; i < my_data[i].num_entry; i++) {
-          tmp[i].entry->nome_entry = my_data[i].entry->nome_entry;
-          tmp[i].entry->password = my_data[i].entry->password;
-          tmp[i].entry->url = my_data[i].entry->url;
-          tmp[i].entry->note = my_data[i].entry->note;
+        /**
+        * Creazione array doppio di tipo @utente_t
+        */
+        entry_t *tmp = new entry_t [my_data[i].dim * 2];
+        /**
+        * Copia di tutti i campi presenti nel vettore dinamico entry
+        * @nome_entry
+        * @password
+        * @url
+        * @note
+        */
+        for (size_t j = 0; j < my_data[i].num_entry; j++) {
+          tmp[j].nome_entry = my_data[i].entry[j].nome_entry;
+          tmp[j].password = my_data[i].entry[j].password;
+          tmp[j].url = my_data[i].entry[j].url;
+          tmp[j].note = my_data[i].entry[j].note;
         }
-        tmp[i].num_entry = my_data[i].num_entry;
-        tmp[i].dim = my_data[i].dim * 2;
+        
+        /**
+        * Salvo @dim e @num_entry in variabili locali temporanee
+        */
+        unsigned short num_entry = my_data[i].num_entry;
+        unsigned short dim = my_data[i].dim * 2;
 
+        /**
+        * Elimino il vecchio vettore @my_data[i].entry con dimensione obsoleta
+        */
         delete [] my_data[i].entry;
-        entry * my_data = new utente_t [tmp[i].dim];
-        my_data
-        utente = tmp;
-      }
 
-      my_data[i].entry->nome_entry = entry;
-      my_data[i].entry->password = password;
-      my_data[i].entry->url = url;
-      my_data[i].entry->note = note;
+        /**
+        * Alloco il nuovo vettore @my_data[i].entry con dimensione @dim
+        */
+        my_data[i].entry = new entry_t [dim];
+
+        /**
+        * Aggiorno i valori di @my_data[i].dim e @my_data[i].num_entry
+        */
+        my_data[i].dim = dim;
+        my_data[i].num_entry = num_entry;
+
+        /**
+        * Faccio puntare il vettore dinamico @my_data[i].entry a @tmp[i]
+        */
+        my_data[i].entry = tmp;
+
+        /**
+        * Dealloco il vettore @tmp
+        */
+        delete [] tmp;
+
+      }
 
       return true;
     }
