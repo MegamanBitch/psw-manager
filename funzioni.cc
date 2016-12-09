@@ -37,7 +37,8 @@ bool aggiungi_entry(std::string nome_utente, std::string entry, std::string pass
   utente_t *my_data = (utente_t *)lista_utenti->data;
 
   for (size_t i = 0; i < g_slist_length(lista_utenti); i++) {
-    if (strcmp(my_data[i].nome.c_str(), nome_utente.c_str()) != 0) {
+    DBG(std::cout << "Comparo " << my_data[i].nome << " con " << nome_utente << std::endl;)
+    if (strcmp(my_data[i].nome.c_str(), nome_utente.c_str()) == 0) {
       /**
       * Se l'utente e' stato trovato aggiungo i campi delle entry
       */
@@ -82,7 +83,7 @@ bool aggiungi_entry(std::string nome_utente, std::string entry, std::string pass
           tmp[j].url = my_data[i].entry[j].url;
           tmp[j].note = my_data[i].entry[j].note;
         }
-        
+
         /**
         * Salvo @dim e @num_entry in variabili locali temporanee
         */
