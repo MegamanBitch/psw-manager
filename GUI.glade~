@@ -1158,7 +1158,6 @@ There's also an optional URL and Note field that you can add.
           <packing>
             <property name="expand">False</property>
             <property name="fill">False</property>
-            <property name="padding">5</property>
             <property name="position">0</property>
           </packing>
         </child>
@@ -1191,7 +1190,6 @@ There's also an optional URL and Note field that you can add.
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -1229,7 +1227,6 @@ There's also an optional URL and Note field that you can add.
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -1265,7 +1262,6 @@ There's also an optional URL and Note field that you can add.
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -1300,7 +1296,6 @@ There's also an optional URL and Note field that you can add.
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -1344,7 +1339,6 @@ There's also an optional URL and Note field that you can add.
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">True</property>
-                <property name="padding">5</property>
                 <property name="position">4</property>
               </packing>
             </child>
@@ -1389,7 +1383,6 @@ There's also an optional URL and Note field that you can add.
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -1541,7 +1534,6 @@ There's also an optional URL and Note field that you can add.
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -1559,7 +1551,6 @@ There's also an optional URL and Note field that you can add.
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="padding">5</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -1578,7 +1569,6 @@ There's also an optional URL and Note field that you can add.
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
-                <property name="padding">5</property>
                 <property name="position">6</property>
               </packing>
             </child>
