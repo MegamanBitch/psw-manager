@@ -328,6 +328,7 @@ Every user has his own unique database, which is locked with one master password
     <property name="can_focus">False</property>
     <property name="stock">gtk-info</property>
   </object>
+  <object class="GtkListStore" id="liststore1"/>
   <object class="GtkWindow" id="main_window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Password Manager</property>
@@ -507,9 +508,26 @@ Every user has his own unique database, which is locked with one master password
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTextView" id="textview1">
+                  <object class="GtkScrolledWindow" id="scrolledwindow1">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
+                    <property name="shadow_type">in</property>
+                    <child>
+                      <object class="GtkTreeView" id="treeview1">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="model">liststore1</property>
+                        <property name="enable_grid_lines">horizontal</property>
+                        <child internal-child="selection">
+                          <object class="GtkTreeSelection" id="treeview-selection1"/>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                            <property name="title" translatable="yes">column</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -615,6 +633,7 @@ Every user has his own unique database, which is locked with one master password
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
+            <property name="padding">5</property>
             <property name="position">1</property>
           </packing>
         </child>
@@ -782,6 +801,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
+            <property name="padding">5</property>
             <property name="position">0</property>
           </packing>
         </child>
@@ -813,6 +833,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -829,6 +850,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -852,6 +874,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">0</property>
               </packing>
             </child>
@@ -867,6 +890,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
               <packing>
                 <property name="expand">True</property>
                 <property name="fill">True</property>
+                <property name="padding">5</property>
                 <property name="position">1</property>
               </packing>
             </child>
@@ -1394,6 +1418,7 @@ There's also an optional URL and Note field that you can add.
                     <property name="max_length">128</property>
                     <property name="progress_pulse_step">1</property>
                     <property name="input_purpose">digits</property>
+                    <property name="adjustment">adjustment1</property>
                     <property name="climb_rate">1</property>
                   </object>
                   <packing>
@@ -1547,6 +1572,7 @@ There's also an optional URL and Note field that you can add.
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
+                    <property name="input_purpose">alpha</property>
                   </object>
                   <packing>
                     <property name="expand">True</property>

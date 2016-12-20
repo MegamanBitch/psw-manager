@@ -16,7 +16,7 @@ bool crea_file(const std::string nome);
 * Funzione che dati in input il nome utente, la password e il sale li salva
 * in un file binario
 */
-bool salva_file(const std::string filename, const std::string username, const std::string password, const size_t salt);
+bool salva_credenziali(const std::string filename, const std::string username, const std::string password, const size_t salt);
 
 
 /*

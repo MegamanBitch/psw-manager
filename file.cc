@@ -1,18 +1,24 @@
 #include "file.h"
 
 
-bool salva_file(std::string filename, std::string username, std::string password, size_t salt){
+bool salva_credenziali(std::string filename, std::string username, std::string password, size_t salt){
     std::ofstream f((filename).c_str());
     if (f.is_open()) {
       if (g_slist_length(lista_utenti) != 0) {
         f.write(reinterpret_cast<const char *>(&username), sizeof(username));
         f.write(reinterpret_cast<const char *>(&password), sizeof(password));
         f.write(reinterpret_cast<const char *>(&salt), sizeof(salt));
+        //salva numero entries come int
+        //scorri lista entries
+        //  per ogni entry salva
       }
       f.close();
     }
     return f;
   }
+
+  // salva entries
+
 
   bool crea_file(std::string nome){
       std::ofstream f((nome).c_str());

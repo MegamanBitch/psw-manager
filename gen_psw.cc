@@ -19,7 +19,8 @@ int getRandom_char(flag_parameters_t &PARAMETERS, unsigned short random_char){
     }
   }
 
-  else if ((random_char >= ' ' && random_char <= '/') || (random_char >= ':' && random_char <= '@') || (random_char >= '[' && random_char <= '`') || (random_char >= '{' && random_char <= '~')) {
+  else if ((random_char >= ' ' && random_char <= '/') || (random_char >= ':' && random_char <= '@') ||
+           (random_char >= '[' && random_char <= '`') || (random_char >= '{' && random_char <= '~')) {
     DBG(std::cout << "special character" << std::endl;)
     if (PARAMETERS.special) {
       random_char = rand() % RANGE_SPECIAL_CHARACTERS;

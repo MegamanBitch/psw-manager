@@ -32,4 +32,6 @@ bool aggiungi_entry(std::string nome_utente, std::string entry, std::string pass
 */
 void stampa_lista();
 
+std::string int_to_array(unsigned short array[], unsigned short size);
+
 #endif

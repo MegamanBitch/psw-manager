@@ -6,6 +6,8 @@
 static std::string nome_file;
 static std::string master_password;
 static std::string nome_utente;
+static std::string current_user;
+
 static double ris = 0;
 
 
@@ -215,7 +217,9 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
   stampa_lista();
 
   utente_t *my_data = (utente_t *)lista_utenti->data;
-  gtk_label_set_text (GTK_LABEL(current_user_name), my_data->nome.c_str());
+  current_user = my_data->nome;
+  gtk_label_set_text (GTK_LABEL(current_user_name), current_user.c_str());
+
 
   openssl_encrypt(nome_file, nome_utente, master_password);
   //openssl_decrypt(nome_utente);
@@ -261,8 +265,13 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
   const gchar *var_buffer_insert_entry = gtk_entry_buffer_get_text(website_buffer_insert_entry);
   DBG(std::cout << "Entry:  " << var_buffer_insert_entry << std::endl);
 
-  const gchar *var_buffer_insert_password = gtk_entry_buffer_get_text(website_buffer_insert_password);
-  DBG(std::cout << "Password:  " << var_buffer_insert_password << std::endl);
+  const gchar *var_buffer_insert_password;
+  if(gtk_entry_get_text_length (GTK_ENTRY(website_buffer_insert_password)) != 0){
+    var_buffer_insert_password = gtk_entry_buffer_get_text(website_buffer_insert_password);
+    DBG(std::cout << "Password:  " << var_buffer_insert_password << std::endl);
+  } else {
+
+  }
 
   const gchar *var_buffer_insert_url = gtk_entry_buffer_get_text(website_buffer_insert_url);
   DBG(std::cout << "URL:  " << var_buffer_insert_url << std::endl);
@@ -408,10 +417,19 @@ extern "C" void handler_spinButton (GtkWidget *widget, GdkEvent *event, gpointer
 extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data){
 
   GtkWidget *website_length = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
+  GtkWidget *website_generated_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_generated_password"));
 
   flag_parameters_t PARAMETERS;
+
+  /**
+  * Prendo la lunghezza della password dall'elemento gtk_spin_button e alloco
+  * un vettore di interi di quella lunghezza
+  */
   unsigned short lun_psw = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(website_length));
   DBG(std::cout << "Lunghezza password: " << lun_psw << std::endl;)
+  /*
+  * dinamico
+  */
   unsigned short char_psw[lun_psw];
 
   GtkWidget *uppercase = GTK_WIDGET(gtk_builder_get_object(builder, "uppercase"));
@@ -435,19 +453,40 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
 
   srand(time(NULL));
 
-  unsigned short temp;
+  unsigned short tmp;
   unsigned short contatore = 0;
 
   do {
-    temp = 32 + (rand() % (126 - 32));
-    DBG(std::cout << "Numero random: " << temp << std::endl;)
-    if (getRandom_char(PARAMETERS, temp) != -1) {
-      char_psw[contatore] = getRandom_char(PARAMETERS, temp);
+    /**
+    * Genero un numero random da 32 a 126, che sono i caratteri della
+    * tabella ASCII utilizzabili
+    */
+    tmp = 32 + (rand() % (126 - 32));
+    DBG(std::cout << "Numero random: " << tmp << std::endl;)
+    if (getRandom_char(PARAMETERS, tmp) != -1) {
+      char_psw[contatore] = getRandom_char(PARAMETERS, tmp);
       contatore++;
     }
   } while(contatore < lun_psw);
 
+  //char *generated_password = reinterpret_cast<char *>(char_psw);
+
+
+  const std::string temp = int_to_array(char_psw, lun_psw);
+  const char * generated_password = temp.c_str();
+  DBG(std::cout << generated_password << std::endl;)
+
+
+  GtkEntryBuffer * buffer_password = gtk_entry_buffer_new (NULL, -1);
+  gtk_entry_buffer_set_text(GTK_ENTRY_BUFFER(buffer_password), generated_password, strlen(generated_password));
+  gtk_entry_set_buffer (GTK_ENTRY(website_generated_password), GTK_ENTRY_BUFFER(buffer_password));
+  //gtk_entry_set_text (GTK_ENTRY(website_generated_password), generated_password.c_str());
+
   for (size_t i = 0; i < lun_psw; i++) {
-    DBG(std::cout << (char)char_psw[i] << std::endl;)
+    DBG(std::cout << (char)char_psw[i];)
   }
+  DBG(std::cout << std::endl;)
+
+
+
 }
