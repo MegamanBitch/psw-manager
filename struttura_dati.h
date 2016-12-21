@@ -38,6 +38,7 @@ struct password_t {
 */
 struct entry_t {
   std::string nome_entry;
+  std::string username;
   std::string password;
   std::string url;
   std::string note;

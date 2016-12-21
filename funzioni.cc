@@ -73,12 +73,14 @@ bool aggiungi_entry(std::string nome_utente, std::string entry, std::string pass
         /**
         * Copia di tutti i campi presenti nel vettore dinamico entry
         * @nome_entry
+        * @username
         * @password
         * @url
         * @note
         */
         for (size_t j = 0; j < my_data[i].num_entry; j++) {
           tmp[j].nome_entry = my_data[i].entry[j].nome_entry;
+          tmp[j].username = my_data[i].entry[j].username;
           tmp[j].password = my_data[i].entry[j].password;
           tmp[j].url = my_data[i].entry[j].url;
           tmp[j].note = my_data[i].entry[j].note;
