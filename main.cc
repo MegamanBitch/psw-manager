@@ -292,19 +292,21 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
 
 extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *switch_generate = GTK_WIDGET(gtk_builder_get_object(builder,"switch_generate"));
-  GtkWidget *box_password = GTK_WIDGET(gtk_builder_get_object(builder, "box16"));
-  GtkWidget *tutto = GTK_WIDGET(gtk_builder_get_object(builder, "box_generate_password"));
+  GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
+  GtkWidget *website_insert_repeat = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_repeat"));
 
   if (gtk_switch_get_active(GTK_SWITCH(switch_generate)) == TRUE) {
-    gtk_widget_set_sensitive(tutto, TRUE);
-    gtk_widget_set_sensitive(box_password, FALSE);
+    gtk_widget_set_sensitive(website_insert_password, FALSE);
+    gtk_widget_set_sensitive(website_insert_repeat, FALSE);
 
     GtkWidget *delete_website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
+    GtkWidget *delete_website_insert_repeat = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_repeat"));
     gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_password), 0, -1);
+    gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_repeat), 0, -1);
   }
   else{
-    gtk_widget_set_sensitive(tutto, FALSE);
-    gtk_widget_set_sensitive(box_password, TRUE);
+    gtk_widget_set_sensitive(website_insert_password, TRUE);
+    gtk_widget_set_sensitive(website_insert_repeat, TRUE);
 
   }
 }
