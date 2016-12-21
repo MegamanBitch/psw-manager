@@ -430,7 +430,7 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   /*
   * dinamico
   */
-  unsigned short char_psw[lun_psw];
+  char *char_psw = new char [lun_psw + 1];
 
   GtkWidget *uppercase = GTK_WIDGET(gtk_builder_get_object(builder, "uppercase"));
   GtkWidget *space = GTK_WIDGET(gtk_builder_get_object(builder, "space"));
@@ -469,21 +469,10 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
     }
   } while(contatore < lun_psw);
 
-  //char *generated_password = reinterpret_cast<char *>(char_psw);
-
-
-  const std::string temp = int_to_array(char_psw, lun_psw);
-  const char * generated_password = temp.c_str();
-  DBG(std::cout << generated_password << std::endl;)
-
-
-  GtkEntryBuffer * buffer_password = gtk_entry_buffer_new (NULL, -1);
-  gtk_entry_buffer_set_text(GTK_ENTRY_BUFFER(buffer_password), generated_password, strlen(generated_password));
-  gtk_entry_set_buffer (GTK_ENTRY(website_generated_password), GTK_ENTRY_BUFFER(buffer_password));
-  //gtk_entry_set_text (GTK_ENTRY(website_generated_password), generated_password.c_str());
+  gtk_entry_set_text (GTK_ENTRY(website_generated_password), char_psw);
 
   for (size_t i = 0; i < lun_psw; i++) {
-    DBG(std::cout << (char)char_psw[i];)
+    DBG(std::cout << char_psw[i];)
   }
   DBG(std::cout << std::endl;)
 

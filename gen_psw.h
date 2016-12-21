@@ -48,7 +48,7 @@ void flag_inizializza(flag_parameters_t &PARAMETERS);
 * Funzione che dati in input i tipi di caratteri descritti nella struttura dati
 * @flag_parameters_t restituisce @lun_psw caratteri casuali
 */
-int getRandom_char(flag_parameters_t &PARAMETERS, unsigned short lun_psw);
+char getRandom_char(flag_parameters_t &PARAMETERS, unsigned short lun_psw);
 
 
 

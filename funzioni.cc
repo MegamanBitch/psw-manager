@@ -125,10 +125,3 @@ bool aggiungi_entry(std::string nome_utente, std::string entry, std::string pass
   DBG(std::cout << "utente non trovato" << std::endl;)
   return false;
 }
-
-std::string int_to_array(unsigned short array[], unsigned short size){
-  std::ostringstream oss("");
-  for (int temp = 0; temp < size; temp++)
-    oss << array[temp];
-  return oss.str();
-}

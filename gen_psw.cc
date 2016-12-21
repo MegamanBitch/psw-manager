@@ -1,7 +1,7 @@
 #include "gen_psw.h"
 
 
-int getRandom_char(flag_parameters_t &PARAMETERS, unsigned short random_char){
+char getRandom_char(flag_parameters_t &PARAMETERS, unsigned short random_char){
 
   if (random_char >= 'a' && random_char <= 'z') {
     DBG(std::cout << "lowercase" << std::endl;)
