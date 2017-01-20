@@ -59,6 +59,7 @@ bool openssl_encrypt(std::string filename, std::string nome, std::string passwor
   DBG(std::cout << "Hash password: " << concat_password_hash << std::endl;)
   DBG(std::cout << "Hash user: " << concat_user_hash << std::endl;)
 
+  DBG(std::cout << "Nome file: " << filename << std::endl;)
   if (!salva_credenziali(filename, concat_user_hash, concat_password_hash, salt)) {
     DBG(std::cout << "Errore apertura file" << std::endl;)
   }

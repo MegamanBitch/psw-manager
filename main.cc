@@ -45,6 +45,17 @@ extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpo
     return TRUE;
 }
 
+void showMessageDialog(GtkWindow* parent, GtkMessageType type, const gchar* msg){
+	GtkWidget* dialog = gtk_message_dialog_new(
+														parent,
+														GTK_DIALOG_MODAL,
+														type,
+														GTK_BUTTONS_OK,
+														"%s", msg);
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
+}
+
 GtkWidget* createFileChooser(GtkWindow* parent, GtkFileChooserAction action, const gchar* title){
   //Prepare file open dialog
   GtkWidget* dialog = gtk_file_chooser_dialog_new (
@@ -294,10 +305,16 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
   GtkWidget *switch_generate = GTK_WIDGET(gtk_builder_get_object(builder,"switch_generate"));
   GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
   GtkWidget *website_insert_repeat = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_repeat"));
+  GtkWidget *website_grid = GTK_WIDGET(gtk_builder_get_object(builder, "website_grid"));
+  GtkWidget *website_length_box = GTK_WIDGET(gtk_builder_get_object(builder, "website_length_box"));
+
+
 
   if (gtk_switch_get_active(GTK_SWITCH(switch_generate)) == TRUE) {
     gtk_widget_set_sensitive(website_insert_password, FALSE);
     gtk_widget_set_sensitive(website_insert_repeat, FALSE);
+    gtk_widget_set_sensitive(website_grid, TRUE);
+    gtk_widget_set_sensitive(website_length_box, TRUE);
 
     GtkWidget *delete_website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
     GtkWidget *delete_website_insert_repeat = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_repeat"));
@@ -307,54 +324,54 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
   else{
     gtk_widget_set_sensitive(website_insert_password, TRUE);
     gtk_widget_set_sensitive(website_insert_repeat, TRUE);
+    gtk_widget_set_sensitive(website_grid, FALSE);
+    gtk_widget_set_sensitive(website_length_box, FALSE);
 
   }
 }
 
 extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *login_window = GTK_WIDGET(gtk_builder_get_object(builder,"login_window"));
-  GtkWidget* main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
+  GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
 
-  GtkWidget *dialog;
-  GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_OPEN;
-  gint res;
-
-  dialog = gtk_file_chooser_dialog_new ("Open File",
-                                        GTK_WINDOW(main_window),
-                                        action,
-                                        ("_Cancel"),
-                                        GTK_RESPONSE_CANCEL,
-                                        ("_Open"),
-                                        GTK_RESPONSE_ACCEPT,
-                                        NULL);
+  GtkWidget *dialog = createFileChooser(GTK_WINDOW(main_window), GTK_FILE_CHOOSER_ACTION_OPEN, "Open file");
 
   //Set file chooser filter
   GtkFileFilter* filter = gtk_file_filter_new();
   gtk_file_filter_add_pattern(filter, "*.gsx");
   gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
 
+  gint res = gtk_dialog_run (GTK_DIALOG (dialog));
 
-  res = gtk_dialog_run (GTK_DIALOG (dialog));
   //If ok button is pressed
 	if (res == GTK_RESPONSE_ACCEPT){
-    //file = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+    char *filename;
+    GtkFileChooser *chooser = GTK_FILE_CHOOSER (dialog);
+    filename = gtk_file_chooser_get_filename (chooser);
+    nome_file = gtk_file_chooser_get_filename (chooser);
+    g_free (filename);
+
     gtk_widget_show_all(login_window);
-    gtk_widget_destroy(dialog);
+  }
+  else{
+    showMessageDialog(GTK_WINDOW(main_window), GTK_MESSAGE_ERROR, "Invalid file header");
   }
 
-    gtk_widget_destroy (dialog);
-
-
+  /*
   GtkWidget *delete_insert_user = GTK_WIDGET(gtk_builder_get_object(builder, "login_insert_user"));
   GtkWidget *delete_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "login_insert_password"));
 
 
   gtk_editable_delete_text(GTK_EDITABLE(delete_insert_user), 0, -1);
   gtk_editable_delete_text(GTK_EDITABLE(delete_insert_password), 0, -1);
+  */
+
+  gtk_widget_destroy (dialog);
 
 }
 
 extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer user_data){
+  GtkWidget *login_window = GTK_WIDGET(gtk_builder_get_object(builder,"login_window"));
   GtkWidget *login_insert_user = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_user"));
   GtkWidget *login_insert_password = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_password"));
   //GtkWidget *error_login = GTK_WIDGET(gtk_builder_get_object(builder,"error_login"));
@@ -367,8 +384,11 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
   const gchar *var_login_buffer_insert_password = gtk_entry_buffer_get_text(login_buffer_insert_password);
   DBG(std::cout << "Password:  " << var_login_buffer_insert_password << std::endl;);
 
+  DBG(std::cout << "Nome file che apre: " << nome_file << std::endl;)
   if(!login_check(nome_file, var_login_buffer_insert_user, var_login_buffer_insert_password)){
     std::cout << "Errore" << std::endl;
+
+  gtk_widget_hide(login_window);
   }
 
   //Creare funzione che apre il file binario e controlla le credenziali
