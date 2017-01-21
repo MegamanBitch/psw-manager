@@ -6,11 +6,9 @@ bool salva_credenziali(std::string filename, std::string username, std::string p
     if (f.good()) {
       if (g_slist_length(lista_utenti) != 0) {
         f.open((filename.c_str()), std::fstream::app);
-        f.write(username.c_str(), username.size());
-        f.write("\0",sizeof(char));
-
-        f.write(password.c_str(), password.size());
-        f.write("\0",sizeof(char));
+        // username.size() + 1 per aggiungere il terminatore alla stringa '/0'
+        f.write(username.c_str(), username.size() + 1);
+        f.write(password.c_str(), password.size() + 1);
 
         f.write(reinterpret_cast<const char *>(&salt), sizeof(salt));
         //salva numero entries come int
@@ -53,20 +51,32 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
   }
 
   /**
-  * Se il file esiste devo controllare che l'username che mi ha passato
-  * l'utente corrisponde
+  * Se il file esiste devo controllare se le credenziali che mi ha passato
+  * l'utente corrispondono
   */
-  std::string new_username;
-  std::string new_password;
 
-  std::getline(f, new_username, '\0');
-  DBG(std::cout << "Ho letto dal file l'username: " << new_username << std::endl;)
 
-  std::getline(f, new_password, '\0');
-  DBG(std::cout << "Ho letto dal file la password: " << new_password << std::endl;)
+  std::string saved_username;
+  std::string saved_password;
+  size_t saved_salt;
+
+  std::getline(f, saved_username, '\0');
+  DBG(std::cout << "Ho letto dal file l'username: " << saved_username << std::endl;)
+
+  std::getline(f, saved_password, '\0');
+  DBG(std::cout << "Ho letto dal file la password: " << saved_password << std::endl;)
+
+  f.read(reinterpret_cast<char *>(&saved_salt), sizeof(saved_salt));
+  DBG(std::cout << "Ho letto dal file il sale: " << saved_salt << std::endl;)
+
+  if(!openssl_decrypt(username, password, saved_salt, saved_username, saved_password))
+    DBG( std::cout << "Le credenziali coincidono, accesso effettuato" << std::endl;)
+  else
+    DBG(std::cout << "Le credenziali non coincidono, acesso fallito" << std::endl;)
+
 
   /**
-  * 
+  * Calcolo lo sha512 delle credenziali nuove con quelle salvate sul file
   */
 
 

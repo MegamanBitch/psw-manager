@@ -22,6 +22,10 @@ void openssl_quit();
 * Funzione che dato un carattere restituisce il codice ASCII
 */
 int get_ascii_code(const char carattere);
+
+/**
+* Funzione che data una stringa ritorna il suo sha512
+*/
 std::string sha512(std::string stringa);
 
 /*
@@ -40,7 +44,7 @@ bool openssl_encrypt(const std::string filename, const std::string nome, std::st
 * 2) Concatena il sale alla password inserita
 * 3) Fa un Hash alla combinazione e la confronta al valore hash salvato
 */
-void openssl_decrypt(std::string nome);
+bool openssl_decrypt(const std::string username, const std::string password, size_t salt, const std::string saved_username, const std::string saved_password);
 
 
 

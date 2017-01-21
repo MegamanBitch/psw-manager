@@ -93,7 +93,58 @@ std::string sha512(const std::string stringa){
 
 
 
-void openssl_decrypt(std::string nome){
-  size_t salt = get_salt(nome);
-  DBG(std::cout << "Salt: " << salt << std::endl;)
+bool openssl_decrypt(std::string username, std::string password, size_t salt, std::string saved_username, std::string saved_password){
+
+  std::ostringstream concat_password;
+  std::ostringstream concat_user;
+
+  concat_password << password << salt;
+  concat_user << username << salt;
+  DBG(std::cout << concat_password.str() << std::endl;)
+  DBG(std::cout << concat_user.str() << std::endl;)
+
+  std::string concat_password_hash = concat_password.str();
+  std::string concat_user_hash = concat_user.str();
+
+  concat_password_hash = sha512(concat_password_hash);
+  concat_user_hash = sha512(concat_user_hash);
+  DBG(std::cout << "Hash password: " << concat_password_hash << std::endl;)
+  DBG(std::cout << "Hash user: " << concat_user_hash << std::endl;)
+
+  /*
+  username = sha512(username);
+  DBG(std::cout << "sha512 dell'username inserito: " << username << std::endl;)
+  password = sha512(password);
+  DBG(std::cout << "sha512 della password inserita: " << password << std::endl;)
+  */
+
+  if ((strcmp(username.c_str(), saved_username.c_str()) == 0) && (strcmp(password.c_str(), saved_password.c_str()) == 0)) {
+    return true;
+  }
+  else{
+    return false;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -1040,7 +1040,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image">retry1</property>
-                <property name="relief">half</property>
+                <property name="relief">none</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
                 <signal name="clicked" handler="handler_show_login" swapped="no"/>

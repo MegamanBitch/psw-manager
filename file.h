@@ -6,6 +6,7 @@
 #include <string>
 #include "debug.h"
 #include "struttura_dati.h"
+#include "crittografia.h"
 
 /*
 * Funzione che dato in input il nome del file lo crea
