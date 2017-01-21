@@ -357,14 +357,14 @@ extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer
     showMessageDialog(GTK_WINDOW(main_window), GTK_MESSAGE_ERROR, "Invalid file header");
   }
 
-  /*
+
   GtkWidget *delete_insert_user = GTK_WIDGET(gtk_builder_get_object(builder, "login_insert_user"));
   GtkWidget *delete_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "login_insert_password"));
 
 
   gtk_editable_delete_text(GTK_EDITABLE(delete_insert_user), 0, -1);
   gtk_editable_delete_text(GTK_EDITABLE(delete_insert_password), 0, -1);
-  */
+
 
   gtk_widget_destroy (dialog);
 
@@ -374,7 +374,9 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
   GtkWidget *login_window = GTK_WIDGET(gtk_builder_get_object(builder,"login_window"));
   GtkWidget *login_insert_user = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_user"));
   GtkWidget *login_insert_password = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_password"));
-  //GtkWidget *error_login = GTK_WIDGET(gtk_builder_get_object(builder,"error_login"));
+  GtkWidget *error_login = GTK_WIDGET(gtk_builder_get_object(builder,"error_login"));
+  GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder,"main_window"));
+
 
   GtkEntryBuffer *login_buffer_insert_user = gtk_entry_get_buffer(GTK_ENTRY(login_insert_user));
   GtkEntryBuffer *login_buffer_insert_password = gtk_entry_get_buffer(GTK_ENTRY(login_insert_password));
@@ -387,9 +389,14 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
   DBG(std::cout << "Nome file che apre: " << nome_file << std::endl;)
   if(!login_check(nome_file, var_login_buffer_insert_user, var_login_buffer_insert_password)){
     std::cout << "Errore" << std::endl;
-
-  gtk_widget_hide(login_window);
+    gtk_widget_hide(login_window);
+    gtk_widget_show_all(error_login);
   }
+  else{
+    gtk_widget_hide(login_window);
+    gtk_widget_show_all(main_window);
+  }
+
 
   //Creare funzione che apre il file binario e controlla le credenziali
 }
