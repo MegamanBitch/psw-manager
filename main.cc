@@ -365,7 +365,6 @@ extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer
   gtk_editable_delete_text(GTK_EDITABLE(delete_insert_user), 0, -1);
   gtk_editable_delete_text(GTK_EDITABLE(delete_insert_password), 0, -1);
 
-
   gtk_widget_destroy (dialog);
 
 }
