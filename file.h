@@ -24,7 +24,7 @@ bool salva_credenziali(const std::string filename, const std::string username, c
 * Funzione che dato in input un file controlla se il nome utente all'interno
 * del file e' presente all'interno della lista
 */
-bool login_check(std::string nome_file, const std::string username, const std::string password);
+bool login_check(const std::string nome_file, const std::string username, const std::string password);
 
 /*
 * Funzione che dato in input il nome di un file ritorna il valore
@@ -32,6 +32,16 @@ bool login_check(std::string nome_file, const std::string username, const std::s
 */
 size_t get_salt(std::string nome);
 
+/**
+* Funzione che salva in memoria le entries su file binario
+*/
+bool save_entries(const std::string nome_file);
+
+
+/**
+* Funzione che carica in memoria le entries da file binario
+*/
+bool load_entries(std::string nome_file, std::string username, std::string password);
 
 
 

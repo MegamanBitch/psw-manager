@@ -943,6 +943,7 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
   </object>
   <object class="GtkDialog" id="error_match_password_window">
     <property name="can_focus">False</property>
+    <property name="modal">True</property>
     <property name="window_position">center-always</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
@@ -1017,10 +1018,12 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
   </object>
   <object class="GtkDialog" id="error_login">
     <property name="can_focus">False</property>
+    <property name="modal">True</property>
     <property name="window_position">center-always</property>
     <property name="default_width">300</property>
     <property name="default_height">300</property>
     <property name="type_hint">dialog</property>
+    <property name="transient_for">login_window</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="dialog-vbox3">
         <property name="can_focus">False</property>
@@ -1034,16 +1037,16 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
               <placeholder/>
             </child>
             <child>
-              <object class="GtkButton" id="error_logi">
+              <object class="GtkButton" id="error_login_button">
                 <property name="label">Retry</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="image">retry1</property>
-                <property name="relief">half</property>
+                <property name="relief">none</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
-                <signal name="clicked" handler="handler_show_login" swapped="no"/>
+                <signal name="clicked" handler="handler_show_main_window" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>

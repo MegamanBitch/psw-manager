@@ -69,16 +69,75 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
   f.read(reinterpret_cast<char *>(&saved_salt), sizeof(saved_salt));
   DBG(std::cout << "Ho letto dal file il sale: " << saved_salt << std::endl;)
 
-  if(!openssl_decrypt(username, password, saved_salt, saved_username, saved_password))
-    DBG( std::cout << "Le credenziali coincidono, accesso effettuato" << std::endl;)
-  else
-    DBG(std::cout << "Le credenziali non coincidono, acesso fallito" << std::endl;)
-
-
   /**
-  * Calcolo lo sha512 delle credenziali nuove con quelle salvate sul file
+  * Controllo se le credenziali coincidono
   */
+  if(openssl_decrypt(username, password, saved_salt, saved_username, saved_password)){
+    DBG( std::cout << "Le credenziali coincidono, accesso effettuato" << std::endl;)
+    /**
+    * Se coincidono devo caricare in memoria tutte le entries
+    */
+    load_entries(nome_file, saved_username, saved_password);
+    return true;
+  }
+  else{
+    DBG(std::cout << "Le credenziali non coincidono, acesso fallito" << std::endl;)
+    return false;
+  }
 
+}
+
+
+bool save_entries(const std::string nome_file){
+  GSList *tmp = lista_utenti;
+  utente_t *my_data = (utente_t *)tmp->data;
+  std::ofstream f;
+  if (f.good()) {
+    f.open((nome_file.c_str()), std::fstream::app);
+    for (size_t i = 0; i <= g_slist_length (lista_utenti); i++) {
+
+      // username.size() + 1 per aggiungere il terminatore alla stringa '/0'
+      //f.write(my_data[i].entry->nome_entry.c_str(), my_data[i].entry->nome_entry.size() + 1);
+      DBG(std::cout << my_data[i].entry->nome_entry << std::endl;)
+      DBG(std::cout << my_data[i].entry->username << std::endl;)
+      DBG(std::cout << my_data[i].entry->password << std::endl;)
+      DBG(std::cout << my_data[i].entry->url << std::endl;)
+      DBG(std::cout << my_data[i].entry->note << std::endl;)
+    }
+  }
 
   return f;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+bool load_entries(std::string nome_file, std::string username, std::string password){
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

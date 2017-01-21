@@ -118,33 +118,10 @@ bool openssl_decrypt(std::string username, std::string password, size_t salt, st
   DBG(std::cout << "sha512 della password inserita: " << password << std::endl;)
   */
 
-  if ((strcmp(username.c_str(), saved_username.c_str()) == 0) && (strcmp(password.c_str(), saved_password.c_str()) == 0)) {
+  if ((strcmp(concat_user_hash.c_str(), saved_username.c_str()) == 0) && (strcmp(concat_password_hash.c_str(), saved_password.c_str()) == 0)) {
     return true;
   }
   else{
     return false;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
