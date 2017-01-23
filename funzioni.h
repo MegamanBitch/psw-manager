@@ -25,7 +25,7 @@ bool aggiungi_utente(std::string nome, std::string password);
 /*
 * Funzione che appende alla lista una entry
 */
-bool aggiungi_entry(std::string nome_utente, std::string entry, std::string password, std::string url, std::string note);
+bool aggiungi_entry(std::string nome_utente, std::string title, std::string username, std::string password, std::string url, std::string note);
 
 /*
 * Funzione che stampa l'intera lista

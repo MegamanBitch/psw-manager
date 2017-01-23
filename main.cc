@@ -227,23 +227,29 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
 
   nome_utente = var_user_buffer_insert;
 
-  aggiungi_utente (nome_utente, master_password);
-  stampa_lista();
-
-  utente_t *my_data = (utente_t *)lista_utenti->data;
-  current_user = my_data->nome;
-  gtk_label_set_text (GTK_LABEL(current_user_name), current_user.c_str());
-
-
-  openssl_encrypt(nome_file, nome_utente, master_password);
-  //openssl_decrypt(nome_utente);
-
-  if (g_slist_length(lista_utenti) != 0) {
-    gtk_widget_set_sensitive(add_entry, TRUE);
+  if (strlen(var_user_buffer_insert) == 0) {
+    DBG(std::cout << "No user" << std::endl;)
   }
+  else{
+    aggiungi_utente (nome_utente, master_password);
+    stampa_lista();
 
-  gtk_widget_show_all(main_window);
-  gtk_widget_hide(initialize_first_user_window);
+    utente_t *my_data = (utente_t *)lista_utenti->data;
+    current_user = my_data->nome;
+    gtk_label_set_text (GTK_LABEL(current_user_name), current_user.c_str());
+
+
+    openssl_encrypt(nome_file, nome_utente, master_password);
+    //openssl_decrypt(nome_utente);
+
+    if (g_slist_length(lista_utenti) != 0) {
+      gtk_widget_set_sensitive(add_entry, TRUE);
+    }
+
+    gtk_widget_show_all(main_window);
+    gtk_widget_hide(initialize_first_user_window);
+
+  }
 
 }
 
@@ -267,6 +273,7 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
   GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
 
+
   GtkWidget *website_insert_title= GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_title"));
   GtkWidget *website_insert_username= GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_username"));
   GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
@@ -288,26 +295,28 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
   if(gtk_entry_get_text_length (GTK_ENTRY(website_insert_password)) != 0){
     var_buffer_insert_password = gtk_entry_buffer_get_text(website_buffer_insert_password);
     DBG(std::cout << "Password:  " << var_buffer_insert_password << std::endl);
+
+    const gchar *var_buffer_insert_url = gtk_entry_buffer_get_text(website_buffer_insert_url);
+    DBG(std::cout << "URL:  " << var_buffer_insert_url << std::endl);
+
+    const gchar *var_buffer_insert_note = gtk_entry_buffer_get_text(website_buffer_insert_note);
+    DBG(std::cout << "Note:  " << var_buffer_insert_note << std::endl);
+
+    if (!aggiungi_entry(nome_utente, var_buffer_insert_title, var_buffer_insert_username, var_buffer_insert_password,
+          var_buffer_insert_url, var_buffer_insert_note)) {
+      DBG(std::cout << "Non esiste questo utente" << std::endl;)
+    }
+    else{
+      //save_entries(nome_file);
+    }
+
+    gtk_widget_show_all(main_window);
+    gtk_widget_hide(website_window);
+
   } else {
     DBG(std::cout << "Nessuna password inserita" << std::endl;)
   }
 
-  const gchar *var_buffer_insert_url = gtk_entry_buffer_get_text(website_buffer_insert_url);
-  DBG(std::cout << "URL:  " << var_buffer_insert_url << std::endl);
-
-  const gchar *var_buffer_insert_note = gtk_entry_buffer_get_text(website_buffer_insert_note);
-  DBG(std::cout << "Note:  " << var_buffer_insert_note << std::endl);
-
-  if (!aggiungi_entry(nome_utente, var_buffer_insert_title, var_buffer_insert_password,
-        var_buffer_insert_url, var_buffer_insert_note)) {
-    DBG(std::cout << "Non esiste questo utente" << std::endl;)
-  }
-  else{
-    save_entries(nome_file);
-  }
-
-  gtk_widget_show_all(main_window);
-  gtk_widget_hide(website_window);
 
 }
 
@@ -397,19 +406,22 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
   const gchar *var_login_buffer_insert_password = gtk_entry_buffer_get_text(login_buffer_insert_password);
   DBG(std::cout << "Password:  " << var_login_buffer_insert_password << std::endl;);
 
-  DBG(std::cout << "Nome file che apre: " << nome_file << std::endl;)
-  if(!login_check(nome_file, var_login_buffer_insert_user, var_login_buffer_insert_password)){
-    DBG(std::cout << "Errore" << std::endl;)
-    gtk_widget_show_all(error_login);
-    gtk_widget_hide(login_window);
+  if (strlen(var_login_buffer_insert_user) == 0 || strlen(var_login_buffer_insert_password) == 0) {
+    DBG(std::cout << "User or password empty" << std::endl;)
   }
+
   else{
-    gtk_widget_show_all(main_window);
-    gtk_widget_hide(login_window);
+    DBG(std::cout << "Nome file che apre: " << nome_file << std::endl;)
+    if(!login_check(nome_file, var_login_buffer_insert_user, var_login_buffer_insert_password)){
+      DBG(std::cout << "Errore" << std::endl;)
+      gtk_widget_show_all(error_login);
+      gtk_widget_hide(login_window);
+    }
+    else{
+      gtk_widget_show_all(main_window);
+      gtk_widget_hide(login_window);
+    }
   }
-
-
-  //Creare funzione che apre il file binario e controlla le credenziali
 }
 
 

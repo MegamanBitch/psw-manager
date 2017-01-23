@@ -37,7 +37,7 @@ struct password_t {
 * e un campo password_t.
 */
 struct entry_t {
-  std::string nome_entry;
+  std::string title;
   std::string username;
   std::string password;
   std::string url;
