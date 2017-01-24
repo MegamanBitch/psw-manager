@@ -38,6 +38,10 @@ void stampa_lista(){
     }
     utenti = utenti->next;
   }
+
+  g_slist_free (utenti);
+  g_slist_free (entry);
+
 }
 
 bool aggiungi_utente(std::string nome, std::string password){
@@ -56,14 +60,50 @@ bool aggiungi_utente(std::string nome, std::string password){
 
 bool aggiungi_entry(std::string nome_utente, std::string title, std::string username, std::string password, std::string url, std::string note){
 
+  /**
+  * Uso una GSList temporanea @utenti e @entry
+  */
+  GSList *utenti = lista_utenti;
+  utente_t *my_user;
 
-  utente_t *my_data = (utente_t *)lista_utenti->data;
-  for (size_t i = 0; i < g_slist_length(lista_utenti); i++) {
-    DBG(std::cout << "Comparo " << my_data[i].nome << " con " << nome_utente << std::endl;)
-    if (strcmp(my_data[i].nome.c_str(), nome_utente.c_str()) == 0) {
+  while (utenti != NULL) {
+    my_user = (utente_t *)utenti->data;
+    DBG(std::cout << "Comparo " << my_user->nome << " con " << nome_utente << std::endl;)
+
+    if (strcmp(my_user->nome.c_str(), nome_utente.c_str()) == 0) {
       /**
       * Se l'utente e' stato trovato aggiungo i campi delle entry
       */
+      DBG(std::cout << "utente trovato" << std::endl;)
+
+      entry_t *entry = new entry_t;
+
+      entry->title = title;
+      entry->username = username;
+      entry->password = password;
+      entry->url = url;
+      entry->note = note;
+
+      my_user->entries = g_slist_append(my_user->entries, entry);
+
+      DBG(stampa_lista());
+
+      return true;
+    }
+
+    utenti = utenti->next;
+  }
+
+  return false;
+
+  /*
+
+  for (size_t i = 0; i < g_slist_length(lista_utenti); i++) {
+    DBG(std::cout << "Comparo " << my_data[i].nome << " con " << nome_utente << std::endl;)
+    if (strcmp(my_data[i].nome.c_str(), nome_utente.c_str()) == 0) {
+
+       Se l'utente e' stato trovato aggiungo i campi delle entry
+
       DBG(std::cout << "utente trovato" << std::endl;)
 
       entry_t *entry = new entry_t;
@@ -84,4 +124,6 @@ bool aggiungi_entry(std::string nome_utente, std::string title, std::string user
   }
 
   return false;
+
+  */
 }
