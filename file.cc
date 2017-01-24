@@ -94,24 +94,10 @@ bool save_entries(const std::string nome_file){
   std::ofstream f;
   if (f.good()) {
     f.open((nome_file.c_str()), std::fstream::app);
-    for (size_t i = 0; i < g_slist_length (lista_utenti); i++) {
-      for (size_t j = 0; j < my_data[i].num_entry; j++) {
-        DBG(std::cout << "1" << std::endl;)
-        // username.size() + 1 per aggiungere il terminatore alla stringa '/0'
-        //f.write(my_data[i].entry->nome_entry.c_str(), my_data[i].entry->nome_entry.size() + 1);
-        DBG(std::cout << my_data[i].entry[j].title << std::endl;)
-        DBG(std::cout << my_data[i].entry[j].username << std::endl;)
-        DBG(std::cout << my_data[i].entry[j].password << std::endl;)
-        DBG(std::cout << my_data[i].entry[j].url << std::endl;)
-        DBG(std::cout << my_data[i].entry[j].note << std::endl;)
-      }
 
-
-    }
-  }
 
   return f;
-
+}
 }
 
 

@@ -55,11 +55,9 @@ struct entry_t {
 * utente ha una master_password personale
 */
 struct utente_t {
-  entry_t *entry;
+  GSList *entries;
   std::string nome;
   std::string master_password;
-  unsigned short num_entry;
-  unsigned short dim;
 };
 
 
