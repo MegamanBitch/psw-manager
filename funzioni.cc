@@ -70,7 +70,7 @@ bool aggiungi_entry(std::string nome_utente, std::string title, std::string user
     my_user = (utente_t *)utenti->data;
     DBG(std::cout << "Comparo " << my_user->nome << " con " << nome_utente << std::endl;)
 
-    if (strcmp(my_user->nome.c_str(), nome_utente.c_str()) == 0) {
+    if (my_user->nome == nome_utente) {
       /**
       * Se l'utente e' stato trovato aggiungo i campi delle entry
       */

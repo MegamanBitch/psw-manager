@@ -307,7 +307,7 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
       DBG(std::cout << "Non esiste questo utente" << std::endl;)
     }
     else{
-      //save_entries(nome_file);
+      save_entries(nome_file, nome_utente);
     }
 
     gtk_widget_show_all(main_window);

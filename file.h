@@ -35,7 +35,7 @@ size_t get_salt(std::string nome);
 /**
 * Funzione che salva in memoria le entries su file binario
 */
-bool save_entries(const std::string nome_file);
+bool save_entries(const std::string nome_file, const std::string nome_utente);
 
 
 /**

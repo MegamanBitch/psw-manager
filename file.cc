@@ -2,10 +2,9 @@
 
 
 bool salva_credenziali(std::string filename, std::string username, std::string password, size_t salt){
-    std::ofstream f;
+    std::ofstream f(filename.c_str(), std::ios::app | std::ios::binary);
     if (f.good()) {
       if (g_slist_length(lista_utenti) != 0) {
-        f.open((filename.c_str()), std::fstream::app);
         // username.size() + 1 per aggiungere il terminatore alla stringa '/0'
         f.write(username.c_str(), username.size() + 1);
         f.write(password.c_str(), password.size() + 1);
@@ -88,16 +87,68 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
 }
 
 
-bool save_entries(const std::string nome_file){
-  GSList *tmp = lista_utenti;
-  utente_t *my_data = (utente_t *)tmp->data;
+bool save_entries(std::string nome_file, std::string nome_utente){
   std::ofstream f;
   if (f.good()) {
-    f.open((nome_file.c_str()), std::fstream::app);
+    f.open((nome_file.c_str()), std::ios::app | std::ios::binary);
 
+    /**
+    * Uso una GSList temporanea @utenti e @entry
+    */
+    GSList *utenti = lista_utenti;
+    GSList *entry;
+    utente_t *my_user;
+    entry_t *my_entry;
 
-  return f;
-}
+    DBG(std::cout << "Numero di utenti: " << g_slist_length(lista_utenti) << std::endl;)
+    while (utenti != NULL) {
+      /**
+      * Faccio un cast @utenti->data per poter leggerne il contenuto
+      */
+      my_user = (utente_t *)utenti->data;
+      DBG(std::cout << "Comparo " << my_user->nome << " con " << nome_utente << std::endl;)
+
+      if (my_user->nome == nome_utente) {
+
+        /**
+        * Assegno alla GSList temporanea @entry la lista dell'user corrente. Faccio
+        * l'assegnazione dentro al while per assegnare un vettore diverso ad ogni ciclo
+        */
+        DBG(std::cout << "Nome utente: " << my_user->nome << std::endl;)
+        f.write(my_user->nome.c_str(), my_user->nome.size() + 1);
+
+        DBG(std::cout << "Password: " << my_user->master_password << std::endl;)
+        f.write(my_user->master_password.c_str(), my_user->master_password.size() + 1);
+
+        entry = my_user->entries;
+
+        while (entry != NULL) {
+          my_entry = (entry_t *)entry->data;
+          DBG(std::cout << "Title: " << my_entry->title << std::endl;)
+          f.write(my_entry->title.c_str(), my_entry->title.size() + 1);
+
+          DBG(std::cout << "Username: " << my_entry->username << std::endl;)
+          f.write(my_entry->username.c_str(), my_entry->username.size() + 1);
+
+          DBG(std::cout << "Password: " << my_entry->password << std::endl;)
+          f.write(my_entry->password.c_str(), my_entry->password.size() + 1);
+
+          DBG(std::cout << "URL: " << my_entry->url << std::endl;)
+          f.write(my_entry->url.c_str(), my_entry->url.size() + 1);
+
+          DBG(std::cout << "Note: " << my_entry->note << std::endl;)
+          f.write(my_entry->note.c_str(), my_entry->note.size() + 1);
+
+          entry = entry->next;
+        }
+      }
+      utenti = utenti->next;
+    }
+    g_slist_free (utenti);
+    g_slist_free (entry);
+    return true;
+  }
+  return false;
 }
 
 
@@ -118,7 +169,7 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
 
 
 
-
+  return true;
 
 
 
