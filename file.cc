@@ -10,6 +10,7 @@ bool salva_credenziali(std::string filename, std::string username, std::string p
         f.write(password.c_str(), password.size() + 1);
 
         f.write(reinterpret_cast<const char *>(&salt), sizeof(salt));
+        f.write("\0", 1);
         //salva numero entries come int
         //scorri lista entries
         //  per ogni entry salva
@@ -114,12 +115,6 @@ bool save_entries(std::string nome_file, std::string nome_utente){
         * Assegno alla GSList temporanea @entry la lista dell'user corrente. Faccio
         * l'assegnazione dentro al while per assegnare un vettore diverso ad ogni ciclo
         */
-        DBG(std::cout << "Nome utente: " << my_user->nome << std::endl;)
-        f.write(my_user->nome.c_str(), my_user->nome.size() + 1);
-
-        DBG(std::cout << "Password: " << my_user->master_password << std::endl;)
-        f.write(my_user->master_password.c_str(), my_user->master_password.size() + 1);
-
         entry = my_user->entries;
 
         while (entry != NULL) {
@@ -153,21 +148,50 @@ bool save_entries(std::string nome_file, std::string nome_utente){
 
 
 
-
-
-
-
-
-
-
-
-
-
 bool load_entries(std::string nome_file, std::string username, std::string password){
 
+  std::ifstream f;
+  if(f.good()){
+    f.open((nome_file.c_str()), std::ifstream::in | std::ios::binary);
+
+    std::string result;
+    while (std::getline(f, result, '\0')) {
+      DBG(std::cout << result << std::endl;)
+    }
+
+  }
+
+  /*
+  std::streampos size;
+  char * memblock;
+
+  std::ifstream f (nome_file.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
+  if (f.is_open()){
+    size = f.tellg();
+    memblock = new char [size];
+    f.seekg (0, std::ios::beg);
+    f.read (memblock, size);
+    f.close();
+
+    DBG(std::cout << "the entire f content is in memory" << std::endl;)
+
+    char ch;
+    std::string result = "";
+    for (int i = 0; i < size; i++) {
+      while ((ch = memblock[i]) != '\0') {
+        result += ch;
+      }
+      DBG(std::cout << result << std::endl;)
+    }
 
 
 
+    delete[] memblock;
+  }
+  else
+    DBG(std::cout << "Unable to open f" << std::endl;)
+
+    */
 
   return true;
 
