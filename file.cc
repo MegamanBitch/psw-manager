@@ -2,15 +2,14 @@
 
 
 bool salva_credenziali(std::string filename, std::string username, std::string password, size_t salt){
-    std::ofstream f(filename.c_str(), std::ios::app | std::ios::binary);
+    std::ofstream f(filename.c_str(), std::ios::app);
     if (f.good()) {
       if (g_slist_length(lista_utenti) != 0) {
         // username.size() + 1 per aggiungere il terminatore alla stringa '/0'
-        f.write(username.c_str(), username.size() + 1);
-        f.write(password.c_str(), password.size() + 1);
+        f << username << std::endl;
+        f << password << std::endl;
 
-        f.write(reinterpret_cast<const char *>(&salt), sizeof(salt));
-        f.write("\0", 1);
+        f << salt << std::endl;
         //salva numero entries come int
         //scorri lista entries
         //  per ogni entry salva
@@ -30,7 +29,7 @@ bool salva_credenziali(std::string filename, std::string username, std::string p
 
 
 size_t get_salt(std::string nome){
-  std::ifstream f(nome.c_str(), std::ios::out | std::ios::binary);
+  std::ifstream f(nome.c_str(), std::ios::out);
 
   size_t salt;
 
@@ -44,7 +43,7 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
   /**
   * Controllo l'esistenza del file
   */
-  std::ifstream f(nome_file.c_str(), std::ios_base::binary);
+  std::ifstream f(nome_file.c_str());
   if (!f.good()) {
     DBG(std::cout << "Non riconosce il nome del file" << std::endl;)
     return f;
@@ -60,13 +59,13 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
   std::string saved_password;
   size_t saved_salt;
 
-  std::getline(f, saved_username, '\0');
+  std::getline(f, saved_username);
   DBG(std::cout << "Ho letto dal file l'username: " << saved_username << std::endl;)
 
-  std::getline(f, saved_password, '\0');
+  std::getline(f, saved_password);
   DBG(std::cout << "Ho letto dal file la password: " << saved_password << std::endl;)
 
-  f.read(reinterpret_cast<char *>(&saved_salt), sizeof(saved_salt));
+  f >> saved_salt;
   DBG(std::cout << "Ho letto dal file il sale: " << saved_salt << std::endl;)
 
   /**
@@ -91,7 +90,7 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
 bool save_entries(std::string nome_file, std::string nome_utente){
   std::ofstream f;
   if (f.good()) {
-    f.open((nome_file.c_str()), std::ios::app | std::ios::binary);
+    f.open((nome_file.c_str()), std::ios::app);
 
     /**
     * Uso una GSList temporanea @utenti e @entry
@@ -120,19 +119,19 @@ bool save_entries(std::string nome_file, std::string nome_utente){
         while (entry != NULL) {
           my_entry = (entry_t *)entry->data;
           DBG(std::cout << "Title: " << my_entry->title << std::endl;)
-          f.write(my_entry->title.c_str(), my_entry->title.size() + 1);
+          f << my_entry->title << std::endl;
 
           DBG(std::cout << "Username: " << my_entry->username << std::endl;)
-          f.write(my_entry->username.c_str(), my_entry->username.size() + 1);
+          f << my_entry->username << std::endl;
 
           DBG(std::cout << "Password: " << my_entry->password << std::endl;)
-          f.write(my_entry->password.c_str(), my_entry->password.size() + 1);
+          f << my_entry->password << std::endl;
 
           DBG(std::cout << "URL: " << my_entry->url << std::endl;)
-          f.write(my_entry->url.c_str(), my_entry->url.size() + 1);
+          f << my_entry->url << std::endl;
 
           DBG(std::cout << "Note: " << my_entry->note << std::endl;)
-          f.write(my_entry->note.c_str(), my_entry->note.size() + 1);
+          f << my_entry->note << std::endl;
 
           entry = entry->next;
         }
@@ -152,7 +151,7 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
 
   std::ifstream f;
   if(f.good()){
-    f.open((nome_file.c_str()), std::ifstream::in | std::ios::binary);
+    f.open((nome_file.c_str()), std::ifstream::in);
 
     std::string result;
     while (std::getline(f, result, '\0')) {
@@ -165,7 +164,7 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
   std::streampos size;
   char * memblock;
 
-  std::ifstream f (nome_file.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
+  std::ifstream f (nome_file.c_str(), std::ios::in | std::ios::ate);
   if (f.is_open()){
     size = f.tellg();
     memblock = new char [size];

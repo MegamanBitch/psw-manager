@@ -110,7 +110,7 @@ extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer us
 
   gtk_file_chooser_set_do_overwrite_confirmation (chooser, TRUE);
 
-  gtk_file_chooser_set_current_name (chooser, ("*.gsx"));
+  gtk_file_chooser_set_current_name (chooser, ("*.txt"));
 
   res = gtk_dialog_run (GTK_DIALOG (dialog));
   if (res == GTK_RESPONSE_ACCEPT)
@@ -359,7 +359,7 @@ extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer
 
   //Set file chooser filter
   GtkFileFilter* filter = gtk_file_filter_new();
-  gtk_file_filter_add_pattern(filter, "*.gsx");
+  gtk_file_filter_add_pattern(filter, "*.txt");
   gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
 
   gint res = gtk_dialog_run (GTK_DIALOG (dialog));
