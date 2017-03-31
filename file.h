@@ -4,9 +4,11 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <limits>
 #include "debug.h"
 #include "struttura_dati.h"
 #include "crittografia.h"
+#include "funzioni.h"
 
 /*
 * Funzione che dato in input il nome del file lo crea

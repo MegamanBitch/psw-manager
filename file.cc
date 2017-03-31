@@ -74,9 +74,10 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
   if(openssl_decrypt(username, password, saved_salt, saved_username, saved_password)){
     DBG( std::cout << "Le credenziali coincidono, accesso effettuato" << std::endl;)
     /**
-    * Se coincidono devo caricare in memoria tutte le entries
+    * Se coincidono distruggo la lista e carico in memoria tutte le entries dell'utente
     */
-    load_entries(nome_file, saved_username, saved_password);
+    //g_slist_free(lista_utenti);
+    load_entries(nome_file, username, password);
     return true;
   }
   else{
@@ -111,35 +112,41 @@ bool save_entries(std::string nome_file, std::string nome_utente){
       if (my_user->nome == nome_utente) {
 
         /**
-        * Assegno alla GSList temporanea @entry la lista dell'user corrente. Faccio
-        * l'assegnazione dentro al while per assegnare un vettore diverso ad ogni ciclo
+        * Assegno alla GSList temporanea @entry la lista dell'user corrente.
         */
         entry = my_user->entries;
 
-        while (entry != NULL) {
-          my_entry = (entry_t *)entry->data;
-          DBG(std::cout << "Title: " << my_entry->title << std::endl;)
-          f << my_entry->title << std::endl;
+        /**
+        * Questa funzione viene richiamata ogni volta che una nuova entry viene
+        * aggiunta, pertanto e' necessario salvare soltanto l'ultimo elemento
+        * della lista entry.
+        */
+        GSList * last_entry = g_slist_last(entry);
 
-          DBG(std::cout << "Username: " << my_entry->username << std::endl;)
-          f << my_entry->username << std::endl;
 
-          DBG(std::cout << "Password: " << my_entry->password << std::endl;)
-          f << my_entry->password << std::endl;
+        my_entry = (entry_t *)last_entry->data;
+        DBG(std::cout << "Title: " << my_entry->title << std::endl;)
+        f << my_entry->title << std::endl;
 
-          DBG(std::cout << "URL: " << my_entry->url << std::endl;)
-          f << my_entry->url << std::endl;
+        DBG(std::cout << "Username: " << my_entry->username << std::endl;)
+        f << my_entry->username << std::endl;
 
-          DBG(std::cout << "Note: " << my_entry->note << std::endl;)
-          f << my_entry->note << std::endl;
+        DBG(std::cout << "Password: " << my_entry->password << std::endl;)
+        f << my_entry->password << std::endl;
 
-          entry = entry->next;
-        }
+        DBG(std::cout << "URL: " << my_entry->url << std::endl;)
+        f << my_entry->url << std::endl;
+
+        DBG(std::cout << "Note: " << my_entry->note << std::endl;)
+        f << my_entry->note << std::endl;
+
+        entry = entry->next;
+
       }
       utenti = utenti->next;
     }
-    g_slist_free (utenti);
-    g_slist_free (entry);
+    g_slist_free(utenti);
+    g_slist_free(entry);
     return true;
   }
   return false;
@@ -151,57 +158,70 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
 
   std::ifstream f;
   if(f.good()){
+
+    g_slist_free(lista_utenti);
+    inizializza();
+
+    utente_t *utente = new utente_t;
+
+    utente->nome = username;
+    utente->master_password = password;
+    utente->entries = NULL;
+
+    lista_utenti = g_slist_append(lista_utenti, utente);
+
+
     f.open((nome_file.c_str()), std::ifstream::in);
+    // Get and drop a line
+    f.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    f.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    f.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
-    std::string result;
-    while (std::getline(f, result, '\0')) {
-      DBG(std::cout << result << std::endl;)
-    }
+    DBG(std::cout << "Ho saltato le prime 3 righe" << std::endl;)
 
-  }
+    unsigned int line_number = 0;
+    std::string line;
 
-  /*
-  std::streampos size;
-  char * memblock;
-
-  std::ifstream f (nome_file.c_str(), std::ios::in | std::ios::ate);
-  if (f.is_open()){
-    size = f.tellg();
-    memblock = new char [size];
-    f.seekg (0, std::ios::beg);
-    f.read (memblock, size);
-    f.close();
-
-    DBG(std::cout << "the entire f content is in memory" << std::endl;)
-
-    char ch;
-    std::string result = "";
-    for (int i = 0; i < size; i++) {
-      while ((ch = memblock[i]) != '\0') {
-        result += ch;
-      }
-      DBG(std::cout << result << std::endl;)
-    }
-
-
-
-    delete[] memblock;
-  }
-  else
-    DBG(std::cout << "Unable to open f" << std::endl;)
-
+    /**
+    * Uso una GSList temporanea @utenti e @entry
     */
+    GSList *utenti = lista_utenti;
+    utente_t *my_user;
+    my_user = (utente_t *)utenti->data;
+    entry_t *entry = new entry_t;
 
-  return true;
+    while(f && std::getline(f, line)){
+    // Loop only entered if reading a line from f is OK.
+    // Note: getline() returns a stream reference. This is automatically cast
+    // to boolean for the test. streams have a cast to bool operator that checks
+    // good()
+    DBG(std::cout << std::getline(f, line) << std::endl;)
+    line_number = (line_number + 1) % 5;
 
+    switch (line_number) {
+      case 1:
+        f >> entry->title;
+        break;
+      case 2:
+        f >> entry->username;
+        break;
+      case 3:
+        f >> entry->password;
+        break;
+      case 4:
+        f >> entry->url;
+        break;
+      case 0:
+        f >> entry->note;
+        break;
+      }
 
+      if (line_number == 0)
+        my_user->entries = g_slist_append(my_user->entries, entry);
 
-
-
-
-
-
-
-
+    }
+  }
+  stampa_lista();
+  return f;
 
 }

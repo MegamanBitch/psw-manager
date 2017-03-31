@@ -359,6 +359,12 @@ extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer
 
   //Set file chooser filter
   GtkFileFilter* filter = gtk_file_filter_new();
+  GdkGeometry geom;
+  geom.min_width = 800;
+  geom.min_height = 600;
+
+  //Resize the window
+  gtk_window_set_geometry_hints(GTK_WINDOW(dialog), NULL, &geom, GDK_HINT_MIN_SIZE);
   gtk_file_filter_add_pattern(filter, "*.txt");
   gtk_file_chooser_set_filter(GTK_FILE_CHOOSER(dialog), filter);
 

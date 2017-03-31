@@ -18,7 +18,7 @@ clean:
 	rm -f *.o *~
 
 removeFile:
-	rm -rf *.gsx
+	rm -rf *.txt
 
 cleanAll: clean removeFile
 	rm -f $(EXNAME)
