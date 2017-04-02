@@ -40,6 +40,7 @@ size_t get_salt(std::string nome){
 
 bool login_check(std::string nome_file, std::string username, std::string password){
 
+  GtkWidget *current_user_name = GTK_WIDGET(gtk_builder_get_object(builder, "current_user_name"));
   /**
   * Controllo l'esistenza del file
   */
@@ -73,10 +74,7 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
   */
   if(openssl_decrypt(username, password, saved_salt, saved_username, saved_password)){
     DBG( std::cout << "Le credenziali coincidono, accesso effettuato" << std::endl;)
-    /**
-    * Se coincidono distruggo la lista e carico in memoria tutte le entries dell'utente
-    */
-    //g_slist_free(lista_utenti);
+    gtk_label_set_text (GTK_LABEL(current_user_name), username.c_str());
     load_entries(nome_file, username, password);
     return true;
   }
@@ -158,17 +156,19 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
 
   std::ifstream f;
   if(f.good()){
-
+    /**
+    * Se coincidono distruggo la lista e carico in memoria tutte le entries dell'utente
+    */
     g_slist_free(lista_utenti);
     inizializza();
 
-    utente_t *utente = new utente_t;
+    utente_t *my_user = new utente_t;
 
-    utente->nome = username;
-    utente->master_password = password;
-    utente->entries = NULL;
+    my_user->nome = username;
+    my_user->master_password = password;
+    my_user->entries = NULL;
 
-    lista_utenti = g_slist_append(lista_utenti, utente);
+    lista_utenti = g_slist_append(lista_utenti, my_user);
 
 
     f.open((nome_file.c_str()), std::ifstream::in);
@@ -182,46 +182,41 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
     unsigned int line_number = 0;
     std::string line;
 
-    /**
-    * Uso una GSList temporanea @utenti e @entry
-    */
-    GSList *utenti = lista_utenti;
-    utente_t *my_user;
-    my_user = (utente_t *)utenti->data;
-    entry_t *entry = new entry_t;
+    entry_t *my_entry = new entry_t;
 
     while(f && std::getline(f, line)){
-    // Loop only entered if reading a line from f is OK.
-    // Note: getline() returns a stream reference. This is automatically cast
-    // to boolean for the test. streams have a cast to bool operator that checks
-    // good()
-    DBG(std::cout << std::getline(f, line) << std::endl;)
-    line_number = (line_number + 1) % 5;
+      // Loop only entered if reading a line from f is OK.
+      // Note: getline() returns a stream reference. This is automatically cast
+      // to boolean for the test. streams have a cast to bool operator that checks
+      // good()
 
-    switch (line_number) {
-      case 1:
-        f >> entry->title;
-        break;
-      case 2:
-        f >> entry->username;
-        break;
-      case 3:
-        f >> entry->password;
-        break;
-      case 4:
-        f >> entry->url;
-        break;
-      case 0:
-        f >> entry->note;
-        break;
+      line_number = (line_number + 1) % 5;
+      DBG(std::cout << "Ho letto la riga: "<< line << " line number " << line_number << std::endl;)
+
+      switch (line_number) {
+        case 1:
+          f >> my_entry->title;
+          break;
+        case 2:
+          f >> my_entry->username;
+          break;
+        case 3:
+          f >> my_entry->password;
+          break;
+        case 4:
+          f >> my_entry->url;
+          break;
+        case 0:
+          f >> my_entry->note;
+          break;
       }
 
       if (line_number == 0)
-        my_user->entries = g_slist_append(my_user->entries, entry);
+        my_user->entries = g_slist_append(my_user->entries, my_entry);
 
+      }
     }
-  }
-  stampa_lista();
-  return f;
+    stampa_lista();
+    return f;
 
 }

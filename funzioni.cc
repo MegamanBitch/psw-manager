@@ -86,7 +86,7 @@ bool aggiungi_entry(std::string nome_utente, std::string title, std::string user
 
       my_user->entries = g_slist_append(my_user->entries, entry);
 
-      DBG(stampa_lista());
+      //DBG(stampa_lista());
 
       return true;
     }

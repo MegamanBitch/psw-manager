@@ -232,9 +232,9 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
   }
   else{
     aggiungi_utente (nome_utente, master_password);
-    stampa_lista();
+    GSList * last_user = g_slist_last(lista_utenti);
 
-    utente_t *my_data = (utente_t *)lista_utenti->data;
+    utente_t *my_data = (utente_t *)last_user->data;
     current_user = my_data->nome;
     gtk_label_set_text (GTK_LABEL(current_user_name), current_user.c_str());
 

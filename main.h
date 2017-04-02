@@ -11,8 +11,6 @@
 #include "entropy.h"
 #include "gen_psw.h"
 
-using namespace std;
-
 /*
 * builder:
 * Puntatore a GtkBuilder per accedere ai widget dell'interfaccia grafica
