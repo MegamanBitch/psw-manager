@@ -9,7 +9,6 @@
 #include "struttura_dati.h"
 #include "crittografia.h"
 #include "funzioni.h"
-#include "main.h"
 
 /*
 * Funzione che dato in input il nome del file lo crea

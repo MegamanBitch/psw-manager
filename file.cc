@@ -39,8 +39,6 @@ size_t get_salt(std::string nome){
 }
 
 bool login_check(std::string nome_file, std::string username, std::string password){
-
-  GtkWidget *current_user_name = GTK_WIDGET(gtk_builder_get_object(builder, "current_user_name"));
   /**
   * Controllo l'esistenza del file
   */
@@ -74,7 +72,6 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
   */
   if(openssl_decrypt(username, password, saved_salt, saved_username, saved_password)){
     DBG( std::cout << "Le credenziali coincidono, accesso effettuato" << std::endl;)
-    gtk_label_set_text (GTK_LABEL(current_user_name), username.c_str());
     load_entries(nome_file, username, password);
     return true;
   }

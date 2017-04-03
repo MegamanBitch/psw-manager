@@ -402,6 +402,7 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
   GtkWidget *login_insert_password = GTK_WIDGET(gtk_builder_get_object(builder,"login_insert_password"));
   GtkWidget *error_login = GTK_WIDGET(gtk_builder_get_object(builder,"error_login"));
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder,"main_window"));
+  GtkWidget *current_user_name = GTK_WIDGET(gtk_builder_get_object(builder, "current_user_name"));
 
 
   GtkEntryBuffer *login_buffer_insert_user = gtk_entry_get_buffer(GTK_ENTRY(login_insert_user));
@@ -424,6 +425,8 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
       gtk_widget_hide(login_window);
     }
     else{
+      current_user = var_login_buffer_insert_user;
+      gtk_label_set_text (GTK_LABEL(current_user_name), current_user.c_str());
       gtk_widget_show_all(main_window);
       gtk_widget_hide(login_window);
     }
