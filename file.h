@@ -46,6 +46,7 @@ bool save_entries(const std::string nome_file, const std::string nome_utente);
 bool load_entries(std::string nome_file, std::string username, std::string password);
 
 
+void getEntryProp(istream& input, string& output);
 
 
 #endif

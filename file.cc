@@ -169,7 +169,14 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
 
 
     f.open((nome_file.c_str()), std::ifstream::in);
-    // Get and drop a line
+    /**
+    * Le prime 3 righe di ogni file vanno ignorate poiche' contengono
+    * 1- Hash username
+    * 2- Hash password
+    * 3- Sale
+    * Ignoro solo le prime due perche' la terza viene ignorata all'inizio del
+    * ciclo while
+    */
     f.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     f.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     f.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -179,41 +186,69 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
     unsigned int line_number = 0;
     std::string line;
 
-    entry_t *my_entry = new entry_t;
+    entry_t *my_entry;
+    my_entry = new entry_t;
 
-    while(f && std::getline(f, line)){
-      // Loop only entered if reading a line from f is OK.
-      // Note: getline() returns a stream reference. This is automatically cast
-      // to boolean for the test. streams have a cast to bool operator that checks
-      // good()
-
+    /**
+    * Ciclo while che legge tutte le righe del file, la prima viene ignorata
+    */
+    while(f){
+      getEntryProp(f, line);
       line_number = (line_number + 1) % 5;
-      DBG(std::cout << "Ho letto la riga: "<< line << " line number " << line_number << std::endl;)
+      //DBG(std::cout << "Ho letto la riga: "<< line_number << std::endl;)
 
       switch (line_number) {
         case 1:
-          f >> my_entry->title;
+          my_entry->title = line;
           break;
         case 2:
-          f >> my_entry->username;
+          my_entry->username = line;
           break;
         case 3:
-          f >> my_entry->password;
+          my_entry->password = line;
           break;
         case 4:
-          f >> my_entry->url;
+          my_entry->url = line;
           break;
         case 0:
-          f >> my_entry->note;
+          my_entry->note = line;
           break;
       }
 
-      if (line_number == 0)
-        my_user->entries = g_slist_append(my_user->entries, my_entry);
-
+      /**
+      * Quando sono nel caso 0 ho aggiunto tutti i campi di @entry_t e quindi
+      * devo appendere @entry_t alla GSList.
+      * In questo caso uso la funzione prepend perche' da documentazione delle GSList
+      * --------------------------------------------------------------------------------
+      * Note that g_slist_append() has to traverse the entire list to find the end
+      * which is inefficient when adding multiple elements. A common idiom to avoid the
+      * inefficiency is to prepend the elements and reverse the list when all elements
+      * have been added.
+      * --------------------------------------------------------------------------------
+      */
+      if (line_number == 0){
+        my_user->entries = g_slist_prepend(my_user->entries, my_entry);
+        my_entry = new entry_t;
       }
     }
-    stampa_lista();
+
+      my_user->entries = g_slist_reverse(my_user->entries);
+    }
+    DBG(stampa_lista();)
     return f;
 
+}
+
+
+void getEntryProp(istream& input, string& output){
+  char c;
+  string temp;
+  std::getline(input, output);
+  while(input.peek() == ' '){
+    input >> c;
+    std::getline(input, temp);
+    output = output + " " + temp;
+  }
+  //input >> c;
+  cout << "ho letto " << output << endl;
 }
