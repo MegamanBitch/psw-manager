@@ -279,6 +279,7 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
   GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
   GtkWidget *website_insert_url = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_url"));
   GtkWidget *website_insert_note = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_note"));
+  GtkWidget *website_generated_password= GTK_WIDGET(gtk_builder_get_object(builder, "website_generated_password"));
   GtkEntryBuffer *website_buffer_insert_title = gtk_entry_get_buffer(GTK_ENTRY(website_insert_title));
   GtkEntryBuffer *website_buffer_insert_username = gtk_entry_get_buffer(GTK_ENTRY(website_insert_username));
   GtkEntryBuffer *website_buffer_insert_password = gtk_entry_get_buffer(GTK_ENTRY(website_insert_password));
@@ -292,7 +293,7 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
   DBG(std::cout << "Username:  " << var_buffer_insert_username << std::endl);
 
   const gchar *var_buffer_insert_password;
-  if(gtk_entry_get_text_length (GTK_ENTRY(website_insert_password)) != 0){
+  if(gtk_entry_get_text_length (GTK_ENTRY(website_insert_password)) != 0 || gtk_entry_get_text_length (GTK_ENTRY(website_generated_password)) != 0){
     var_buffer_insert_password = gtk_entry_buffer_get_text(website_buffer_insert_password);
     DBG(std::cout << "Password:  " << var_buffer_insert_password << std::endl);
 
@@ -327,7 +328,7 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
   GtkWidget *website_insert_repeat = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_repeat"));
   GtkWidget *website_grid = GTK_WIDGET(gtk_builder_get_object(builder, "website_grid"));
   GtkWidget *website_length_box = GTK_WIDGET(gtk_builder_get_object(builder, "website_length_box"));
-
+  GtkWidget *box25 = GTK_WIDGET(gtk_builder_get_object(builder, "box25"));
 
 
   if (gtk_switch_get_active(GTK_SWITCH(switch_generate)) == TRUE) {
@@ -335,6 +336,8 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
     gtk_widget_set_sensitive(website_insert_repeat, FALSE);
     gtk_widget_set_sensitive(website_grid, TRUE);
     gtk_widget_set_sensitive(website_length_box, TRUE);
+    gtk_widget_set_sensitive(box25, TRUE);
+
 
     GtkWidget *delete_website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
     GtkWidget *delete_website_insert_repeat = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_repeat"));
@@ -346,6 +349,7 @@ extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *ev
     gtk_widget_set_sensitive(website_insert_repeat, TRUE);
     gtk_widget_set_sensitive(website_grid, FALSE);
     gtk_widget_set_sensitive(website_length_box, FALSE);
+    gtk_widget_set_sensitive(box25, FALSE);
 
   }
 }
@@ -484,6 +488,7 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   GtkWidget *website_length = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
   GtkWidget *website_generated_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_generated_password"));
 
+
   flag_parameters_t PARAMETERS;
 
   /**
@@ -491,6 +496,10 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   * un vettore di interi di quella lunghezza
   */
   unsigned short lun_psw = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(website_length));
+  if (lun_psw == 0) {
+    DBG(std::cout << "Lunghezza password 0" << std::endl;)
+    return;
+  }
   DBG(std::cout << "Lunghezza password: " << lun_psw << std::endl;)
   /*
   * dinamico
@@ -515,6 +524,11 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   PARAMETERS.minus = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(minus));
   PARAMETERS.underscore = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(underscore));
 
+  if (!PARAMETERS.uppercase && !PARAMETERS.lowercase && !PARAMETERS.space && !PARAMETERS.special
+      && !PARAMETERS.digits && !PARAMETERS.brackets && !PARAMETERS.minus && !PARAMETERS.underscore) {
+    DBG(std::cout << "Nessun parametro selezionato" << std::endl;)
+    return;
+  }
 
   srand(time(NULL));
 
