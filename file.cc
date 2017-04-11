@@ -120,6 +120,7 @@ bool save_entries(std::string nome_file, std::string nome_utente){
 
 
         my_entry = (entry_t *)last_entry->data;
+
         DBG(std::cout << "Title: " << my_entry->title << std::endl;)
         f << my_entry->title << std::endl;
 

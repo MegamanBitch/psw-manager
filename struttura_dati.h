@@ -74,6 +74,18 @@ struct flag_parameters_t {
 
 };
 
+/**
+* @enum FileListStoreCols
+* @brief Enumerato contenente i nomi delle colonne del modello del GtkTree
+*/
+enum FileListStoreCols{
+	COL_TITLE,
+	COL_USERNAME,
+	COL_PASSWORD,
+	COL_URL,
+	COL_NOTE
+};
+
 
 #endif
 

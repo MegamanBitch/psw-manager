@@ -16,7 +16,6 @@ using namespace std;
 #include "crittografia.h"
 #include "debug.h"
 
-
 /*
 * Funzione che appende alla lista il nome e la password
 */

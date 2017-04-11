@@ -32,11 +32,39 @@ void initGUI(int argc, char* argv[]){
 
 		//Load gui
 		builder = gtk_builder_new();
-		gtk_builder_add_from_file(builder,"GUI.glade", NULL);
+		gtk_builder_add_from_file(builder,"gui/GUI.glade", NULL);
     gtk_builder_connect_signals(builder, NULL);
+
+    //Get widget
+    fileListModel = GTK_LIST_STORE(gtk_builder_get_object(builder, "fileListModel"));
+
+    assert(fileListModel != NULL);
 
 		gtk_main();
 
+}
+
+void addToFileView(entry_t &values){
+	//Get file list model
+	GtkTreeIter iter;
+
+	//Append the file to the fileListModel
+  DBG(std::cout << "appende una riga" << std::endl;)
+	gtk_list_store_append(fileListModel, &iter);
+
+  DBG(std::cout << values.title << std::endl;)
+	gtk_list_store_set (fileListModel, &iter,
+						COL_TITLE, values.title.c_str(),
+						COL_USERNAME, values.username.c_str(),
+						COL_PASSWORD, values.password.c_str(),
+						COL_URL, values.url.c_str(),
+						COL_NOTE, values.note.c_str(),
+						-1);
+}
+
+
+void clearFileView(){
+	gtk_list_store_clear(fileListModel);
 }
 
 extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
@@ -237,6 +265,7 @@ extern "C" void handler_get_username(GtkWidget *widget, GdkEvent *event, gpointe
     utente_t *my_data = (utente_t *)last_user->data;
     current_user = my_data->nome;
     gtk_label_set_text (GTK_LABEL(current_user_name), current_user.c_str());
+    clearFileView();
 
 
     openssl_encrypt(nome_file, nome_utente, master_password);
@@ -262,6 +291,19 @@ extern "C" void handler_show_website (GtkWidget *widget, GdkEvent *event, gpoint
 
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
   GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
+  GtkWidget *delete_website_insert_title = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_title"));
+  GtkWidget *delete_website_insert_username = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_username"));
+  GtkWidget *delete_website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
+  GtkWidget *delete_website_insert_repeat = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_repeat"));
+  GtkWidget *delete_website_insert_url = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_url"));
+  GtkWidget *delete_website_insert_note = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_note"));
+
+  gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_title), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_username), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_password), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_repeat), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_url), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_note), 0, -1);
 
   gtk_widget_hide(main_window);
   gtk_widget_show_all(website_window);
@@ -309,6 +351,14 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
     }
     else{
       save_entries(nome_file, nome_utente);
+
+      entry_t values;
+      values.title = var_buffer_insert_title;
+      values.username = var_buffer_insert_username;
+      values.password = var_buffer_insert_password;
+      values.url = var_buffer_insert_url;
+      values.note = var_buffer_insert_note;
+      addToFileView(values);
     }
 
     gtk_widget_show_all(main_window);
@@ -537,7 +587,7 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
 
   do {
     /**
-    * Genero un numero random da 32 a 126, che sono i caratteri della
+    * Genero un numero random da 32 `a 126, che sono i caratteri della
     * tabella ASCII utilizzabili
     */
     tmp = 32 + (rand() % (126 - 32));

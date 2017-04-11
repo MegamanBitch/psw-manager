@@ -17,6 +17,7 @@
 */
 static GtkBuilder* builder;
 
+static GtkListStore* fileListModel;
 
 void initGUI(int argc, char* argv[]);
 int getOptions();
@@ -38,6 +39,23 @@ extern "C" void handler_chooseFile (GtkWidget *widget, GdkEvent *event, gpointer
 extern "C" void handler_spinButton (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_show_credits_window (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+
+void addToFileView(entry_t &values);
+
+
+void clearFileView();
+
+/**
+* @brief Rimuove tutte le righe da ::fileListModel e reinserisce tutti i dati presenti in ::fileList
+*/
+void reloadFileView();
+
+/**
+*	@brief Ritorna l'indice della riga correntemente selezionata nella fileListView
+*
+* @return Indice della riga selezionata o -1 se nessuna riga è selezionata
+*/
+int getFileViewSelectedRow();
 
 
 
