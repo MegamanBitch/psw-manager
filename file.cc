@@ -136,13 +136,11 @@ bool save_entries(std::string nome_file, std::string nome_utente){
         DBG(std::cout << "Note: " << my_entry->note << std::endl;)
         f << my_entry->note << std::endl;
 
-        entry = entry->next;
+        entry = g_slist_next(entry);
 
       }
-      utenti = utenti->next;
+      utenti = g_slist_next(utenti);
     }
-    g_slist_free(utenti);
-    g_slist_free(entry);
     return true;
   }
   return false;

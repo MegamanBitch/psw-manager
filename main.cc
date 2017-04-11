@@ -49,10 +49,7 @@ void addToFileView(entry_t &values){
 	GtkTreeIter iter;
 
 	//Append the file to the fileListModel
-  DBG(std::cout << "appende una riga" << std::endl;)
 	gtk_list_store_append(fileListModel, &iter);
-
-  DBG(std::cout << values.title << std::endl;)
 	gtk_list_store_set (fileListModel, &iter,
 						COL_TITLE, values.title.c_str(),
 						COL_USERNAME, values.username.c_str(),
@@ -65,6 +62,23 @@ void addToFileView(entry_t &values){
 
 void clearFileView(){
 	gtk_list_store_clear(fileListModel);
+}
+
+void reloadFileView(){
+	GSList* current = lista_utenti;
+  GSList *entry;
+  utente_t *my_user = (utente_t *)current->data;
+  entry = my_user->entries;
+
+	clearFileView();
+	while(entry != NULL){
+    entry_t *my_entry = (entry_t *)entry->data;
+    addToFileView(*my_entry);
+		entry = g_slist_next(entry);
+	}
+  g_slist_free(current);
+  g_slist_free(entry);
+
 }
 
 extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
@@ -351,7 +365,7 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
     }
     else{
       save_entries(nome_file, nome_utente);
-
+      
       entry_t values;
       values.title = var_buffer_insert_title;
       values.username = var_buffer_insert_username;
@@ -482,6 +496,9 @@ extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer 
     else{
       current_user = var_login_buffer_insert_user;
       nome_utente = current_user;
+
+      reloadFileView();
+
       gtk_label_set_text (GTK_LABEL(current_user_name), current_user.c_str());
       gtk_widget_set_sensitive(add_entry, TRUE);
       gtk_widget_show_all(main_window);
