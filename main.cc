@@ -76,9 +76,6 @@ void reloadFileView(){
     addToFileView(*my_entry);
 		entry = g_slist_next(entry);
 	}
-  g_slist_free(current);
-  g_slist_free(entry);
-
 }
 
 extern "C" gboolean handler_delete_event(GtkWidget *widget, GdkEvent *event, gpointer user_data){
@@ -365,7 +362,7 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
     }
     else{
       save_entries(nome_file, nome_utente);
-      
+
       entry_t values;
       values.title = var_buffer_insert_title;
       values.username = var_buffer_insert_username;
@@ -385,35 +382,32 @@ extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointe
 
 }
 
-
 extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *switch_generate = GTK_WIDGET(gtk_builder_get_object(builder,"switch_generate"));
+  GtkWidget *box25 = GTK_WIDGET(gtk_builder_get_object(builder, "box25"));
+  GtkWidget *website_length = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
   GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
   GtkWidget *website_insert_repeat = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_repeat"));
-  GtkWidget *website_grid = GTK_WIDGET(gtk_builder_get_object(builder, "website_grid"));
-  GtkWidget *website_length_box = GTK_WIDGET(gtk_builder_get_object(builder, "website_length_box"));
-  GtkWidget *box25 = GTK_WIDGET(gtk_builder_get_object(builder, "box25"));
-
 
   if (gtk_switch_get_active(GTK_SWITCH(switch_generate)) == TRUE) {
+    gtk_widget_set_sensitive(box25, TRUE);
+    gtk_widget_set_sensitive(website_length, TRUE);
     gtk_widget_set_sensitive(website_insert_password, FALSE);
     gtk_widget_set_sensitive(website_insert_repeat, FALSE);
-    gtk_widget_set_sensitive(website_grid, TRUE);
-    gtk_widget_set_sensitive(website_length_box, TRUE);
-    gtk_widget_set_sensitive(box25, TRUE);
-
 
     GtkWidget *delete_website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
     GtkWidget *delete_website_insert_repeat = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_repeat"));
+    GtkWidget *delete_website_generated_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_generated_password"));
     gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_password), 0, -1);
     gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_repeat), 0, -1);
+    gtk_editable_delete_text(GTK_EDITABLE(delete_website_generated_password), 0, -1);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON(website_length),0);
   }
   else{
+    gtk_widget_set_sensitive(box25, FALSE);
+    gtk_widget_set_sensitive(website_length, FALSE);
     gtk_widget_set_sensitive(website_insert_password, TRUE);
     gtk_widget_set_sensitive(website_insert_repeat, TRUE);
-    gtk_widget_set_sensitive(website_grid, FALSE);
-    gtk_widget_set_sensitive(website_length_box, FALSE);
-    gtk_widget_set_sensitive(box25, FALSE);
 
   }
 }
@@ -555,9 +549,6 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   GtkWidget *website_length = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
   GtkWidget *website_generated_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_generated_password"));
 
-
-  flag_parameters_t PARAMETERS;
-
   /**
   * Prendo la lunghezza della password dall'elemento gtk_spin_button e alloco
   * un vettore di interi di quella lunghezza
@@ -573,55 +564,62 @@ extern "C" void handler_generatePassword (GtkWidget *widget, GdkEvent *event, gp
   */
   char *char_psw = new char [lun_psw + 1];
 
-  GtkWidget *uppercase = GTK_WIDGET(gtk_builder_get_object(builder, "uppercase"));
-  GtkWidget *space = GTK_WIDGET(gtk_builder_get_object(builder, "space"));
-  GtkWidget *lowercase = GTK_WIDGET(gtk_builder_get_object(builder, "lowercase"));
-  GtkWidget *special = GTK_WIDGET(gtk_builder_get_object(builder, "special"));
-  GtkWidget *digits = GTK_WIDGET(gtk_builder_get_object(builder, "digits"));
-  GtkWidget *brackets = GTK_WIDGET(gtk_builder_get_object(builder, "brackets"));
-  GtkWidget *minus = GTK_WIDGET(gtk_builder_get_object(builder, "minus"));
-  GtkWidget *underscore = GTK_WIDGET(gtk_builder_get_object(builder, "underscore"));
+  srand(time(0));
 
-  PARAMETERS.uppercase = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(uppercase));
-  PARAMETERS.lowercase = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(lowercase));
-  PARAMETERS.space = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(space));
-  PARAMETERS.special = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(special));
-  PARAMETERS.digits = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(digits));
-  PARAMETERS.brackets = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(brackets));
-  PARAMETERS.minus = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(minus));
-  PARAMETERS.underscore = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(underscore));
+  parameters_t parameters;
+  generate_numbers(parameters, lun_psw);
 
-  if (!PARAMETERS.uppercase && !PARAMETERS.lowercase && !PARAMETERS.space && !PARAMETERS.special
-      && !PARAMETERS.digits && !PARAMETERS.brackets && !PARAMETERS.minus && !PARAMETERS.underscore) {
-    DBG(std::cout << "Nessun parametro selezionato" << std::endl;)
-    return;
+  DBG(std::cout << "Numero lowercase: " << parameters.lowercase << std::endl;)
+  DBG(std::cout << "Numero uppercase: " << parameters.uppercase << std::endl;)
+  DBG(std::cout << "Numero digits: " << parameters.digits << std::endl;)
+  DBG(std::cout << "Numero special: " << parameters.special << std::endl;)
+
+  unsigned char lowercase_char;
+  unsigned char uppercase_char;
+  unsigned char digits_char;
+  unsigned char special_char;
+
+  unsigned short l = parameters.lowercase;
+  unsigned short u = parameters.uppercase;
+  unsigned short d = parameters.digits;
+  unsigned short s = parameters.special;
+
+  for (unsigned short i = 0; i < l; i++) {
+    lowercase_char = std::rand() % RANGE_LOWERCASE;
+    DBG(std::cout << "Ho estratto: " << LOWERCASE_CHARACTERS[lowercase_char] << std::endl;)
+    char_psw[i] = LOWERCASE_CHARACTERS[lowercase_char];
   }
 
-  srand(time(NULL));
+  for (unsigned short i = l; i < u + l; i++) {
+    uppercase_char = std::rand() % RANGE_UPPERCASE;
+    DBG(std::cout << "Ho estratto: " << UPPERCASE_CHARACTERS[uppercase_char] << std::endl;)
+    char_psw[i] = UPPERCASE_CHARACTERS[uppercase_char];
+  }
 
-  unsigned short tmp;
-  unsigned short contatore = 0;
+  for (unsigned short i = u + l; i < d + l + u; i++) {
+    digits_char = std::rand() % RANGE_DIGITS;
+    DBG(std::cout << "Ho estratto: " << DIGITS_CHARACTERS[digits_char] << std::endl;)
+    char_psw[i] = DIGITS_CHARACTERS[digits_char];
+  }
 
-  do {
-    /**
-    * Genero un numero random da 32 `a 126, che sono i caratteri della
-    * tabella ASCII utilizzabili
-    */
-    tmp = 32 + (rand() % (126 - 32));
-    DBG(std::cout << "Numero random: " << tmp << std::endl;)
-    if (getRandom_char(PARAMETERS, tmp) != -1) {
-      char_psw[contatore] = getRandom_char(PARAMETERS, tmp);
-      contatore++;
-    }
-  } while(contatore < lun_psw);
+  for (unsigned short i = l + u + d; i < l + u + d + s; i++) {
+    special_char = std::rand() % RANGE_SPECIAL_CHARACTERS;
+    DBG(std::cout << "Ho estratto: " << SPECIAL_CHARACTERS[special_char] << std::endl;)
+    char_psw[i] = SPECIAL_CHARACTERS[special_char];
+  }
+
+  DBG(std::cout << "Array prima di mescolarlo: ";)
+  DBG(for (unsigned short i = 0; i < lun_psw; i++) {
+    std::cout << char_psw[i];
+  })
+
+  std::random_shuffle(char_psw, char_psw + lun_psw);
+
+  DBG(std::cout << std::endl << "Array dopo averlo mescolato: ";)
+  DBG(for (unsigned short i = 0; i < lun_psw; i++) {
+    std::cout << char_psw[i];
+  })
 
   gtk_entry_set_text (GTK_ENTRY(website_generated_password), char_psw);
-
-  for (size_t i = 0; i < lun_psw; i++) {
-    DBG(std::cout << char_psw[i];)
-  }
-  DBG(std::cout << std::endl;)
-
-
 
 }

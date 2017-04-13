@@ -465,6 +465,8 @@ Every user has his own unique database, which is locked with one master password
                         </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="treeviewcolumn1">
+                            <property name="resizable">True</property>
+                            <property name="spacing">5</property>
                             <property name="title" translatable="yes">Title</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext1"/>
@@ -476,6 +478,8 @@ Every user has his own unique database, which is locked with one master password
                         </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="treeviewcolumn2">
+                            <property name="resizable">True</property>
+                            <property name="spacing">5</property>
                             <property name="title" translatable="yes">Username</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext2"/>
@@ -487,6 +491,8 @@ Every user has his own unique database, which is locked with one master password
                         </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="treeviewcolumn3">
+                            <property name="resizable">True</property>
+                            <property name="spacing">5</property>
                             <property name="title" translatable="yes">Password</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext3"/>
@@ -498,6 +504,8 @@ Every user has his own unique database, which is locked with one master password
                         </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="treeviewcolumn4">
+                            <property name="resizable">True</property>
+                            <property name="spacing">5</property>
                             <property name="title" translatable="yes">URL</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext4"/>
@@ -509,6 +517,8 @@ Every user has his own unique database, which is locked with one master password
                         </child>
                         <child>
                           <object class="GtkTreeViewColumn" id="treeviewcolumn5">
+                            <property name="resizable">True</property>
+                            <property name="spacing">5</property>
                             <property name="title" translatable="yes">Note</property>
                             <child>
                               <object class="GtkCellRendererText" id="cellrenderertext5"/>

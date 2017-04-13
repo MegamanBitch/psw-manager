@@ -1,54 +1,54 @@
 #include "gen_psw.h"
 
 
-char getRandom_char(flag_parameters_t &PARAMETERS, unsigned short random_char){
+unsigned short generate_lowercase(unsigned short start, unsigned short end){
+  // Se la lunghezza della psw e' 4 decido di restituire 1 lowercase, 1 uppercase
+  // 1 digit, 1 special. E' il best case nel worst case
+  if (end == 4)
+    return 1;
 
-  if (random_char >= 'a' && random_char <= 'z') {
-    DBG(std::cout << "lowercase" << std::endl;)
-    if (PARAMETERS.lowercase) {
-      random_char = 97 + (rand() % RANGE_LOWERCASE);
-      return random_char;
-    }
-  }
+  // Se la lunghezza e' minore di 4 restituisco tutte lowercase
+  else if (end < 4)
+    return end;
 
-  else if (random_char >= 'A' && random_char <= 'Z') {
-    DBG(std::cout << "uppercase" << std::endl;)
-    if (PARAMETERS.uppercase) {
-      random_char = 65 + (rand() % RANGE_UPPERCASE);
-      return random_char;
-    }
-  }
+  // Se la lunghezza e' maggiore di 4 restituisco un numero random di lowercase
+  // nel range [1,...,N-4]
+  else
+    return 1 + (std::rand() % (end - 4));
+}
 
-  else if ((random_char >= ' ' && random_char <= '/') || (random_char >= ':' && random_char <= '@') ||
-           (random_char >= '[' && random_char <= '`') || (random_char >= '{' && random_char <= '~')) {
-    DBG(std::cout << "special character" << std::endl;)
-    if (PARAMETERS.special) {
-      random_char = rand() % RANGE_SPECIAL_CHARACTERS;
-      return SPECIAL_CHARACTERS[random_char];
-    }
-    if (PARAMETERS.space) {
-      return 32;
-    }
-    if (PARAMETERS.minus) {
-      return 45;
-    }
-    if (PARAMETERS.underscore) {
-      return 95;
-    }
-    if (PARAMETERS.brackets) {
-      random_char = rand() % RANGE_BRACKETS;
-      return BRACKETS[random_char];
-    }
+unsigned short generate_uppercase(const unsigned short start, const unsigned short end){
+  if (end == 3)
+    return 1;
 
-  }
+  else if (end < 3)
+    return 0;
 
-  else if (random_char >= '0' && random_char <= '9') {
-    DBG(std::cout << "digit" << std::endl;)
-    if (PARAMETERS.digits) {
-      random_char = 48 + (rand() % RANGE_DIGITS);
-      return random_char;
-    }
-  }
-  DBG(std::cout << "-1 " << random_char << std::endl;)
-  return -1;
+  else
+    return 1 + (std::rand() % (end - 3));
+}
+
+unsigned short generate_digits(const unsigned short start, const unsigned short end){
+  if (end == 2)
+    return 1;
+
+  else if (end < 2)
+    return 0;
+
+  else
+    return 1 + (std::rand() % (end - 2));
+}
+
+unsigned short generate_special(const unsigned short start, const unsigned short end){
+  if (end == 1)
+    return 1;
+  else
+    return end;
+}
+
+void generate_numbers(parameters_t &parameters, const unsigned short lun_psw){
+  parameters.lowercase = generate_lowercase(1, lun_psw);
+  parameters.uppercase = generate_uppercase(1, lun_psw - parameters.lowercase);
+  parameters.digits = generate_digits(1, lun_psw - parameters.lowercase - parameters.uppercase);
+  parameters.special = generate_special(1, lun_psw - parameters.lowercase - parameters.uppercase - parameters.digits);
 }

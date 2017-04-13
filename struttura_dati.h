@@ -61,19 +61,6 @@ struct utente_t {
 };
 
 
-
-struct flag_parameters_t {
-  bool uppercase;
-  bool lowercase;
-  bool space;
-  bool special;
-  bool digits;
-  bool minus;
-  bool underscore;
-  bool brackets;
-
-};
-
 /**
 * @enum FileListStoreCols
 * @brief Enumerato contenente i nomi delle colonne del modello del GtkTree
@@ -84,6 +71,13 @@ enum FileListStoreCols{
 	COL_PASSWORD,
 	COL_URL,
 	COL_NOTE
+};
+
+struct parameters_t {
+  unsigned short lowercase;
+  unsigned short uppercase;
+  unsigned short digits;
+  unsigned short special;
 };
 
 

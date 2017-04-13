@@ -164,6 +164,9 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
     my_user->master_password = password;
     my_user->entries = NULL;
 
+    DBG(std::cout << "Nome utente: " << my_user->nome << std::endl;)
+    DBG(std::cout << "Password: " << my_user->master_password << std::endl;)
+
     lista_utenti = g_slist_append(lista_utenti, my_user);
 
 
