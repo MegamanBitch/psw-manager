@@ -1,7 +1,7 @@
 #include "struttura_dati.h"
 
-GSList *lista_utenti;
+GSList *user_list;
 
-void inizializza(){
-  lista_utenti = NULL;
+void user_list_init(){
+  user_list = NULL;
 }

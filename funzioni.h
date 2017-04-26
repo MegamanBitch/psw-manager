@@ -2,7 +2,7 @@
  * Header file contenente l'interfaccia del modulo delle funzioni
  */
 
- /* Funzione per l'inizializzazione del contenitore */
+ /* Funzione per l'user_list_initzione del contenitore */
 
 #ifndef FUNZIONI_H
 #define FUNZIONI_H

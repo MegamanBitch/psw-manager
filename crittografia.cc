@@ -1,7 +1,7 @@
 #include <iostream>
 #include "crittografia.h"
 
-void openssl_inizializza(){
+void openssl_user_list_init(){
   /* Load the human readable error strings for libcrypto */
   ERR_load_crypto_strings();
 
@@ -33,7 +33,7 @@ int get_ascii_code(const char carattere){
 
 bool openssl_encrypt(std::string filename, std::string nome, std::string password){
   /*
-  if(g_slist_find(lista_utenti, nome) == NULL){
+  if(g_slist_find(user_list, nome) == NULL){
     DBG(std::cout << "Utente non esiste" << std::endl;);
     return false;
   }

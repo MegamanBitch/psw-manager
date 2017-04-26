@@ -4,7 +4,7 @@
 bool salva_credenziali(std::string filename, std::string username, std::string password, size_t salt){
     std::ofstream f(filename.c_str(), std::ios::app);
     if (f.good()) {
-      if (g_slist_length(lista_utenti) != 0) {
+      if (g_slist_length(user_list) != 0) {
         // username.size() + 1 per aggiungere il terminatore alla stringa '/0'
         f << username << std::endl;
         f << password << std::endl;
@@ -73,10 +73,12 @@ bool login_check(std::string nome_file, std::string username, std::string passwo
   if(openssl_decrypt(username, password, saved_salt, saved_username, saved_password)){
     DBG( std::cout << "Le credenziali coincidono, accesso effettuato" << std::endl;)
     load_entries(nome_file, username, password);
+    f.close();
     return true;
   }
   else{
     DBG(std::cout << "Le credenziali non coincidono, acesso fallito" << std::endl;)
+    f.close();
     return false;
   }
 
@@ -91,20 +93,20 @@ bool save_entries(std::string nome_file, std::string nome_utente){
     /**
     * Uso una GSList temporanea @utenti e @entry
     */
-    GSList *utenti = lista_utenti;
+    GSList *utenti = user_list;
     GSList *entry;
-    utente_t *my_user;
+    user_t *my_user;
     entry_t *my_entry;
 
-    DBG(std::cout << "Numero di utenti: " << g_slist_length(lista_utenti) << std::endl;)
+    DBG(std::cout << "Numero di utenti: " << g_slist_length(user_list) << std::endl;)
     while (utenti != NULL) {
       /**
       * Faccio un cast @utenti->data per poter leggerne il contenuto
       */
-      my_user = (utente_t *)utenti->data;
-      DBG(std::cout << "Comparo " << my_user->nome << " con " << nome_utente << std::endl;)
+      my_user = (user_t *)utenti->data;
+      DBG(std::cout << "Comparo " << my_user->name << " con " << nome_utente << std::endl;)
 
-      if (my_user->nome == nome_utente) {
+      if (my_user->name == nome_utente) {
 
         /**
         * Assegno alla GSList temporanea @entry la lista dell'user corrente.
@@ -141,8 +143,10 @@ bool save_entries(std::string nome_file, std::string nome_utente){
       }
       utenti = g_slist_next(utenti);
     }
+    f.close();
     return true;
   }
+  f.close();
   return false;
 }
 
@@ -155,19 +159,19 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
     /**
     * Se coincidono distruggo la lista e carico in memoria tutte le entries dell'utente
     */
-    g_slist_free(lista_utenti);
-    inizializza();
+    g_slist_free(user_list);
+    user_list_init();
 
-    utente_t *my_user = new utente_t;
+    user_t *my_user = new user_t;
 
-    my_user->nome = username;
+    my_user->name = username;
     my_user->master_password = password;
     my_user->entries = NULL;
 
-    DBG(std::cout << "Nome utente: " << my_user->nome << std::endl;)
+    DBG(std::cout << "Nome utente: " << my_user->name << std::endl;)
     DBG(std::cout << "Password: " << my_user->master_password << std::endl;)
 
-    lista_utenti = g_slist_append(lista_utenti, my_user);
+    user_list = g_slist_append(user_list, my_user);
 
 
     f.open((nome_file.c_str()), std::ifstream::in);
@@ -237,6 +241,7 @@ bool load_entries(std::string nome_file, std::string username, std::string passw
       my_user->entries = g_slist_reverse(my_user->entries);
     }
     DBG(stampa_lista();)
+    f.close();
     return f;
 
 }
@@ -252,5 +257,5 @@ void getEntryProp(istream& input, string& output){
     output = output + " " + temp;
   }
   //input >> c;
-  cout << "ho letto " << output << endl;
+  DBG(cout << "ho letto " << output << endl;)
 }

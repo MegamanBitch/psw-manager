@@ -318,6 +318,75 @@ Every user has his own unique database, which is locked with one master password
     <property name="can_focus">False</property>
     <property name="stock">gtk-add</property>
   </object>
+  <object class="GtkDialog" id="error_match_password_window1">
+    <property name="can_focus">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-always</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vbox5">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area5">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="error_match_retry1">
+                <property name="label">Retry</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">retry2</property>
+                <property name="image_position">bottom</property>
+                <property name="always_show_image">True</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="error_match_image2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="pixel_size">100</property>
+            <property name="icon_name">dialog-error</property>
+            <property name="icon_size">3</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="error_match_label1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Password do not match. Retry </property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
   <object class="GtkListStore" id="fileListModel">
     <columns>
       <!-- column-name name -->
@@ -387,7 +456,7 @@ Every user has his own unique database, which is locked with one master password
                     <property name="label" translatable="yes">Add Entry</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">entry</property>
-                    <signal name="clicked" handler="handler_show_website" swapped="no"/>
+                    <signal name="clicked" handler="handler_show_entry" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1144,6 +1213,11 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
       </object>
     </child>
   </object>
+  <object class="GtkImage" id="retry2">
+    <property name="visible">True</property>
+    <property name="can_focus">False</property>
+    <property name="stock">gtk-redo</property>
+  </object>
   <object class="GtkTreeStore" id="treestore1">
     <columns>
       <!-- column-name Utente -->
@@ -1431,128 +1505,12 @@ There's also an optional URL and Note field that you can add.
               </packing>
             </child>
             <child>
-              <object class="GtkGrid" id="website_grid">
+              <object class="GtkSeparator" id="separator2">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="column_spacing">5</property>
-                <property name="column_homogeneous">True</property>
-                <child>
-                  <object class="GtkCheckButton" id="space">
-                    <property name="label" translatable="yes">Space ( )</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="yalign">0.51999998092651367</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="uppercase">
-                    <property name="label" translatable="yes">Upper -case (A, B, C, ...)</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="lowercase">
-                    <property name="label" translatable="yes">Lower-case (a, b, c, ...)</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="special">
-                    <property name="label" translatable="yes">Special (!, $, %, &amp;, ...)</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="digits">
-                    <property name="label" translatable="yes">Digits (0, 1, 2, ...)</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="yalign">0.51999998092651367</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="brackets">
-                    <property name="label" translatable="yes">Brackets ([, ], {, }, (, ), &lt;, &gt;)</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="minus">
-                    <property name="label" translatable="yes">Minus ( - )</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">3</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkCheckButton" id="underscore">
-                    <property name="label" translatable="yes">Underscore ( _ )</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
-                    <property name="xalign">0</property>
-                    <property name="draw_indicator">True</property>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">3</property>
-                  </packing>
-                </child>
               </object>
               <packing>
-                <property name="expand">True</property>
+                <property name="expand">False</property>
                 <property name="fill">True</property>
                 <property name="padding">5</property>
                 <property name="position">1</property>
@@ -1651,7 +1609,7 @@ There's also an optional URL and Note field that you can add.
                 <property name="image">accept</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
-                <signal name="clicked" handler="handler_get_website" swapped="no"/>
+                <signal name="clicked" handler="handler_get_entry" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>

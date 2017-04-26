@@ -29,8 +29,8 @@ extern "C" void handler_get_masterPassword (GtkWidget *widget, GdkEvent *event, 
 extern "C" void handler_show_welcome_window (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_get_username (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_show_main_window (GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void handler_show_website (GtkWidget *widget, GdkEvent *event, gpointer user_data);
-extern "C" void handler_get_website (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_show_entry (GtkWidget *widget, GdkEvent *event, gpointer user_data);
+extern "C" void handler_get_entry (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_show_login (GtkWidget *widget, GdkEvent *event, gpointer user_data);
 extern "C" void handler_get_login (GtkWidget *widget, GdkEvent *event, gpointer user_data);

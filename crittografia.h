@@ -6,6 +6,7 @@
 #include <openssl/evp.h>
 #include <openssl/err.h>
 #include <openssl/rand.h>
+#include <openssl/aes.h>
 #include <sstream>
 #include <string.h>
 #include <iomanip>
@@ -14,7 +15,7 @@
 #include "file.h"
 
 
-void openssl_inizializza();
+void openssl_user_list_init();
 void openssl_quit();
 
 

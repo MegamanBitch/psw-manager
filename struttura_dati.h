@@ -1,9 +1,9 @@
-/*
- * Header file contenente le dichiarazioni della struttura dati comune.
+/**
+ * Header file data structure.
  */
 
 
-/* Inizio header del modulo Struttura Dati */
+/* Begin data structure header file */
 
 #ifndef STRUTTURA_DATI_H
 #define STRUTTURA_DATI_H
@@ -11,76 +11,77 @@
 #include <string>
 #include <gtk/gtk.h>
 
-extern GSList *lista_utenti;
-
-
-void inizializza();
-
-/* Password:
-* Struttura dati per gestire le password.
-* Puntatore di caratteri alla password. Si chiede
-* all'utente quanto robusta deve essere la password
-* e si alloca in base alla dimensione, la lunghezza
-* della password viene salvata in num_caratteri
+/**
+* @var user_list
+* global GSList that stores the user lists.
+* A new user is added in this list every time
+* @see handler_add_user
+* is called.
 */
-struct password_t {
-  std::string stringa_psw;
-  unsigned short num_caratteri;
-};
+extern GSList *user_list;
 
+/**
+* Function that initialize @var user_list to NULL
+* @param NULL
+* @return void
+*/
+void user_list_init();
 
-/* Entry:
-* struttura dati per gestire le entry, ovvero le voci
-* che un utente puo' inserire. Una voce e' un programma
-* o un'applicazione che necessita una password.
-* Ha un campo stringa di lunghezza massima MAXLUNNOME
-* e un campo password_t.
+/**
+* Entry structure:
+* @struct entry_t
+* represent a website|field that every user can add.
+* A new entry is created every time
+* @see handler_get_entry
+* is called
 */
 struct entry_t {
-  std::string title;
-  std::string username;
-  std::string password;
-  std::string url;
-  std::string note;
+  std::string title; /**< @var title string that stores the title */
+  std::string username; /**< @var username string that stores the username */
+  std::string password; /**< @var password string that stores the password */
+  std::string url; /**< @var url string that stores the address */
+  std::string note; /**< @var note string that stores the address */
 };
 
 
-
-/* Utente:
-* Struttura dati per gestire gli utenti.
-* Un utente ha un campo stringa di lunghezza massima
-* MAXLUNNOME e un campo password_t. La password
-* in questo caso e' la master_password, ovvero la
-* password con cui un utente accede al database, ogni
-* utente ha una master_password personale
+/**
+* User structure:
+* @struct user_t
+* data structure used to manage users.
 */
-struct utente_t {
-  GSList *entries;
-  std::string nome;
-  std::string master_password;
+struct user_t {
+  GSList *entries; /**< @var entries GSList of entries @see entry_t */
+  std::string name; /**< @var name string that stores the name of the user */
+  std::string master_password; /**< @var master_password string that stores the password of the user */
 };
 
 
 /**
 * @enum FileListStoreCols
-* @brief Enumerato contenente i nomi delle colonne del modello del GtkTree
+* contains the column names of the GtkTree model
 */
 enum FileListStoreCols{
-	COL_TITLE,
-	COL_USERNAME,
-	COL_PASSWORD,
-	COL_URL,
-	COL_NOTE
+	COL_TITLE, /**< @var COL_TITLE @see entry_t */
+	COL_USERNAME, /**< @var COL_USERNAME @see entry_t */
+	COL_PASSWORD, /**< @var COL_PASSWORD @see entry_t */
+	COL_URL, /**< @var COL_URL @see entry_t */
+	COL_NOTE /**< @var COL_NOTE @see entry_t */
 };
 
+/**
+* Parameter structure:
+* @struct parameters_t
+* data structure used for the parameters in the generated password.
+* @see generate_numbers
+*/
 struct parameters_t {
-  unsigned short lowercase;
-  unsigned short uppercase;
-  unsigned short digits;
-  unsigned short special;
+  unsigned short lowercase; /**< @var lowercase unsigned short that stores the number of the lowercase in the generated password */
+  unsigned short uppercase; /**< @var uppercase unsigned short that stores the number of the uppercase in the generated password */
+  unsigned short digits; /**< @var digits unsigned short that stores the number of the digits in the generated password */
+  unsigned short special; /**< @var special unsigned short that stores the number of the special characters in the generated password */
 };
 
 
 #endif
 
-/* Fine header modulo Struttura Dati */
+/* end data structure header file */

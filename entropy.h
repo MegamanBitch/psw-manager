@@ -22,7 +22,7 @@ struct entropy_t {
   unsigned short ris;
 };
 
-void entropy_inizializza(entropy_t &e);
+void entropy_user_list_init(entropy_t &e);
 /*
 * Funzione che ritorna il valore dell'entropia aggiunta da un singolo carattere
 */

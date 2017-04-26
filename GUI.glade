@@ -387,7 +387,7 @@ Every user has his own unique database, which is locked with one master password
                     <property name="label" translatable="yes">Add Entry</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">entry</property>
-                    <signal name="clicked" handler="handler_show_website" swapped="no"/>
+                    <signal name="clicked" handler="handler_show_entry" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1595,7 +1595,7 @@ There's also an optional URL and Note field that you can add.
                 <property name="image">accept</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
-                <signal name="clicked" handler="handler_get_website" swapped="no"/>
+                <signal name="clicked" handler="handler_get_entry" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
