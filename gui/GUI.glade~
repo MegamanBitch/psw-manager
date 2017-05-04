@@ -324,12 +324,12 @@ Every user has his own unique database, which is locked with one master password
     <property name="window_position">center-always</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox5">
+      <object class="GtkBox" id="dialog-vbox6">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area5">
+          <object class="GtkButtonBox" id="dialog-action_area6">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
@@ -344,6 +344,7 @@ Every user has his own unique database, which is locked with one master password
                 <property name="image">retry2</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
+                <signal name="clicked" handler="handler_show_website" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -456,7 +457,7 @@ Every user has his own unique database, which is locked with one master password
                     <property name="label" translatable="yes">Add Entry</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">entry</property>
-                    <signal name="clicked" handler="handler_show_entry" swapped="no"/>
+                    <signal name="clicked" handler="handler_show_website" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>

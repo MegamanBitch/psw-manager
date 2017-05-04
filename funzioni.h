@@ -1,13 +1,6 @@
-/*
- * Header file contenente l'interfaccia del modulo delle funzioni
- */
-
- /* Funzione per l'user_list_initzione del contenitore */
-
 #ifndef FUNZIONI_H
 #define FUNZIONI_H
 
-using namespace std;
 
 #include <iostream>
 #include <cstring>
@@ -16,19 +9,31 @@ using namespace std;
 #include "crittografia.h"
 #include "debug.h"
 
-/*
-* Funzione che appende alla lista il nome e la password
+/**
+* @brief append user to the ::user_list
+*
+* @param[in] name ::user_t::name
+* @param[in] password ::user_t::master_password
+* @return TRUE if the user has been added
 */
-bool aggiungi_utente(std::string nome, std::string password);
+bool add_user(std::string name, std::string password);
 
-/*
-* Funzione che appende alla lista una entry
+/**
+* @brief append one ::user_t::entries::entry_t to ::user_list::user_t
+*
+* @param[in] nome_utente ::user_list::user_t::name
+* @param[in] title ::entry_t::title
+* @param[in] username ::entry_t::username
+* @param[in] password ::entry_t::password
+* @param[in] url ::entry_t::url
+* @param[in] note ::entry_t::note
+* @return TRUE if @var nome_utente is found in ::user_list::user_t::name
 */
-bool aggiungi_entry(std::string nome_utente, std::string title, std::string username, std::string password, std::string url, std::string note);
+bool add_entry(std::string nome_utente, std::string title, std::string username, std::string password, std::string url, std::string note);
 
-/*
-* Funzione che stampa l'intera lista
+/**
+* @brief print everything in ::user_list
 */
-void stampa_lista();
+void print_list();
 
 #endif

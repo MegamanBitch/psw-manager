@@ -1,0 +1,7 @@
+var searchData=
+[
+  ['openssl_5fdecrypt',['openssl_decrypt',['../crittografia_8cc.html#a96f131f21e02310759104edb070ac789',1,'openssl_decrypt(std::string username, std::string password, size_t salt, std::string saved_username, std::string saved_password):&#160;crittografia.cc'],['../crittografia_8h.html#a90ef7495265b15e149edbef200d2e2b5',1,'openssl_decrypt(const std::string username, const std::string password, size_t salt, const std::string saved_username, const std::string saved_password):&#160;crittografia.cc']]],
+  ['openssl_5fencrypt',['openssl_encrypt',['../crittografia_8cc.html#a9c726c580fa24be2e01b5034962977db',1,'openssl_encrypt(std::string filename, std::string name, std::string password):&#160;crittografia.cc'],['../crittografia_8h.html#a899e149087ef00c70c3ce36c2547a60c',1,'openssl_encrypt(const std::string filename, const std::string name, std::string password):&#160;crittografia.cc']]],
+  ['openssl_5fquit',['openssl_quit',['../crittografia_8cc.html#a7cd6ee6365fcd000d8118280a5061ddd',1,'openssl_quit():&#160;crittografia.cc'],['../crittografia_8h.html#a7cd6ee6365fcd000d8118280a5061ddd',1,'openssl_quit():&#160;crittografia.cc']]],
+  ['openssl_5fuser_5flist_5finit',['openssl_user_list_init',['../crittografia_8cc.html#a2027ac15b7bfcd4390a6f9ce3ad351a0',1,'openssl_user_list_init():&#160;crittografia.cc'],['../crittografia_8h.html#a2027ac15b7bfcd4390a6f9ce3ad351a0',1,'openssl_user_list_init():&#160;crittografia.cc']]]
+];

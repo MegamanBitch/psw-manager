@@ -344,7 +344,7 @@ Every user has his own unique database, which is locked with one master password
                 <property name="image">retry2</property>
                 <property name="image_position">bottom</property>
                 <property name="always_show_image">True</property>
-                <signal name="clicked" handler="handler_show_entry" swapped="no"/>
+                <signal name="clicked" handler="handler_show_website" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>

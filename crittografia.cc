@@ -24,20 +24,7 @@ void openssl_quit(){
 }
 
 
-int get_ascii_code(const char carattere){
-  unsigned short ascii;
-  ascii = int(carattere);
-  return ascii;
-}
-
-
-bool openssl_encrypt(std::string filename, std::string nome, std::string password){
-  /*
-  if(g_slist_find(user_list, nome) == NULL){
-    DBG(std::cout << "Utente non esiste" << std::endl;);
-    return false;
-  }
-  */
+bool openssl_encrypt(std::string filename, std::string name, std::string password){
 
   srand(time(NULL));
   size_t salt = rand();
@@ -47,7 +34,7 @@ bool openssl_encrypt(std::string filename, std::string nome, std::string passwor
   std::ostringstream concat_user;
 
   concat_password << password << salt;
-  concat_user << nome << salt;
+  concat_user << name << salt;
   DBG(std::cout << concat_password.str() << std::endl;)
   DBG(std::cout << concat_user.str() << std::endl;)
 
@@ -60,7 +47,7 @@ bool openssl_encrypt(std::string filename, std::string nome, std::string passwor
   DBG(std::cout << "Hash user: " << concat_user_hash << std::endl;)
 
   DBG(std::cout << "Nome file: " << filename << std::endl;)
-  if (!salva_credenziali(filename, concat_user_hash, concat_password_hash, salt)) {
+  if (!save_credentials(filename, concat_user_hash, concat_password_hash, salt)) {
     DBG(std::cout << "Errore apertura file" << std::endl;)
   }
 
@@ -111,12 +98,6 @@ bool openssl_decrypt(std::string username, std::string password, size_t salt, st
   DBG(std::cout << "Hash password: " << concat_password_hash << std::endl;)
   DBG(std::cout << "Hash user: " << concat_user_hash << std::endl;)
 
-  /*
-  username = sha512(username);
-  DBG(std::cout << "sha512 dell'username inserito: " << username << std::endl;)
-  password = sha512(password);
-  DBG(std::cout << "sha512 della password inserita: " << password << std::endl;)
-  */
 
   if ((strcmp(concat_user_hash.c_str(), saved_username.c_str()) == 0) && (strcmp(concat_password_hash.c_str(), saved_password.c_str()) == 0)) {
     return true;

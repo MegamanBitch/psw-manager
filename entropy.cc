@@ -7,7 +7,7 @@ static unsigned short has_specialCaracter = 0;
 static double ris = 0;
 
 
-void entropy_azzera(){
+void entropy_reset(){
   has_lowercase = 0;
   has_uppercase = 0;
   has_digit = 0;
