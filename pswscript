@@ -1,0 +1,59 @@
+#!/bin/bash
+
+NARGS=$#
+file="$1"
+OPTION="$2"
+
+function main() {
+  error_check
+  if [[ "$OPTION" = "--encrypt" ]]; then
+    if gpg -c $file && shred -zfu $file; then
+      echo "encrypt on $file successfully"
+    else
+      echo "encrypt on $file aborted"
+    fi
+  elif [[ "$OPTION" = "--decrypt" ]]; then
+    if gpg -o $(basename $file .gpg) -d $file && rm -rf $file; then
+      echo "decrypt on $file successfully"
+    else
+      echo "decrypt on $file aborted"
+    fi
+  fi
+  exit 0
+}
+
+function error_check() {
+  # The $# variable will tell you the number of input arguments the script was passed.
+  if [[ $NARGS -ne 2 && "$file" != "--help" ]]; then
+    echo "Not enough arguments supplied, use the option --help"
+    exit 1
+  fi
+  # The -z switch will test if the expansion of "$1" is a null string or not. If it is a null string then the body is executed.
+  if [[ -z $file ]]; then
+    echo "input file missing, use the option --help"
+    exit 1
+  fi
+  if [[ "$OPTION" != "--encrypt" && "$OPTION" != "--decrypt" && "$file" != "--help" ]]; then
+    echo "option not specified, use the option --help"
+    exit 1
+  fi
+  if [[ "$file" = "--help" ]]; then
+    printf "Password Manager 1.0.86\n"
+    printf "Copyright (C) 2015 Free Software Foundation, Inc.\n"
+    printf "License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n"
+    printf "This is free software: you are free to change and redistribute it.\n"
+    printf "There is NO WARRANTY, to the extent permitted by law.\n\n"
+    printf "Syntax: pswscript [files] [options]\n\n"
+    printf "Options:\n"
+    echo -n " --"
+    printf "encrypt \t encrypt the file with AES128, shred and remove the text file\n"
+    echo -n " --"
+    printf "decrypt \t decrypt and remove the .gpg file\n"
+    echo -n " --"
+    printf "help    \t print a usage message summarizing the most useful command line options.\n"
+    exit 0
+  fi
+}
+
+
+main
