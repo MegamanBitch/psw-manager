@@ -140,32 +140,32 @@ extern "C" void handler_add_user(GtkWidget *widget, GdkEvent *event, gpointer us
   gtk_file_chooser_set_current_name (chooser, ("*.txt"));
 
   res = gtk_dialog_run (GTK_DIALOG (dialog));
-  if (res == GTK_RESPONSE_ACCEPT)
-    {
-      char *filename;
+  if (res == GTK_RESPONSE_ACCEPT) {
+    char *filename;
 
-      filename = gtk_file_chooser_get_filename (chooser);
-      nome_file = gtk_file_chooser_get_filename (chooser);
-      file_init (filename);
-      g_free (filename);
-    }
+    filename = gtk_file_chooser_get_filename (chooser);
+    nome_file = gtk_file_chooser_get_filename (chooser);
+    file_init (filename);
+    g_free (filename);
 
-  gtk_widget_destroy (dialog);
+    gtk_widget_destroy (dialog);
 
+    gtk_widget_hide(error_match_password);
+    gtk_widget_hide(main_window);
+    gtk_widget_show_all(initialize_master_password_window);
 
+    GtkWidget *delete_insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
+    GtkWidget *delete_repeat_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "repeat_master_password"));
 
+    gtk_editable_delete_text(GTK_EDITABLE(delete_insert_master_password), 0, -1);
+    gtk_editable_delete_text(GTK_EDITABLE(delete_repeat_master_password), 0, -1);
 
-  gtk_widget_hide(error_match_password);
-  gtk_widget_hide(main_window);
-  gtk_widget_show_all(initialize_master_password_window);
-
-
-  GtkWidget *delete_insert_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "insert_master_password"));
-  GtkWidget *delete_repeat_master_password = GTK_WIDGET(gtk_builder_get_object(builder, "repeat_master_password"));
-
-
-  gtk_editable_delete_text(GTK_EDITABLE(delete_insert_master_password), 0, -1);
-  gtk_editable_delete_text(GTK_EDITABLE(delete_repeat_master_password), 0, -1);
+  }
+  else if (res == GTK_RESPONSE_CANCEL){
+    gtk_widget_hide(dialog);
+    gtk_widget_destroy(dialog);
+    gtk_widget_show_all(main_window);
+  }
 
 }
 
@@ -287,6 +287,7 @@ extern "C" void handler_show_entry (GtkWidget *widget, GdkEvent *event, gpointer
   GtkWidget *error_match_password1 = GTK_WIDGET(gtk_builder_get_object(builder, "error_match_password_window1"));
   gtk_widget_hide(error_match_password1);
 
+
   if (g_slist_length(user_list) == 0) {
     DBG(std::cout << "Non e' presente nessun utente nel database" << std::endl;)
     return;
@@ -294,6 +295,7 @@ extern "C" void handler_show_entry (GtkWidget *widget, GdkEvent *event, gpointer
 
   GtkWidget *main_window = GTK_WIDGET(gtk_builder_get_object(builder, "main_window"));
   GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
+  GtkWidget *delete_website_generated_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_generated_password"));
   GtkWidget *delete_website_insert_title = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_title"));
   GtkWidget *delete_website_insert_username = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_username"));
   GtkWidget *delete_website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
@@ -301,12 +303,17 @@ extern "C" void handler_show_entry (GtkWidget *widget, GdkEvent *event, gpointer
   GtkWidget *delete_website_insert_url = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_url"));
   GtkWidget *delete_website_insert_note = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_note"));
 
+  GtkWidget *website_length = GTK_WIDGET(gtk_builder_get_object(builder, "website_length"));
+
   gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_title), 0, -1);
   gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_username), 0, -1);
   gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_password), 0, -1);
   gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_repeat), 0, -1);
   gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_url), 0, -1);
   gtk_editable_delete_text(GTK_EDITABLE(delete_website_insert_note), 0, -1);
+  gtk_editable_delete_text(GTK_EDITABLE(delete_website_generated_password), 0, -1);
+
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON(website_length), 0);
 
   gtk_widget_hide(main_window);
   gtk_widget_show_all(website_window);
@@ -319,6 +326,7 @@ extern "C" void handler_get_entry (GtkWidget *widget, GdkEvent *event, gpointer 
   GtkWidget *website_window = GTK_WIDGET(gtk_builder_get_object(builder, "website_window"));
   GtkWidget *error_match_password1 = GTK_WIDGET(gtk_builder_get_object(builder, "error_match_password_window1"));
 
+  GtkWidget *switch_generate = GTK_WIDGET(gtk_builder_get_object(builder,"switch_generate"));
   GtkWidget *website_insert_title= GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_title"));
   GtkWidget *website_insert_username= GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_username"));
   GtkWidget *website_insert_password = GTK_WIDGET(gtk_builder_get_object(builder, "website_insert_password"));
@@ -345,48 +353,86 @@ extern "C" void handler_get_entry (GtkWidget *widget, GdkEvent *event, gpointer 
   const gchar *var_buffer_insert_password = gtk_entry_buffer_get_text(website_buffer_insert_password);
   const gchar *var_buffer_insert_repeat = gtk_entry_buffer_get_text(website_buffer_insert_repeat);
 
-  if (gtk_entry_get_text_length (GTK_ENTRY(website_insert_password)) != 0 &&
-      (strcmp(var_buffer_insert_password, var_buffer_insert_repeat) == 0)) {
-    var_buffer_insert_password = gtk_entry_buffer_get_text(website_buffer_insert_password);
-    DBG(std::cout << "Password:  " << var_buffer_insert_password << std::endl);
-  }
+  switch (gtk_switch_get_active(GTK_SWITCH(switch_generate))) {
+    case TRUE:
+      if (gtk_entry_get_text_length (GTK_ENTRY(website_generated_password)) != 0) {
+        var_buffer_insert_password = gtk_entry_buffer_get_text(website_buffer_generated_password);
+        DBG(std::cout << "Password:  " << var_buffer_insert_password << std::endl);
 
-  else if (gtk_entry_get_text_length (GTK_ENTRY(website_generated_password)) != 0) {
-    var_buffer_insert_password = gtk_entry_buffer_get_text(website_buffer_generated_password);
-    DBG(std::cout << "Password:  " << var_buffer_insert_password << std::endl);
+        const gchar *var_buffer_insert_url = gtk_entry_buffer_get_text(website_buffer_insert_url);
+        DBG(std::cout << "URL:  " << var_buffer_insert_url << std::endl);
 
-    const gchar *var_buffer_insert_url = gtk_entry_buffer_get_text(website_buffer_insert_url);
-    DBG(std::cout << "URL:  " << var_buffer_insert_url << std::endl);
+        const gchar *var_buffer_insert_note = gtk_entry_buffer_get_text(website_buffer_insert_note);
+        DBG(std::cout << "Note:  " << var_buffer_insert_note << std::endl);
 
-    const gchar *var_buffer_insert_note = gtk_entry_buffer_get_text(website_buffer_insert_note);
-    DBG(std::cout << "Note:  " << var_buffer_insert_note << std::endl);
+        if (!add_entry(nome_utente, var_buffer_insert_title, var_buffer_insert_username, var_buffer_insert_password,
+              var_buffer_insert_url, var_buffer_insert_note)) {
+          DBG(std::cout << "Non esiste questo utente" << std::endl;)
+          DBG(std::cout << "Nessuna password inserita" << std::endl;)
+          gtk_widget_show_all(error_match_password1);
+          gtk_widget_hide(website_window);
+        }
+        else{
+          save_entries(nome_file, nome_utente);
 
-    if (!add_entry(nome_utente, var_buffer_insert_title, var_buffer_insert_username, var_buffer_insert_password,
-          var_buffer_insert_url, var_buffer_insert_note)) {
-      DBG(std::cout << "Non esiste questo utente" << std::endl;)
-      DBG(std::cout << "Nessuna password inserita" << std::endl;)
-      gtk_widget_show_all(error_match_password1);
-      gtk_widget_hide(website_window);
-    }
-    else{
-      save_entries(nome_file, nome_utente);
+          entry_t values;
+          values.title = var_buffer_insert_title;
+          values.username = var_buffer_insert_username;
+          values.password = var_buffer_insert_password;
+          values.url = var_buffer_insert_url;
+          values.note = var_buffer_insert_note;
+          addToFileView(values);
 
-      entry_t values;
-      values.title = var_buffer_insert_title;
-      values.username = var_buffer_insert_username;
-      values.password = var_buffer_insert_password;
-      values.url = var_buffer_insert_url;
-      values.note = var_buffer_insert_note;
-      addToFileView(values);
-    }
+        }
+        gtk_widget_show_all(main_window);
+        gtk_widget_hide(website_window);
+      }
+      else{
+        gtk_widget_show_all(error_match_password1);
+        gtk_widget_hide(website_window);
+      }
+      break;
+    case FALSE:
+      if (gtk_entry_get_text_length (GTK_ENTRY(website_insert_password)) != 0 &&
+      strcmp(var_buffer_insert_password, var_buffer_insert_repeat) == 0) {
+        var_buffer_insert_password = gtk_entry_buffer_get_text(website_buffer_insert_password);
+        DBG(std::cout << "Password:  " << var_buffer_insert_password << std::endl);
 
-    gtk_widget_show_all(main_window);
-    gtk_widget_hide(website_window);
+        const gchar *var_buffer_insert_url = gtk_entry_buffer_get_text(website_buffer_insert_url);
+        DBG(std::cout << "URL:  " << var_buffer_insert_url << std::endl);
 
+        const gchar *var_buffer_insert_note = gtk_entry_buffer_get_text(website_buffer_insert_note);
+        DBG(std::cout << "Note:  " << var_buffer_insert_note << std::endl);
 
-  }
+        if (!add_entry(nome_utente, var_buffer_insert_title, var_buffer_insert_username, var_buffer_insert_password,
+              var_buffer_insert_url, var_buffer_insert_note)) {
+          DBG(std::cout << "Non esiste questo utente" << std::endl;)
+          DBG(std::cout << "Nessuna password inserita" << std::endl;)
+          gtk_widget_show_all(error_match_password1);
+          gtk_widget_hide(website_window);
+        }
+        else{
+          save_entries(nome_file, nome_utente);
 
+          entry_t values;
+          values.title = var_buffer_insert_title;
+          values.username = var_buffer_insert_username;
+          values.password = var_buffer_insert_password;
+          values.url = var_buffer_insert_url;
+          values.note = var_buffer_insert_note;
+          addToFileView(values);
+        }
+        gtk_widget_show_all(main_window);
+        gtk_widget_hide(website_window);
+        }
+        else{
+          gtk_widget_show_all(error_match_password1);
+          gtk_widget_hide(website_window);
+        }
+      }
 }
+
+
 
 extern "C" void handler_freeze_generatePassword (GtkWidget *widget, GdkEvent *event, gpointer user_data){
   GtkWidget *switch_generate = GTK_WIDGET(gtk_builder_get_object(builder,"switch_generate"));
@@ -530,7 +576,6 @@ extern "C" void handler_entropy (GtkWidget *widget, GdkEvent *event, gpointer us
 
   DBG(std::cout << "Carattere: " << character;);
   DBG(std::cout << " Entropia: " << ris << std::endl;);
-  //DBG(std::cout << "Numero lowercase: " << has_lowercase << std::endl;);
 }
 
 

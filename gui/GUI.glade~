@@ -184,7 +184,7 @@ When you're done hit OK to get started.
           <object class="GtkLabel" id="credits_version">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">&lt;i&gt;Version&lt;/i&gt;</property>
+            <property name="label" translatable="yes">&lt;i&gt;Version&lt;/i&gt; 1.0.86</property>
             <property name="use_markup">True</property>
           </object>
           <packing>
@@ -244,32 +244,10 @@ Every user has his own unique database, which is locked with one master password
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkButton" id="credits_credits">
-                <property name="label" translatable="yes">Credits</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="padding">5</property>
-                <property name="position">0</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
-              <object class="GtkButton" id="credits_license">
-                <property name="label" translatable="yes">License</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="padding">5</property>
-                <property name="position">1</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
               <object class="GtkBox" id="box37">
@@ -317,76 +295,6 @@ Every user has his own unique database, which is locked with one master password
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-add</property>
-  </object>
-  <object class="GtkDialog" id="error_match_password_window1">
-    <property name="can_focus">False</property>
-    <property name="modal">True</property>
-    <property name="window_position">center-always</property>
-    <property name="type_hint">dialog</property>
-    <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox6">
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <property name="spacing">2</property>
-        <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area6">
-            <property name="can_focus">False</property>
-            <property name="layout_style">end</property>
-            <child>
-              <placeholder/>
-            </child>
-            <child>
-              <object class="GtkButton" id="error_match_retry1">
-                <property name="label">Retry</property>
-                <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="image">retry2</property>
-                <property name="image_position">bottom</property>
-                <property name="always_show_image">True</property>
-                <signal name="clicked" handler="handler_show_website" swapped="no"/>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkImage" id="error_match_image2">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="pixel_size">100</property>
-            <property name="icon_name">dialog-error</property>
-            <property name="icon_size">3</property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel" id="error_match_label1">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Password do not match. Retry </property>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="position">2</property>
-          </packing>
-        </child>
-      </object>
-    </child>
   </object>
   <object class="GtkListStore" id="fileListModel">
     <columns>
@@ -457,7 +365,7 @@ Every user has his own unique database, which is locked with one master password
                     <property name="label" translatable="yes">Add Entry</property>
                     <property name="use_underline">True</property>
                     <property name="icon_widget">entry</property>
-                    <signal name="clicked" handler="handler_show_website" swapped="no"/>
+                    <signal name="clicked" handler="handler_show_entry" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -1218,6 +1126,76 @@ source, you will not be able to open the database.&lt;/b&gt;</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="stock">gtk-redo</property>
+  </object>
+  <object class="GtkDialog" id="error_match_password_window1">
+    <property name="can_focus">False</property>
+    <property name="modal">True</property>
+    <property name="window_position">center-always</property>
+    <property name="type_hint">dialog</property>
+    <child internal-child="vbox">
+      <object class="GtkBox" id="dialog-vbox6">
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">2</property>
+        <child internal-child="action_area">
+          <object class="GtkButtonBox" id="dialog-action_area6">
+            <property name="can_focus">False</property>
+            <property name="layout_style">end</property>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkButton" id="error_match_retry1">
+                <property name="label">Retry</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="image">retry2</property>
+                <property name="image_position">bottom</property>
+                <property name="always_show_image">True</property>
+                <signal name="clicked" handler="handler_show_entry" swapped="no"/>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="error_match_image2">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="pixel_size">100</property>
+            <property name="icon_name">dialog-error</property>
+            <property name="icon_size">3</property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="error_match_label1">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="label" translatable="yes">Password do not match. Retry </property>
+          </object>
+          <packing>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
   </object>
   <object class="GtkTreeStore" id="treestore1">
     <columns>

@@ -1,18 +1,38 @@
 #!/bin/bash
 
+# Restituisce il numero degli argomenti in input
 NARGS=$#
+
+# Il path del file e' il primo argomento
 file="$1"
+
+# L'opzione [--encrypt] [--decrypt] e' il secondo argomento
 OPTION="$2"
 
 function main() {
+
+  # Chiama la funzione erro_check
   error_check
+  
+  # Se l'opzione e' [--encrypt] entro nell'if
   if [[ "$OPTION" = "--encrypt" ]]; then
+    # Richiamo il comando gpg con l'opzione [-c] per criptare con AES128, dopodiche' uso il comando
+    # shred [-zfu] per forzare la scrittura se necessario, nascondere lo shredding e eliminare il
+    # file una volta completato. Uso il comando shred e non rm perche' il file che devo eliminare
+    # ha informazioni sensibili. 
     if gpg -c $file && shred -zfu $file; then
       echo "encrypt on $file successfully"
     else
       echo "encrypt on $file aborted"
     fi
+
+  # Se l'opzione e' [--decrypt] entro nell'if
   elif [[ "$OPTION" = "--decrypt" ]]; then
+    # Chiamo il comando gpg con l'opzione [-o] per scegliere il nome del file di output.
+    # Siccome il comando gpg quando cripta un file aggiunge l'estensione *.gpg, come nome
+    # del file prendo il file criptato senza *.gpg
+    # dopodiche' decripto il file e lo elimino. Non uso lo shred in questo caso perche'
+    # sto eliminando un file criptato.
     if gpg -o $(basename $file .gpg) -d $file && rm -rf $file; then
       echo "decrypt on $file successfully"
     else
@@ -23,20 +43,24 @@ function main() {
 }
 
 function error_check() {
-  # The $# variable will tell you the number of input arguments the script was passed.
+  # Se non ci sono esattamente 2 argomenti e il primo argomento non e' [--help]
   if [[ $NARGS -ne 2 && "$file" != "--help" ]]; then
     echo "Not enough arguments supplied, use the option --help"
     exit 1
   fi
-  # The -z switch will test if the expansion of "$1" is a null string or not. If it is a null string then the body is executed.
+
+  # L'opzione -z controlla se $file e' una stringa vuota o no. Se e' una stringa vuota entra nell'if
   if [[ -z $file ]]; then
     echo "input file missing, use the option --help"
     exit 1
   fi
+
   if [[ "$OPTION" != "--encrypt" && "$OPTION" != "--decrypt" && "$file" != "--help" ]]; then
     echo "option not specified, use the option --help"
     exit 1
   fi
+
+  # Stampa il menu' di help
   if [[ "$file" = "--help" ]]; then
     printf "Password Manager 1.0.86\n"
     printf "Copyright (C) 2015 Free Software Foundation, Inc.\n"
@@ -55,5 +79,5 @@ function error_check() {
   fi
 }
 
-
+# Esegue il main
 main

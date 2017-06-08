@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['log_2etxt',['log.txt',['../log_8txt.html',1,'']]]
+  ['main_2ecc',['main.cc',['../main_8cc.html',1,'']]],
+  ['main_2eh',['main.h',['../main_8h.html',1,'']]]
 ];

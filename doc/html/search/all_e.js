@@ -6,5 +6,5 @@ var searchData=
   ['range_5fuppercase',['RANGE_UPPERCASE',['../gen__psw_8h.html#a58ce04292f7e515fda0d3783a3540521',1,'gen_psw.h']]],
   ['readme_2emd',['README.md',['../README_8md.html',1,'']]],
   ['reloadfileview',['reloadFileView',['../main_8cc.html#a336e3c041a1bc0d243f2e414af4e7891',1,'reloadFileView():&#160;main.cc'],['../main_8h.html#a336e3c041a1bc0d243f2e414af4e7891',1,'reloadFileView():&#160;main.cc']]],
-  ['ris',['ris',['../structentropy__t.html#a75e2e683205dd35ddc073d6b9d2efcb9',1,'entropy_t::ris()'],['../entropy_8cc.html#a7825e19b149267cfcbb14847c06ce92d',1,'ris():&#160;entropy.cc'],['../main_8cc.html#a7825e19b149267cfcbb14847c06ce92d',1,'ris():&#160;main.cc']]]
+  ['ris',['ris',['../structentropy__t.html#aeca7faaeddad705bf51153187bcdc1cd',1,'entropy_t::ris()'],['../entropy_8cc.html#a7825e19b149267cfcbb14847c06ce92d',1,'ris():&#160;entropy.cc'],['../main_8cc.html#a7825e19b149267cfcbb14847c06ce92d',1,'ris():&#160;main.cc']]]
 ];

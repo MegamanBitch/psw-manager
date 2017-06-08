@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['reloadfileview',['reloadFileView',['../main_8cc.html#a336e3c041a1bc0d243f2e414af4e7891',1,'reloadFileView():&#160;main.cc'],['../main_8h.html#a336e3c041a1bc0d243f2e414af4e7891',1,'reloadFileView():&#160;main.cc']]]
+  ['pool_5fof_5fcharacter',['pool_of_character',['../entropy_8cc.html#a53a3093008c569cc7ba54529b5f4870e',1,'pool_of_character(const gchar *car):&#160;entropy.cc'],['../entropy_8h.html#a53a3093008c569cc7ba54529b5f4870e',1,'pool_of_character(const gchar *car):&#160;entropy.cc']]],
+  ['print_5flist',['print_list',['../funzioni_8cc.html#ad9429c78019005dc6e8e62a30166c64b',1,'print_list():&#160;funzioni.cc'],['../funzioni_8h.html#ad9429c78019005dc6e8e62a30166c64b',1,'print_list():&#160;funzioni.cc']]]
 ];

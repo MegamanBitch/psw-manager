@@ -181,12 +181,12 @@ bool load_entries(std::string filename, std::string username, std::string passwo
       * Quando sono nel caso 0 ho aggiunto tutti i campi di @entry_t e quindi
       * devo appendere @entry_t alla GSList.
       * In questo caso uso la funzione prepend perche' da documentazione delle GSList
-      * --------------------------------------------------------------------------------
+      *
       * Note that g_slist_append() has to traverse the entire list to find the end
       * which is inefficient when adding multiple elements. A common idiom to avoid the
       * inefficiency is to prepend the elements and reverse the list when all elements
       * have been added.
-      * --------------------------------------------------------------------------------
+      * 
       */
       if (line_number == 0){
         my_user->entries = g_slist_prepend(my_user->entries, my_entry);
