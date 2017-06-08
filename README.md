@@ -8,8 +8,23 @@ With this program you can:
 - **store your credentials** using [sha-512](https://en.wikipedia.org/wiki/SHA-2);
 - **encrypt** your *.txt file with a simple script.
 
+# Documentation
+the documentation is in the doc folder and it is made by Doxygen, you can find it in the /doc/html/index.html
+
+# Compile
 To compile the program use the Makefile inside the repo.
 Uncomment #-D NDEBUG if you don't want debug messages.
+
+```
+make [options]
+```
+
+These are the available options:
+- **compile**
+- **dependencies**
+- **clean**
+- **removeFile**
+- **cleanAll**
 
 To encrypt your *.txt file use this command from the console:
 ```
@@ -29,3 +44,6 @@ To print the help use this command from the console:
 Requirements
 - [Gtk 3.0](http://www.gtk.org/download/index.php)
 - [OpenSSL](https://it.wikipedia.org/wiki/OpenSSL)
+
+# Bugs
+When entering the master password, the entropy bar add entropy if you delete characters
