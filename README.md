@@ -25,8 +25,7 @@ To print the help use this command from the console:
 ```
 ./pswscript --help
 ```
-**
 
 Requirements
-- **[Gtk 3.0]**(http://www.gtk.org/download/index.php)
-- **[OpenSSL]**(https://it.wikipedia.org/wiki/OpenSSL)
+- [Gtk 3.0](http://www.gtk.org/download/index.php)
+- [OpenSSL](https://it.wikipedia.org/wiki/OpenSSL)
